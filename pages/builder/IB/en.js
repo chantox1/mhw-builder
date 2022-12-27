@@ -3,8 +3,8 @@ import Container from '@mui/material/Container';
 import NavBar from '../../../components/navbar';
 import Builder from "../../../components/mhw"
 
-import armor from '../../../data/IB/en/Armor.json';
-import decoData from '../../../data/IB/en/decoData.json'
+import armor from '../../../public/data/IB/en/Armor.json';
+import decoData from '../../../public/data/IB/en/decoData.json'
 
 export default function IB() {
     const data = {
