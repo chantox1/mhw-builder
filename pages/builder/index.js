@@ -1,30 +1,29 @@
 import * as React from 'react';
 import Container from '@mui/material/Container';
-import { Card, CardActionArea, CardMedia } from '@mui/material';
+import { Box, Card, CardActionArea, CardMedia } from '@mui/material';
 import Image from 'next/image';
-
-import IBLogo from '../../assets/logo_iceborne_l.png'
-import ICELogo from '../../public/IceLogo.fw.png'
 
 export default function Builder() {
     return (
-        <Container maxWidth="xl">
-            <Container maxWidth="sm">
-                <CardActionArea href="/builder/IB/en" style={{marginBottom: 20, marginTop: 20}}>
+            <Container maxWidth="sm" sx={{height: "80vh"}}>
+                <Box sx={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "space-around"}}>
                     <Card>
-                        <CardMedia style={{height: "35vh", position: "relative"}}>
-                            <Image src={IBLogo} fill style={{objectFit: "cover"}}/>
-                        </CardMedia>
+                        <CardActionArea href="/builder/IB/en">
+                            <CardMedia sx={{objectFit: "contain"}}
+                                component="img"
+                                image="/logo/icebornelogo.png"
+                            />
+                        </CardActionArea>
                     </Card>
-                </CardActionArea>
-                <CardActionArea href="/builder/ICE">
                     <Card>
-                        <CardMedia style={{height: "35vh", position: "relative"}}>
-                            <Image src={ICELogo} fill style={{objectFit: "cover"}}/>
-                        </CardMedia>
+                        <CardActionArea href="/builder/ICE">
+                            <CardMedia sx={{objectFit: "contain"}}
+                                component="img"
+                                image="/logo/icelogo.png"
+                            />
+                        </CardActionArea>
                     </Card>
-                </CardActionArea>
+                </Box>
             </Container>
-        </Container>
     );
 }
