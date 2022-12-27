@@ -1,6 +1,7 @@
 {
   "name": "mhw-builder",
   "version": "0.1.0",
+  "export": "next export",
   "private": true,
   "scripts": {
     "dev": "next dev",
