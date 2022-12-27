@@ -5,6 +5,6 @@ module.exports = {
   assetPrefix: isProd ? '/mhw-builder/' : '',
   images: {
     loader: 'akamai',
-    path: '',
+    path: '/mhw-builder/',
   },
 }
