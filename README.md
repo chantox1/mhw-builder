@@ -14,3 +14,7 @@ npm run dev
 ```
 
 Finally, open http://localhost:3000
+
+## Special Thanks
+
+[MoonBunnie](https://github.com/MoonBunnie), for datamining and tutelage
