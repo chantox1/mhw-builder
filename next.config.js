@@ -5,5 +5,6 @@ module.exports = {
   assetPrefix: isProd ? '/your-github-repo-name/' : '',
   images: {
     loader: 'akamai',
+    path: '',
   },
 }
