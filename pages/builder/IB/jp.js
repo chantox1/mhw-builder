@@ -21,7 +21,7 @@ export default function IB() {
             <title>アイスボーン・ビルダー</title>
             <NavBar IB msg="アイスボーン・ビルダー"/>
             <Container maxWidth="xl">
-                { Builder(data) }
+                {/* Builder */}
             </Container>
         </div>
     );
