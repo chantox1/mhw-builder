@@ -5,9 +5,12 @@ import Builder from "../../components/mhw"
 
 export default function ICE() {
     return(
-        <Container maxWidth="xl">
-            { NavBar("ICE Builder") }
-            Hold on!
-        </Container>
+        <div>
+            <title>ICE Builder</title>
+            <NavBar IB msg="ICE Builder"/>
+            <Container maxWidth="xl">
+                <h1>Hold on!</h1>
+            </Container>
+        </div>
     )
 }
