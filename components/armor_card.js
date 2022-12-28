@@ -22,7 +22,7 @@ export default function ArmorCard(props) {
                                     component="img"
                                     image={"/icon/" + type[armor.Type] + "/" + armor.Rarity + ".png"}
                                 />
-                                <CardContent sx={{display: "flex", flexDirection: "column", p: 0.65}}>
+                                <CardContent sx={{ flexGrow: 1, display: "flex", flexDirection: "column", p: 0.65}}>
                                     <Typography>
                                         { armor.Name }
                                     </Typography>
@@ -38,7 +38,7 @@ export default function ArmorCard(props) {
                     </ButtonBase>
                 </Grid>
                 { !(charm) &&
-                <Grid item xs sx={{height: "100%"}}>
+                <Grid item sm sx={{height: "100%"}}>
                     { armor.Slots.map((s, i, arr) => {
                             var divStyle = {height: "32%", justifyContent: "left", textAlign: "left", display: "flex", width: "100%", borderRadius: 1, border: 1, borderColor: 'text.disabled', p: 0.2}
 

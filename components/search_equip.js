@@ -10,10 +10,19 @@ import SearchIcon from '@mui/icons-material/Search';
 import { ButtonBase } from '@mui/material';
 import { Card, CardMedia, CardContent} from '@mui/material';
 import { Grid } from '@mui/material'
+import { FixedSizeList } from 'react-window';
+import { useMeasure } from 'react-use';
 
 export default function SimpleDialog(props) {
-    // add 'type' to props
     const { data, equipItem, open, onClose } = props;
+
+    
+    const dialogRef = React.useRef();
+    const [setRef, { width, height }] = useMeasure();
+    React.useEffect(() => {
+        setRef(dialogRef.current)
+    }, [])
+
     const [userInput, setInput] = React.useState("");  // This is set as the user types
     const [queryString, setQryString] = React.useState("");  // This is set some time after the user stops typing
 
@@ -35,17 +44,26 @@ export default function SimpleDialog(props) {
         onClose(value);
     };
 
-    var searchLabel
     if (equipItem.Mode == 1) {
-        searchLabel = "Decoration search"
+        var searchLabel = "Decoration search"
+        var queryData = data.decoData.decos
+        .filter(d => d.Size <= equipItem.Size)
+        .filter(d => ( d.Name.toLowerCase().indexOf(queryString.toLowerCase()) > -1 ))
+        .sort((a, b) => a.Name.localeCompare(b.Name))
     }
     else {
-        searchLabel = "Equipment search"
+        var searchLabel = "Equipment search"
+        var queryData = data.armor.armors
+        .filter(a => a.Type == equipItem.Type)
+        .filter(a => ( a.Name.toLowerCase().indexOf(queryString.toLowerCase()) > -1 ))
+        .filter(a => ( a.Name.indexOf("Layered") == -1 ))
+        .sort((a, b) => a.Name.localeCompare(b.Name))
     }
 
     {/* TODO: Autofocus textfield */}
     return (
-        <Dialog fullWidth={true} onClose={handleClose} open={open} sx={{position:"fixed"}}>
+        <div ref={dialogRef} style={{height: "75vh"}}>
+        <Dialog maxWidth='md' onClose={handleClose} open={open}>
             <Box sx={{p: 1}}>
                 <TextField onChange={e => setInput(e.target.value)} sx={{mb: 1}}
                     color="secondary"
@@ -59,50 +77,63 @@ export default function SimpleDialog(props) {
                     }}
                 />
                 <Grid container spacing={1} sx={{width: "100%"}}>
-                        { (equipItem.Mode == 1 && queryString.length > 1) && 
-                            data.decoData.decos
-                            .filter(d => d.Size <= equipItem.Size)
-                            .filter(d => ( d.Name.toLowerCase().indexOf(queryString.toLowerCase()) > -1 ))
-                            .map(d => {
+                    {equipItem.Mode == 1 &&
+                        <FixedSizeList
+                            height={800}
+                            width={400}
+                            itemSize={50}
+                            itemCount={queryData.length}
+                            overscanCount={5}
+                        >
+                            {({ index, style }) => {
+                                var d = queryData[index]
                                 return (
-                                    <Grid item xs={12} sm={6}>
-                                        <ButtonBase sx={{justifyContent: "left", textAlign: "left", display: "flex", width: "100%", borderRadius: 1, border: 1, borderColor: 'text.secondary'}}
-                                            onClick = {() => handleListItemClick({Size: equipItem.Size, Deco: d})}
-                                        >
-                                            <Card sx={{ display: "flex", p:0.2, flexGrow: 1 }}>
-                                                <CardMedia sx={{ maxWidth: 24, objectFit: "contain"}}
-                                                    component="img"
-                                                    image={"/icon/Slot/" + d.Size + ".png"}
-                                                />
-                                                <CardContent sx={{ p:0, '&:last-child': { pb: 0 }}}>
-                                                    <Typography noWrap> { d.Name } </Typography>
-                                                </CardContent>
-                                            </Card>
-                                        </ButtonBase>
-                                    </Grid>
+                                    <div style={{...style, height: 50}}>
+                                    <ButtonBase sx={{justifyContent: "left", textAlign: "left", display: "flex", width: "100%", borderRadius: 1, border: 1, borderColor: 'text.secondary'}}
+                                        onClick = {() => handleListItemClick({Size: equipItem.Size, Deco: d})}
+                                    >
+                                        <Card sx={{ display: "flex", p:0.2, flexGrow: 1 }}>
+                                            <CardMedia sx={{ maxWidth: 24, objectFit: "contain"}}
+                                                component="img"
+                                                image={"/icon/Slot/" + d.Size + ".png"}
+                                            />
+                                            <CardContent sx={{ p:0, '&:last-child': { pb: 0 }}}>
+                                                <Typography noWrap> { d.Name } </Typography>
+                                            </CardContent>
+                                        </Card>
+                                    </ButtonBase>
+                                    </div>
                                 )
-                        })}
+                            }}
+                        </FixedSizeList>
+                    }
 
-                        { (equipItem.Mode != 1 && queryString.length > 2) &&
-                            data.armor.armors
-                            .filter(a => a.Type == equipItem.Type)
-                            .filter(a => ( a.Name.toLowerCase().indexOf(queryString.toLowerCase()) > -1 ))
-                            .filter(a => ( a.Name.indexOf("Layered") == -1 ))
-                            .map(a => {
+                    { equipItem.Mode != 1 &&
+                        <FixedSizeList
+                            height={height}
+                            width={width}
+                            itemSize={height / 8 + 2}
+                            itemCount={queryData.length}
+                            overscanCount={5}
+                        >
+                            {({ index, style }) => {
                                 return (
                                     <Grid item xs={12}>
                                         <ArmorCard
                                             data={data}
                                             charm={equipItem.Type == 5}
-                                            armor={a}
+                                            armor={queryData[index]}
                                             onClick={handleListItemClick}
-                                            style={{height: "100%"}}
+                                            style={{...style, width: "100%", height: (height / 8), marginBottom: 2}}
                                         />
                                     </Grid>
                                 )
-                        })}
+                            }}
+                        </FixedSizeList>
+                    }
                 </Grid>
             </Box>
         </Dialog>
+        </div>
     );
 }
