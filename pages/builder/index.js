@@ -1,7 +1,6 @@
 import * as React from 'react';
-import Container from '@mui/material/Container';
-import { Box, Card, CardActionArea, CardMedia } from '@mui/material';
-import Image from 'next/image';
+import { Box, Container } from '@mui/material';
+import { Card, CardActionArea, CardMedia } from '@mui/material';
 
 export default function Builder() {
     return (

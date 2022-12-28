@@ -1,20 +1,15 @@
 import * as React from 'react';
 import PropTypes from 'react';
-import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import ModeIcon from '@mui/icons-material/Mode';
 import Toolbar from '@mui/material/Toolbar';
 import Grid from '@mui/material/Grid';
-import { Card, CardActions, CardActionArea, CardContent, CardMedia, ButtonBase } from '@mui/material';
-import { Button } from '@mui/material';
 import update from 'immutability-helper';
 import ArmorCard from './armor_card';
 import SimpleDialog from './search_equip';
 
-
-// Images in 'public' folder are accessed as '{/img.ext}', ex.: image={'/SA.jpg'}
 
 export default function Builder(data) {
     const [open, setOpen] = React.useState(false);
