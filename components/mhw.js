@@ -82,22 +82,22 @@ export default function Builder(data) {
             <Grid container spacing={1}>
               <Grid item xs={12} md={8}>
                 {/* Head */}
-                <ArmorCard main armor={equip[0]} onClick={handleClickOpen} style={{ height: "10vh", marginBottom: "0.6vh", padding:2 }}/>
+                <ArmorCard main data={data} armor={equip[0]} onClick={handleClickOpen} style={{ height: "10vh", marginBottom: "0.6vh", padding:2 }}/>
 
                 {/* Chest */}
-                <ArmorCard main armor={equip[1]} onClick={handleClickOpen} style={{ height: "10vh", marginBottom: "0.6vh", padding:2 }}/>
+                <ArmorCard main data={data} armor={equip[1]} onClick={handleClickOpen} style={{ height: "10vh", marginBottom: "0.6vh", padding:2 }}/>
 
                 {/* Arms */}
-                <ArmorCard main armor={equip[2]} onClick={handleClickOpen} style={{ height: "10vh", marginBottom: "0.6vh", padding:2 }}/>
+                <ArmorCard main data={data} armor={equip[2]} onClick={handleClickOpen} style={{ height: "10vh", marginBottom: "0.6vh", padding:2 }}/>
 
                 {/* Waist */}
-                <ArmorCard main armor={equip[3]} onClick={handleClickOpen} style={{ height: "10vh", marginBottom: "0.6vh", padding:2 }}/>
+                <ArmorCard main data={data} armor={equip[3]} onClick={handleClickOpen} style={{ height: "10vh", marginBottom: "0.6vh", padding:2 }}/>
 
                 {/* Legs */}
-                <ArmorCard main armor={equip[4]} onClick={handleClickOpen} style={{ height: "10vh", marginBottom: "0.6vh", padding:2 }}/>
+                <ArmorCard main data={data} armor={equip[4]} onClick={handleClickOpen} style={{ height: "10vh", marginBottom: "0.6vh", padding:2 }}/>
 
                 {/* Charm */}
-                <ArmorCard charm armor={equip[5]} onClick={handleClickOpen} style={{ height: "11vh", padding:2 }}/>
+                <ArmorCard charm data={data} armor={equip[5]} onClick={handleClickOpen} style={{ height: "11vh", padding:2 }}/>
 
                 {open &&
                 <SimpleDialog

@@ -6,7 +6,7 @@ import { Container, Stack } from '@mui/material';
 
 export default function ArmorCard(props) {
 
-    const { main=false, charm=false, armor, onClick } = props
+    const { data, main=false, charm=false, armor, onClick } = props
     const type = ["Head", "Chest", "Arms", "Waist", "Legs", "Charm"]
     const augDef = [66, 58, 52, 44, 38, 32, 26, 20, 58, 52, 44, 38]
 
@@ -22,19 +22,18 @@ export default function ArmorCard(props) {
                                     component="img"
                                     image={"/icon/" + type[armor.Type] + "/" + armor.Rarity + ".png"}
                                 />
-                                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                    <CardContent sx={{p: 0.65}}>
-                                        <Typography>
-                                            { armor.Name }
-                                        </Typography>
-                                        <Typography variant="caption" color="text.secondary" component="div">
-                                            {/* TODO: Skill 1 */}
-                                        </Typography>
-                                        <Typography variant="caption" color="text.secondary" component="div">
-                                            {/* TODO: Skill 2 */}
-                                        </Typography>
-                                    </CardContent>
-                                </Box>
+                                <CardContent sx={{display: "flex", flexDirection: "column", p: 0.65}}>
+                                    <Typography>
+                                        { armor.Name }
+                                    </Typography>
+                                    { armor.Skills.map(s => {
+                                        return (
+                                            <Typography variant="caption" color="text.secondary">
+                                                { data.skillData[s[0]].Name + " " + s[1] }
+                                            </Typography>
+                                        )
+                                    })}
+                                </CardContent>
                         </Card>
                     </ButtonBase>
                 </Grid>
@@ -87,7 +86,6 @@ export default function ArmorCard(props) {
                                             image={"/icon/Slot/" + s + ".png"}
                                         />
                                     </Card>
-                                    {/* <Typography noWrap> deco name </Typography> */}
                                 </Box>
                             )
                     })}

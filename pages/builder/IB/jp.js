@@ -1,10 +1,10 @@
 import * as React from 'react';
 import Container from '@mui/material/Container';
 import NavBar from '../../../components/navbar';
-import Builder from "../../../components/mhw"
+import Builder from '../../../components/mhw';
 
 import armor from '../../../data/IB/jp/Armor.json';
-import decoData from '../../../data/IB/jp/decoData.json'
+import decoData from '../../../data/IB/jp/decoData.json';
 
 export default function IB() {
     const data = {

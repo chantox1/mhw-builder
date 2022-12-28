@@ -92,6 +92,7 @@ export default function SimpleDialog(props) {
                                 return (
                                     <Grid item xs={12}>
                                         <ArmorCard
+                                            data={data}
                                             main={false}
                                             armor={a}
                                             onClick={handleListItemClick}
