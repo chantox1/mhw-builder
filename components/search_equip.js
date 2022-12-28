@@ -93,7 +93,7 @@ export default function SimpleDialog(props) {
                                     <Grid item xs={12}>
                                         <ArmorCard
                                             data={data}
-                                            main={false}
+                                            charm={equipItem.Type == 5}
                                             armor={a}
                                             onClick={handleListItemClick}
                                             style={{height: "100%"}}
