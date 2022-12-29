@@ -45,6 +45,7 @@ export default function Builder(data) {
       data.armor.armors[3123],
     ])
 
+    {/* TODO: Fill skills */}
     var mySkills = []
 
     return (
