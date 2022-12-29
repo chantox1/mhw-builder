@@ -79,16 +79,16 @@ export default function SimpleDialog(props) {
                 <Grid container spacing={1} sx={{width: "100%"}}>
                     {equipItem.Mode == 1 &&
                         <FixedSizeList
-                            height={800}
-                            width={400}
-                            itemSize={50}
+                            height={height}
+                            width={width}
+                            itemSize={height / 25 + 2}
                             itemCount={queryData.length}
-                            overscanCount={5}
+                            overscanCount={10}
                         >
                             {({ index, style }) => {
                                 var d = queryData[index]
                                 return (
-                                    <div style={{...style, height: 50}}>
+                                    <div style={{...style, height: (height / 20 + 2), marginBottom: 2}}>
                                     <ButtonBase sx={{justifyContent: "left", textAlign: "left", display: "flex", width: "100%", borderRadius: 1, border: 1, borderColor: 'text.secondary'}}
                                         onClick = {() => handleListItemClick({Size: equipItem.Size, Deco: d})}
                                     >
