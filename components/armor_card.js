@@ -94,7 +94,7 @@ export default function ArmorCard(props) {
                 { !(charm) &&
                 <Grid item display={{ xs: "none", lg: "block"}} sx={{height: "100%"}}>
                     <Card sx={{display: "flex", width: "100%", height: "32%", border: 1, borderColor: 'text.disabled', mb: "1%"}}>
-                        <CardMedia sx={{maxWidth: "20%", objectFit: "contain", p: 0.4}}
+                        <CardMedia sx={{width: "auto", objectFit: "contain", p: 0.4}}
                             component="img"
                             image="/icon/Element/def.png"
                         />
@@ -110,8 +110,8 @@ export default function ArmorCard(props) {
                     </Card>
                     
                     <Box sx={{ display: "flex", height: "65%", alignItems: "center", justifyContent: 'space-between', borderRadius: 1, border: 1, borderColor: 'text.disabled'}}>
-                        <Card sx={{maxHeight: "100%"}}>
-                            <CardMedia sx={{objectFit: "contain"}}
+                        <Card sx={{height: "100%"}}>
+                            <CardMedia sx={{height: "50%", objectFit: "contain"}}
                                 component="img"
                                 image={"/icon/Element/fire.png"}
                             />
@@ -120,8 +120,8 @@ export default function ArmorCard(props) {
                             </CardContent>
                         </Card>
 
-                        <Card sx={{maxHeight: "100%"}}>
-                            <CardMedia sx={{objectFit: "contain"}}
+                        <Card sx={{height: "100%"}}>
+                            <CardMedia sx={{height: "50%", objectFit: "contain"}}
                                 component="img"
                                 image={"/icon/Element/water.png"}
                             />
@@ -130,18 +130,8 @@ export default function ArmorCard(props) {
                             </CardContent>
                         </Card>
 
-                        <Card sx={{maxHeight: "100%"}}>
-                            <CardMedia sx={{objectFit: "contain"}}
-                                component="img"
-                                image={"/icon/Element/ice.png"}
-                            />
-                            <CardContent sx={{ p:0, '&:last-child': { pb: 0 }}}>
-                                <Typography align="center">{ armor.Stats[3] }</Typography>
-                            </CardContent>
-                        </Card>
-
-                        <Card sx={{maxHeight: "100%"}}>
-                            <CardMedia sx={{objectFit: "contain"}}
+                        <Card sx={{height: "100%"}}>
+                            <CardMedia sx={{height: "50%", objectFit: "contain"}}
                                 component="img"
                                 image={"/icon/Element/thunder.png"}
                             />
@@ -150,8 +140,18 @@ export default function ArmorCard(props) {
                             </CardContent>
                         </Card>
 
-                        <Card sx={{maxHeight: "100%"}}>
-                            <CardMedia sx={{objectFit: "contain"}}
+                        <Card sx={{height: "100%"}}>
+                            <CardMedia sx={{height: "50%", objectFit: "contain"}}
+                                component="img"
+                                image={"/icon/Element/ice.png"}
+                            />
+                            <CardContent sx={{ p:0, '&:last-child': { pb: 0 }}}>
+                                <Typography align="center">{ armor.Stats[3] }</Typography>
+                            </CardContent>
+                        </Card>
+
+                        <Card sx={{height: "100%"}}>
+                            <CardMedia sx={{height: "50%", objectFit: "contain"}}
                                 component="img"
                                 image={"/icon/Element/dragon.png"}
                             />

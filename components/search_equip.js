@@ -10,6 +10,8 @@ import { Card, CardMedia, CardContent} from '@mui/material';
 import { Grid } from '@mui/material'
 import { FixedSizeList } from 'react-window';
 import { useMeasure } from 'react-use';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 export default function SimpleDialog(props) {
   const { data, equipItem, open, onClose } = props;
@@ -60,6 +62,14 @@ export default function SimpleDialog(props) {
     .sort((a, b) => a.Name.localeCompare(b.Name))
   }
 
+  const theme = useTheme();
+  if (useMediaQuery(theme.breakpoints.up('sm'))) {
+    var heightMod = [8, 25];
+  }
+  else {
+    var heightMod = [5.5, 17]
+  }
+
   {/* TODO: Autofocus textfield */}
   return (
     <div ref={dialogRef} style={{height: "75vh"}}>
@@ -81,14 +91,14 @@ export default function SimpleDialog(props) {
           <FixedSizeList
             height={height}
             width={width}
-            itemSize={height / 25 + 2}
+            itemSize={height / heightMod[1] + 2}
             itemCount={queryData.length}
             overscanCount={10}
           >
             {({ index, style }) => {
               var d = queryData[index]
               return (
-                <div style={{...style, height: (height / 20 + 2), marginBottom: 2}}>
+                <div style={{...style, height: (height / heightMod[1] + 2), marginBottom: 2}}>
                 <ButtonBase
                   sx={{
                     display: "flex", justifyContent: "left", textAlign: "left", width: "100%",
@@ -116,7 +126,7 @@ export default function SimpleDialog(props) {
           <FixedSizeList
             height={height}
             width={width}
-            itemSize={height / 8 + 2}
+            itemSize={height / heightMod[0] + 2}
             itemCount={queryData.length}
             overscanCount={5}
           >
@@ -127,7 +137,7 @@ export default function SimpleDialog(props) {
                   charm={equipItem.Type == 5}
                   armor={queryData[index]}
                   onClick={handleListItemClick}
-                  style={{...style, width: "100%", height: (height / 8), mb: 2}}
+                  style={{...style, width: "100%", height: (height / heightMod[0]), mb: 2}}
                 />
               )
             }}
