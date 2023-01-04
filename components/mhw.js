@@ -45,8 +45,73 @@ export default function Builder(data) {
       data.armor.armors[3123],
     ])
 
-    {/* TODO: Fill skills */}
-    var mySkills = []
+    const [skillList, setSkillList] = React.useState([])
+
+    var mySkills = {}
+    React.useEffect(() => {
+      console.log(equip)
+
+      const e = JSON.parse(JSON.stringify(equip))
+      e.forEach(a => {
+        var id = a.SetSkill;
+        if (id != 0) {
+          if (!(id in mySkills)) {
+            mySkills[id] = [id, 1]
+          }
+          else {
+            var max = data.skillData[id].Max
+            if (mySkills[id][1] + 1 <= max) {
+              mySkills[id][1] += 1
+            }
+          }
+        }
+
+        a.Skills.forEach(s => {
+          var id = s[0];
+          var lv = s[1];
+          if (!(id in mySkills)) {
+            mySkills[id] = s
+          }
+          else {
+            var max = data.skillData[id].Max
+            if (mySkills[id][1] + lv > max) {
+              mySkills[id][1] = max
+            }
+            else {
+              mySkills[id][1] += lv
+            }
+          }
+        })
+
+        a.Slots.forEach(sl => {
+          if (typeof(sl) != "number") {
+            sl.Deco.Skills.forEach(s => {
+              var id = s[0];
+              var lv = s[1];
+              if (!(id in mySkills)) {
+                mySkills[id] = s
+              }
+              else {
+                var max = data.skillData[id].Max
+                if (mySkills[id][1] + lv > max) {
+                  mySkills[id][1] = max
+                }
+                else {
+                  mySkills[id][1] += lv
+                }
+              }
+            })
+          }
+        })
+      });
+
+      var newSkills = [];
+      for (var key in mySkills) {
+        newSkills.push(mySkills[key]);
+      }
+      setSkillList(newSkills);
+
+    }, [equip]);
 
     return (
       <div>
@@ -67,6 +132,15 @@ export default function Builder(data) {
       <Grid container wrap="wrap-reverse" spacing={1}>
         <Grid item xs={12} sm={2.5}>
             <Paper style={{height: "82vh", overflow: 'auto'}}>
+              {skillList.map(s => {
+                var id = s[0]
+                var lv = s[1]
+                return (
+                  <Typography>
+                    { data.skillData[id].Name + " " + lv }
+                  </Typography>
+                )
+              })}
               {/* List skills */}
             </Paper>
         </Grid>
