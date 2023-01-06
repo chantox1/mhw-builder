@@ -10,6 +10,21 @@ import update from 'immutability-helper';
 import ArmorCard from './armor_card';
 import SimpleDialog from './search_equip';
 
+function pushSkill(data, skillDict, skill) {
+  const [id, lv] = skill;
+  if (!(id in skillDict)) {
+    skillDict[id] = skill
+  }
+  else {
+    const max = data.skillData[id].Max
+    if (skillDict[id][1] + lv > max) {
+      skillDict[id][1] = max
+    }
+    else {
+      skillDict[id][1] += lv
+    }
+  }
+}
 
 export default function Builder(data) {
     const [open, setOpen] = React.useState(false);
@@ -45,77 +60,36 @@ export default function Builder(data) {
       data.armor.armors[3123],
     ])
 
-    const [skillList, setSkillList] = React.useState([])
+    const [mySkills, setMySkills] = React.useState([])
 
-    var mySkills = {}
     React.useEffect(() => {
-      console.log(equip)
-
+      var tempSkills = {}
       const e = JSON.parse(JSON.stringify(equip))
       e.forEach(a => {
-        var id = a.SetSkill;
+        const id = a.SetSkill;
         if (id != 0) {
-          if (!(id in mySkills)) {
-            mySkills[id] = [id, 1]
-          }
-          else {
-            var max = data.skillData[id].Max
-            if (mySkills[id][1] + 1 <= max) {
-              mySkills[id][1] += 1
-            }
-          }
+          const s = [id, 1]
+          pushSkill(data, tempSkills, s);
         }
 
-        a.Skills.forEach(s => {
-          var id = s[0];
-          var lv = s[1];
-          if (!(id in mySkills)) {
-            mySkills[id] = s
-          }
-          else {
-            var max = data.skillData[id].Max
-            if (mySkills[id][1] + lv > max) {
-              mySkills[id][1] = max
-            }
-            else {
-              mySkills[id][1] += lv
-            }
-          }
-        })
+        a.Skills.forEach(s => pushSkill(data, tempSkills, s));
 
         a.Slots.forEach(sl => {
           if (typeof(sl) != "number") {
-            sl.Deco.Skills.forEach(s => {
-              var id = s[0];
-              var lv = s[1];
-              if (!(id in mySkills)) {
-                mySkills[id] = s
-              }
-              else {
-                var max = data.skillData[id].Max
-                if (mySkills[id][1] + lv > max) {
-                  mySkills[id][1] = max
-                }
-                else {
-                  mySkills[id][1] += lv
-                }
-              }
-            })
+            sl.Deco.Skills.forEach(s => pushSkill(data, tempSkills, s));
           }
         })
       });
 
       var newSkills = [];
-      for (var key in mySkills) {
-        newSkills.push(mySkills[key]);
+      for (var key in tempSkills) {
+        newSkills.push(tempSkills[key]);
       }
-      setSkillList(newSkills);
-
+      setMySkills(newSkills);
     }, [equip]);
 
     return (
       <div>
-      
 
       <Box
         sx={{
@@ -132,7 +106,7 @@ export default function Builder(data) {
       <Grid container wrap="wrap-reverse" spacing={1}>
         <Grid item xs={12} sm={2.5}>
             <Paper style={{height: "82vh", overflow: 'auto'}}>
-              {skillList.map(s => {
+              {mySkills.map(s => {
                 var id = s[0]
                 var lv = s[1]
                 return (
