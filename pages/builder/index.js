@@ -7,7 +7,7 @@ export default function Builder() {
             <Container maxWidth="sm" sx={{height: "80vh"}}>
                 <Box sx={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "space-around"}}>
                     <Card>
-                        <CardActionArea href="/builder/IB/en">
+                        <CardActionArea href="/builder/IB/eng">
                             <CardMedia sx={{objectFit: "contain"}}
                                 component="img"
                                 image="/logo/icebornelogo.png"

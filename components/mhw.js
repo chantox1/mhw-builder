@@ -63,8 +63,8 @@ export default function Builder(data) {
     const [mySkills, setMySkills] = React.useState([])
 
     React.useEffect(() => {
-      var tempSkills = {}
-      const e = JSON.parse(JSON.stringify(equip))
+      let tempSkills = {}
+      const e = JSON.parse(JSON.stringify(equip))  // Deep clone
       e.forEach(a => {
         const id = a.SetSkill;
         if (id != 0) {
@@ -81,8 +81,8 @@ export default function Builder(data) {
         })
       });
 
-      var newSkills = [];
-      for (var key in tempSkills) {
+      let newSkills = [];
+      for (const key in tempSkills) {
         newSkills.push(tempSkills[key]);
       }
       setMySkills(newSkills);
