@@ -110,7 +110,7 @@ export default function Builder(data) {
                 var lv = s[1]
                 return (
                   <Typography>
-                    { data.skillNames[data.skills[id].Name] + " " + lv }
+                    { data.skillString[data.skills[id].Name] + " " + lv }
                   </Typography>
                 )
               })}

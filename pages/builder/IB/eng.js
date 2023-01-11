@@ -4,18 +4,18 @@ import NavBar from '../../../components/navbar';
 import Builder from '../../../components/mhw';
 
 import armor from '../../../data/IB/common/armor.json';
-import armorNames from '../../../data/IB/eng/armorStr.json';
+import armorString from '../../../data/IB/eng/armorStr.json';
 import decoData from '../../../data/IB/eng/decoData.json';
 import skills from '../../../data/IB/common/skills.json';
-import skillNames from '../../../data/IB/eng/skillStr.json';
+import skillString from '../../../data/IB/eng/skillStr.json';
 
 export default function IB() {
     const data = {
         armor: armor,
-        armorNames: armorNames,
+        armorString: armorString,
         decoData: decoData,
         skills: skills,
-        skillNames: skillNames,
+        skillString: skillString,
     }
 
     React.useEffect(() => {

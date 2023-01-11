@@ -24,12 +24,12 @@ export default function ArmorCard(props) {
                                 />
                                 <CardContent sx={{ flexGrow: 1, display: "flex", flexDirection: "column", p: 0.65}}>
                                     <Typography>
-                                        { data.armorNames[armor.Name] }
+                                        { data.armorString[armor.Name] }
                                     </Typography>
                                     { armor.Skills.map(s => {
                                         return (
                                             <Typography variant="caption" color="text.secondary">
-                                                { data.skillNames[data.skills[s[0]].Name] + " " + s[1] }
+                                                { data.skillString[data.skills[s[0]].Name] + " " + s[1] }
                                             </Typography>
                                         )
                                     })}
