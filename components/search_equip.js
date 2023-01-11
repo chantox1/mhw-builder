@@ -53,13 +53,13 @@ export default function SimpleDialog(props) {
   }
   else {
     var searchLabel = "Equipment search"
-    var queryData = data.armor.armors
+    var queryData = Object.values(data.armor)
     .filter(a => a.Type == equipItem.Type)
-    .filter(a => ( a.Name.toLowerCase().indexOf(queryString.toLowerCase()) > -1 ))
-    .filter(a => ( a.Name.indexOf("Layered") == -1))
-    .filter(a => ( a.Name.indexOf("HARDUMMY") == -1))
-    .filter(a => ( a.Name.indexOf("Unavailable") == -1))
-    .sort((a, b) => a.Name.localeCompare(b.Name))
+    .filter(a => ( data.armorNames[a.Name].toLowerCase().indexOf(queryString.toLowerCase()) > -1 ))
+    .filter(a => ( data.armorNames[a.Name].indexOf("Layered") == -1 ))
+    .filter(a => ( data.armorNames[a.Name].indexOf("HARDUMMY") == -1 ))
+    .filter(a => ( data.armorNames[a.Name].indexOf("Unavailable") == -1 ))
+    .sort((a, b) => data.armorNames[a.Name].localeCompare(data.armorNames[b.Name]))
   }
 
   const theme = useTheme();

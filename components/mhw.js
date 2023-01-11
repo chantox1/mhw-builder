@@ -52,12 +52,12 @@ export default function Builder(data) {
     };
 
     const [equip, setEquip] = React.useState([
-      data.armor.armors[0],
-      data.armor.armors[667],
-      data.armor.armors[1284],
-      data.armor.armors[1899],
-      data.armor.armors[2508],
-      data.armor.armors[3123],
+      data.armor[0],
+      data.armor[667],
+      data.armor[1284],
+      data.armor[1899],
+      data.armor[2508],
+      data.armor[3123],
     ])
 
     const [mySkills, setMySkills] = React.useState([])
@@ -66,9 +66,8 @@ export default function Builder(data) {
       let tempSkills = {}
       const e = JSON.parse(JSON.stringify(equip))  // Deep clone
       e.forEach(a => {
-        const id = a.SetSkill;
-        if (id != 0) {
-          const s = [id, 1]
+        if ('SetSkill' in a) {
+          const s = [a.SetSkill, 1]
           pushSkill(data, tempSkills, s);
         }
 
@@ -115,7 +114,6 @@ export default function Builder(data) {
                   </Typography>
                 )
               })}
-              {/* List skills */}
             </Paper>
         </Grid>
 
