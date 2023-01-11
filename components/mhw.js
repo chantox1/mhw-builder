@@ -16,7 +16,7 @@ function pushSkill(data, skillDict, skill) {
     skillDict[id] = skill
   }
   else {
-    const max = data.skillData[id].Max
+    const max = data.skills[id].Max
     if (skillDict[id][1] + lv > max) {
       skillDict[id][1] = max
     }
@@ -110,7 +110,7 @@ export default function Builder(data) {
                 var lv = s[1]
                 return (
                   <Typography>
-                    { data.skillData[id].Name + " " + lv }
+                    { data.skillNames[data.skills[id].Name] + " " + lv }
                   </Typography>
                 )
               })}

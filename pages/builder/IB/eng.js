@@ -6,14 +6,16 @@ import Builder from '../../../components/mhw';
 import armor from '../../../data/IB/common/armor.json';
 import armorNames from '../../../data/IB/eng/armorStr.json';
 import decoData from '../../../data/IB/eng/decoData.json';
-import skillData from '../../../data/IB/eng/skillData.json';
+import skills from '../../../data/IB/common/skills.json';
+import skillNames from '../../../data/IB/eng/skillStr.json';
 
 export default function IB() {
     const data = {
         armor: armor,
         armorNames: armorNames,
         decoData: decoData,
-        skillData: skillData,
+        skills: skills,
+        skillNames: skillNames,
     }
 
     React.useEffect(() => {

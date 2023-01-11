@@ -29,7 +29,7 @@ export default function ArmorCard(props) {
                                     { armor.Skills.map(s => {
                                         return (
                                             <Typography variant="caption" color="text.secondary">
-                                                { data.skillData[s[0]].Name + " " + s[1] }
+                                                { data.skillNames[data.skills[s[0]].Name] + " " + s[1] }
                                             </Typography>
                                         )
                                     })}
