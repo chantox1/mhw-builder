@@ -105,15 +105,22 @@ export default function Builder(data) {
       <Grid container wrap="wrap-reverse" spacing={1}>
         <Grid item xs={12} sm={2.5}>
             <Paper style={{height: "82vh", overflow: 'auto'}}>
-              {mySkills.map(s => {
-                var id = s[0]
-                var lv = s[1]
-                return (
-                  <Typography>
-                    { data.skillString[data.skills[id].Name] + " " + lv }
-                  </Typography>
-                )
-              })}
+              {(() => {
+                  let e = JSON.parse(JSON.stringify(mySkills));
+                  return (
+                    e
+                    .sort((a, b) => (a[1] - b[1]))
+                    .reverse()
+                    .map(s => {
+                      const [id, lvl] = s;
+                      return (
+                        <Typography>
+                          { data.skillString[data.skills[id].Name] + " " + lvl }
+                        </Typography>
+                      )
+                    })
+                  )
+              })()}
             </Paper>
         </Grid>
 
