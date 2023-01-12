@@ -10,19 +10,39 @@ import update from 'immutability-helper';
 import ArmorCard from './armor_card';
 import SimpleDialog from './search_equip';
 
-function pushSkill(data, skillDict, skill) {
-  const [id, lv] = skill;
+function pushSkill(skillDict, skill) {
+  const [id, lvl] = skill;
   if (!(id in skillDict)) {
     skillDict[id] = skill
   }
   else {
-    const max = data.skills[id].Max
-    if (skillDict[id][1] + lv > max) {
-      skillDict[id][1] = max
+    skillDict[id][1] += lvl
+  }
+}
+
+function applySkillLvlMax(data, skillDict, skillArr) {
+  for (const key in skillDict) {
+    let [id, lvl] = skillDict[key];
+    const s = data.skills[id];
+
+    let secret = false;
+    if ('Unlock' in s) {
+      for (const i in s.Unlock) {
+        const [u_id, u_lvl] = s.Unlock[i];
+        if (u_id in skillDict) {
+          if (skillDict[u_id][1] >= u_lvl) {
+            secret = true;
+            break;
+          }
+        }
+      }
     }
-    else {
-      skillDict[id][1] += lv
+    let max = secret ? s.MaxSecret : s.Max;
+
+    if (lvl > max) {
+      lvl = max;
     }
+    skillArr.push([id, lvl]);
   }
 }
 
@@ -68,22 +88,20 @@ export default function Builder(data) {
       e.forEach(a => {
         if ('SetSkill' in a) {
           const s = [a.SetSkill, 1]
-          pushSkill(data, tempSkills, s);
+          pushSkill(tempSkills, s);
         }
 
-        a.Skills.forEach(s => pushSkill(data, tempSkills, s));
+        a.Skills.forEach(s => pushSkill(tempSkills, s));
 
         a.Slots.forEach(sl => {
           if (typeof(sl) != "number") {
-            sl.Deco.Skills.forEach(s => pushSkill(data, tempSkills, s));
+            sl.Deco.Skills.forEach(s => pushSkill(tempSkills, s));
           }
         })
       });
 
       let newSkills = [];
-      for (const key in tempSkills) {
-        newSkills.push(tempSkills[key]);
-      }
+      applySkillLvlMax(data, tempSkills, newSkills);
       setMySkills(newSkills);
     }, [equip]);
 
