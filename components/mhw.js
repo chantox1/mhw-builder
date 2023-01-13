@@ -20,7 +20,7 @@ function pushSkill(skillDict, skill) {
   }
 }
 
-function applySkillLvlMax(data, skillDict, skillArr) {
+function applySkillLvlMax(data, skillDict) {
   for (const key in skillDict) {
     let [id, lvl] = skillDict[key];
     const s = data.skills[id];
@@ -40,9 +40,8 @@ function applySkillLvlMax(data, skillDict, skillArr) {
     let max = secret ? s.MaxSecret : s.Max;
 
     if (lvl > max) {
-      lvl = max;
+      skillDict[key][1] = max;
     }
-    skillArr.push([id, lvl]);
   }
 }
 
@@ -80,11 +79,12 @@ export default function Builder(data) {
       data.armor[3123],
     ])
 
-    const [mySkills, setMySkills] = React.useState([])
+    const [mySkills, setMySkills] = React.useState({})
+    const [toggleList, setToggleList] = React.useState([])  // TODO: toggleList should contain the default toggle of ALL effects
 
     React.useEffect(() => {
-      let tempSkills = {}
-      const e = JSON.parse(JSON.stringify(equip))  // Deep clone
+      var tempSkills = {}
+      let e = JSON.parse(JSON.stringify(equip))  // Deep clone
       e.forEach(a => {
         if ('SetSkill' in a) {
           const s = [a.SetSkill, 1]
@@ -100,10 +100,26 @@ export default function Builder(data) {
         })
       });
 
-      let newSkills = [];
-      applySkillLvlMax(data, tempSkills, newSkills);
-      setMySkills(newSkills);
+      applySkillLvlMax(data, tempSkills);
+      setMySkills(tempSkills);
     }, [equip]);
+
+    React.useEffect(() => {
+      let e = JSON.parse(JSON.stringify(mySkills));
+      const classNo = 50;  // TODO: Set proper size
+      let bonusBucket = Array.from(Array(classNo), () => new Array())
+      for (const key in e) {
+        if (key in data.skillBonus) {
+          const bonuses = data.skillBonus[key];
+          for (var i=0; i < bonuses.length; i++) {
+            bonusBucket[bonuses[i].effect.class].push([key, bonuses[i]])
+          }
+        }
+      }
+      console.log(bonusBucket);
+
+      // TODO: calcs w/ bucket
+    }, [mySkills, toggleList])
 
     return (
       <div>
@@ -126,7 +142,7 @@ export default function Builder(data) {
               {(() => {
                   let e = JSON.parse(JSON.stringify(mySkills));
                   return (
-                    e
+                    Object.values(e)
                     .sort((a, b) => (a[1] - b[1]))
                     .reverse()
                     .map(s => {

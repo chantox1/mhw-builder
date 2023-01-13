@@ -19,183 +19,181 @@ Classes:
     11: Set ele crit dmg
 */
 
-export const skill_bonus = {
-    19: [ // Attack boost
-        {   
-            effects: [
-            {
-                class: 2, 
-                param: 1
-            },
-            {
-                class: 4,
-                param: 2
-            }
-            ]
-        }
-    ],
-    30: [ // Fire attack
-        {   
-            effects: [
-            {
-                class: 7, 
-                param: 1,
-                extra: 0
-            },
-            {
-                class: 6,
-                param: 2,
-                extra: 0
-            }
-            ]
-        }
-    ],
-    31: [ // Water attack
-        {   
-            effects: [
-            {
-                class: 7, 
-                param: 1,
-                extra: 1
-            },
-            {
-                class: 6,
-                param: 2,
-                extra: 1
-            }
-            ]
-        }
-    ],
-    32: [ // Ice attack
-        {   
-            effects: [
-            {
-                class: 7, 
-                param: 1,
-                extra: 2
-            },
-            {
-                class: 6,
-                param: 2,
-                extra: 2
-            }
-            ]
-        }
-    ],
-    33: [ // Thunder attack
-        {   
-            effects: [
-            {
-                class: 7, 
-                param: 1,
-                extra: 3
-            },
-            {
-                class: 6,
-                param: 2,
-                extra: 3
-            }
-            ]
-        }
-    ],
-    34: [ // Dragon attack
-        {   
-            effects: [
-            {
-                class: 7, 
-                param: 1,
-                extra: 4
-            },
-            {
-                class: 6,
-                param: 2,
-                extra: 4
-            }
-            ]
-        }
-    ],
-    35: [ // Poison attack
-        {   
-            effects: [
-            {
-                class: 8, 
-                param: 0,
-                extra: 5
-            },
-            {
-                class: 6,
-                param: 1,
-                extra: 5
-            }
-            ]
-        }
-    ],
-    36: [ // Paralysis attack
-        {   
-            effects: [
-            {
-                class: 8, 
-                param: 0,
-                extra: 6
-            },
-            {
-                class: 6,
-                param: 1,
-                extra: 6
-            }
-            ]
-        }
-    ],
-    37: [ // Sleep attack
-        {   
-            effects: [
-            {
-                class: 8, 
-                param: 0,
-                extra: 7
-            },
-            {
-                class: 6,
-                param: 1,
-                extra: 7
-            }
-            ]
-        }
-    ],
-    38: [ // Blast attack
-        {   
-            effects: [
-            {
-                class: 8, 
-                param: 0,
-                extra: 8
-            },
-            {
-                class: 6,
-                param: 1,
-                extra: 8
-            }
-            ]
-        }
-    ],
-    48: [ // Critical eye
-        {   
-            effects: [
-            {
-                class: 4, 
-                param: 1
-            }
-            ]
-        }
-    ],
-    49: [ // Critical boost
-        {   
-            effects: [
-            {
-                class: 5, 
-                param: 1
-            }
-            ]
-        }
-    ],
+const skillBonus = {
+  19: [ // Attack boost
+    {   
+      effect: {
+        class: 2, 
+        param: 1
+      },
+    },
+    {
+      effect: {
+        class: 4,
+        param: 2
+      }
+    }
+  ],
+  30: [ // Fire attack
+    {   
+      effect: {
+        class: 7, 
+        param: 1,
+        extra: 0
+      }
+    },
+    {
+      effect: {
+        class: 6,
+        param: 2,
+        extra: 0
+      }
+    }
+  ],
+  31: [ // Water attack
+    {   
+      effect: {
+        class: 7, 
+        param: 1,
+        extra: 1
+      }
+    },
+    {
+      effect: {
+        class: 6,
+        param: 2,
+        extra: 1
+      }
+    }
+  ],
+  32: [ // Ice attack
+    {   
+      effect: {
+        class: 7, 
+        param: 1,
+        extra: 2
+      }
+    },
+    {
+      effect: {
+        class: 6,
+        param: 2,
+        extra: 2
+      }
+    }
+  ],
+  33: [ // Thunder attack
+    {   
+      effect: {
+        class: 7, 
+        param: 1,
+        extra: 3
+      }
+    },
+    {
+      effect: {
+        class: 6,
+        param: 2,
+        extra: 3
+      }
+    }
+  ],
+  34: [ // Dragon attack
+    {   
+      effect: {
+        class: 7, 
+        param: 1,
+        extra: 4
+      }
+    },
+    {
+      effect: {
+        class: 6,
+        param: 2,
+        extra: 4
+      }
+    }
+  ],
+  35: [ // Poison attack
+    {   
+      effect: {
+        class: 8, 
+        param: 0,
+        extra: 5
+      }
+    },
+    {
+      effect: {
+        class: 6,
+        param: 1,
+        extra: 5
+      }
+    }
+  ],
+  36: [ // Paralysis attack
+    {   
+      effect: {
+        class: 8, 
+        param: 0,
+        extra: 6
+      }
+    },
+    {
+      effect: {
+        class: 6,
+        param: 1,
+        extra: 6
+      }
+    }
+  ],
+  37: [ // Sleep attack
+    {   
+      effect: {
+        class: 8, 
+        param: 0,
+        extra: 7
+      }
+    },
+    {
+      effect: {
+        class: 6,
+        param: 1,
+        extra: 7
+      }
+    }
+  ],
+  38: [ // Blast attack
+    {   
+      effect: {
+        class: 8, 
+        param: 0,
+        extra: 8
+      }
+    },
+    {
+      effect: {
+        class: 6,
+        param: 1,
+        extra: 8
+      }
+    }
+  ],
+  48: [ // Critical eye
+    {   
+      effect: {
+        class: 4, 
+        param: 1
+      }
+    }
+  ],
+  49: [ // Critical boost
+    {   
+      effect: {
+        class: 5, 
+        param: 1
+      }
+    }
+  ],
 }
+
+export default skillBonus;

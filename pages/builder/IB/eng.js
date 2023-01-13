@@ -8,6 +8,7 @@ import armorString from '../../../data/IB/eng/armorStr.json';
 import decoData from '../../../data/IB/eng/decoData.json';
 import skills from '../../../data/IB/common/skills.json';
 import skillString from '../../../data/IB/eng/skillStr.json';
+import skillBonus from '../../../data/IB/common/skill_bonus';
 
 export default function IB() {
     const data = {
@@ -16,6 +17,7 @@ export default function IB() {
         decoData: decoData,
         skills: skills,
         skillString: skillString,
+        skillBonus: skillBonus,
     }
 
     React.useEffect(() => {
