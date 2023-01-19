@@ -5,7 +5,8 @@ import Builder from '../../../components/mhw';
 
 import armor from '../../../data/IB/common/armor.json';
 import armorString from '../../../data/IB/eng/armorStr.json';
-import decoData from '../../../data/IB/eng/decoData.json';
+import decos from '../../../data/IB/common/decos.json';
+import decoString from '../../../data/IB/eng/decoStr.json';
 import skills from '../../../data/IB/common/skills.json';
 import skillString from '../../../data/IB/eng/skillStr.json';
 import skillBonus from '../../../data/IB/common/skill_bonus';
@@ -14,7 +15,8 @@ export default function IB() {
     const data = {
         armor: armor,
         armorString: armorString,
-        decoData: decoData,
+        decos: decos,
+        decoString: decoString,
         skills: skills,
         skillString: skillString,
         skillBonus: skillBonus,

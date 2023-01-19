@@ -73,7 +73,7 @@ export default function ArmorCard(props) {
                                                     image={"/icon/Slot/" + s.Size + ".png"}
                                                 />
                                             </Card>
-                                            <Typography noWrap> { s.Deco.Name } </Typography>
+                                            <Typography noWrap> { data.decoString[s.Deco.Name] } </Typography>
                                         </ButtonBase>
                                     )
                                 }

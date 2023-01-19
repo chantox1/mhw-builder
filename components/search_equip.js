@@ -46,10 +46,10 @@ export default function SimpleDialog(props) {
 
   if (equipItem.Mode == 1) {
     var searchLabel = "Decoration search"
-    var queryData = data.decoData.decos
+    var queryData = data.decos
     .filter(d => d.Size <= equipItem.Size)
-    .filter(d => ( d.Name.toLowerCase().indexOf(queryString.toLowerCase()) > -1 ))
-    .sort((a, b) => a.Name.localeCompare(b.Name))
+    .filter(d => ( data.decoString[d.Name].toLowerCase().indexOf(queryString.toLowerCase()) > -1 ))
+    .sort((a, b) => data.decoString[a.Name].localeCompare(data.decoString[b.Name]))
   }
   else {
     var searchLabel = "Equipment search"
@@ -112,7 +112,7 @@ export default function SimpleDialog(props) {
                       image={"/icon/Slot/" + d.Size + ".png"}
                     />
                     <CardContent sx={{ p:0, '&:last-child': { pb: 0 }}}>
-                      <Typography noWrap> { d.Name } </Typography>
+                      <Typography noWrap> { data.decoString[d.Name] } </Typography>
                     </CardContent>
                   </Card>
                 </ButtonBase>
