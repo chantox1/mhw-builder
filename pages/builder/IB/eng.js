@@ -3,16 +3,21 @@ import Container from '@mui/material/Container';
 import NavBar from '../../../components/navbar';
 import Builder from '../../../components/mhw';
 
+// Common
+import weapons from '../../../data/IB/common/wepData.json';
 import armor from '../../../data/IB/common/armor.json';
-import armorString from '../../../data/IB/eng/armorStr.json';
 import decos from '../../../data/IB/common/decos.json';
-import decoString from '../../../data/IB/eng/decoStr.json';
 import skills from '../../../data/IB/common/skills.json';
-import skillString from '../../../data/IB/eng/skillStr.json';
 import skillBonus from '../../../data/IB/common/skill_bonus';
+
+// Lang
+import armorString from '../../../data/IB/eng/armorStr.json';
+import decoString from '../../../data/IB/eng/decoStr.json';
+import skillString from '../../../data/IB/eng/skillStr.json';
 
 export default function IB() {
     const data = {
+        weapons: weapons,
         armor: armor,
         armorString: armorString,
         decos: decos,

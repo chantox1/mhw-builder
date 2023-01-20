@@ -69,15 +69,16 @@ export default function Builder(data) {
         }))
       }
     };
-
+    
     const [equip, setEquip] = React.useState([
-      data.armor[0],
-      data.armor[667],
-      data.armor[1284],
-      data.armor[1899],
-      data.armor[2508],
-      data.armor[3123],
-    ])
+      data.armor[0],        // Head
+      data.armor[667],      // Chest
+      data.armor[1284],     // Arms
+      data.armor[1899],     // Waist
+      data.armor[2508],     // Legs
+      data.armor[3123],     // Charm
+      {...data.weapons[0][10], 'Class': 0}
+    ]);
 
     const [mySkills, setMySkills] = React.useState({})
     const [toggleList, setToggleList] = React.useState([])  // TODO: toggleList should contain the default toggle of ALL effects
@@ -91,7 +92,14 @@ export default function Builder(data) {
           pushSkill(tempSkills, s);
         }
 
-        a.Skills.forEach(s => pushSkill(tempSkills, s));
+        if ('Skill' in a) {
+          const s = [a.Skill, 1]
+          pushSkill(tempSkills, s);
+        }
+
+        if ('Skills' in a) {
+          a.Skills.forEach(s => pushSkill(tempSkills, s));
+        }
 
         a.Slots.forEach(sl => {
           if (typeof(sl) != "number") {
@@ -169,22 +177,11 @@ export default function Builder(data) {
 
             <Grid container spacing={1}>
               <Grid item xs={12} md={8}>
-                {/* Head */}
                 <ArmorCard main data={data} armor={equip[0]} onClick={handleClickOpen} style={{ height: "10vh", marginBottom: "0.6vh", padding:2 }}/>
-
-                {/* Chest */}
                 <ArmorCard main data={data} armor={equip[1]} onClick={handleClickOpen} style={{ height: "10vh", marginBottom: "0.6vh", padding:2 }}/>
-
-                {/* Arms */}
                 <ArmorCard main data={data} armor={equip[2]} onClick={handleClickOpen} style={{ height: "10vh", marginBottom: "0.6vh", padding:2 }}/>
-
-                {/* Waist */}
                 <ArmorCard main data={data} armor={equip[3]} onClick={handleClickOpen} style={{ height: "10vh", marginBottom: "0.6vh", padding:2 }}/>
-
-                {/* Legs */}
                 <ArmorCard main data={data} armor={equip[4]} onClick={handleClickOpen} style={{ height: "10vh", marginBottom: "0.6vh", padding:2 }}/>
-
-                {/* Charm */}
                 <ArmorCard charm data={data} armor={equip[5]} onClick={handleClickOpen} style={{ height: "11vh", padding:2 }}/>
 
                 {open &&
