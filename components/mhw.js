@@ -8,6 +8,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Grid from '@mui/material/Grid';
 import update from 'immutability-helper';
 import ArmorCard from './armor_card';
+import WepCard from './wep_card';
 import SimpleDialog from './search_equip';
 
 function pushSkill(skillDict, skill) {
@@ -171,9 +172,7 @@ export default function Builder(data) {
               {/* Active effect icons */}
             </Paper>
 
-            <Paper style={{height: "12vh", marginBottom: "0.5vh"}}>
-              {/* Weapon */}
-            </Paper>
+            <WepCard main data={data} wep={equip[6]} onClick={handleClickOpen} style={{ height: "13vh", marginBottom: "0.5vh", padding:2 }} />
 
             <Grid container spacing={1}>
               <Grid item xs={12} md={8}>
@@ -182,7 +181,7 @@ export default function Builder(data) {
                 <ArmorCard main data={data} armor={equip[2]} onClick={handleClickOpen} style={{ height: "10vh", marginBottom: "0.6vh", padding:2 }}/>
                 <ArmorCard main data={data} armor={equip[3]} onClick={handleClickOpen} style={{ height: "10vh", marginBottom: "0.6vh", padding:2 }}/>
                 <ArmorCard main data={data} armor={equip[4]} onClick={handleClickOpen} style={{ height: "10vh", marginBottom: "0.6vh", padding:2 }}/>
-                <ArmorCard charm data={data} armor={equip[5]} onClick={handleClickOpen} style={{ height: "11vh", padding:2 }}/>
+                <ArmorCard charm data={data} armor={equip[5]} onClick={handleClickOpen} style={{ height: "10vh", padding:2 }}/>
 
                 {open &&
                 <SimpleDialog
@@ -194,7 +193,7 @@ export default function Builder(data) {
               </Grid>
 
               <Grid item xs={12} md={4}>
-                <Paper style={{height: "64vh", padding: "1vh"}}>
+                <Paper style={{height: "63vh", padding: "1vh"}}>
                   {/* Calcs */}
                 </Paper>
               </Grid>

@@ -11,6 +11,7 @@ import skills from '../../../data/IB/common/skills.json';
 import skillBonus from '../../../data/IB/common/skill_bonus';
 
 // Lang
+import weaponString from '../../../data/IB/eng/wepStr.json';
 import armorString from '../../../data/IB/eng/armorStr.json';
 import decoString from '../../../data/IB/eng/decoStr.json';
 import skillString from '../../../data/IB/eng/skillStr.json';
@@ -18,6 +19,7 @@ import skillString from '../../../data/IB/eng/skillStr.json';
 export default function IB() {
     const data = {
         weapons: weapons,
+        weaponString: weaponString,
         armor: armor,
         armorString: armorString,
         decos: decos,
