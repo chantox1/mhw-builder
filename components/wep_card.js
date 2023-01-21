@@ -3,6 +3,7 @@ import { Grid } from '@mui/material';
 import { Paper, Card, CardMedia, CardContent } from '@mui/material';
 import { Typography } from '@mui/material';
 import { ButtonBase } from '@mui/material';
+import SlotDisplay from './slot_display';
 
 export default function WepCard(props) {
   const { data, main=false, wep, onClick } = props;
@@ -33,48 +34,16 @@ export default function WepCard(props) {
             if (!(i + 1 === arr.length)) {
               divStyle.mb = "0.8%"
             }
-
-            if (main) {
-              divStyle.borderColor = 'text.secondary'
-              if (typeof(s) == "number") {
-                return (
-                  <ButtonBase sx={divStyle}
-                    onClick = {() => onClick({Mode: 1, Type: 6, Pos: i, Size: s, Item: s})}
-                  >
-                    <Card sx={{ display: "flex", height: "100%", mr: "1vh"}}>
-                      <CardMedia sx={{objectFit: "contain"}}
-                        component="img"
-                        image={"/icon/Slot/" + s + ".png"}
-                      />
-                    </Card>
-                  </ButtonBase>
-                )
-              }
-              else {
-                return (
-                  <ButtonBase sx={divStyle}
-                    onClick = {() => onClick({Mode: 1, Type: 6, Pos: i, Size: s.Size, Item: s})}
-                  >
-                    <Card sx={{ display: "flex", height: "100%", mr: "1vh"}}>
-                      <CardMedia sx={{objectFit: "contain"}}
-                        component="img"
-                        image={"/icon/Slot/" + s.Size + ".png"}
-                      />
-                    </Card>
-                    <Typography noWrap> { data.decoString[s.Deco.Name] } </Typography>
-                  </ButtonBase>
-                )
-              }
-            }
             return (
-              <Box sx={divStyle}>
-                <Card sx={{ display: "flex", height: "100%", mr: "1vh"}}>
-                  <CardMedia sx={{objectFit: "contain"}}
-                    component="img"
-                    image={"/icon/Slot/" + s + ".png"}
-                  />
-                </Card>
-              </Box>
+              <SlotDisplay
+                data={data}
+                main={main}
+                slot={s}
+                pos={i}
+                style={divStyle}
+                type={6}  // wep is always on equip slot 6
+                onClick={onClick}
+              />
             )
           })}
         </Grid>
