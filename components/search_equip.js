@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import { Container, InputAdornment, Paper, TextField } from '@mui/material';
 import { Box } from '@mui/material';
 import ArmorCard from './armor_card';
+import WepCard from './wep_card';
 import SearchIcon from '@mui/icons-material/Search';
 import { ButtonBase } from '@mui/material';
 import { Card, CardMedia, CardContent} from '@mui/material';
@@ -14,7 +15,7 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 export default function SimpleDialog(props) {
-  const { data, equipItem, open, onClose } = props;
+  const { data, open, equipItem, searchClass, onClose } = props;
 
   // Get dialog dimensions
   const dialogRef = React.useRef();
@@ -35,6 +36,9 @@ export default function SimpleDialog(props) {
     if (equipItem.Mode == 1) {
       onClose(equipItem.Item)
     }
+    else if (equipItem.Mode == 2) {
+      onClose(equipItem.Wep)
+    }
     else {
       onClose(equipItem);
     }
@@ -50,6 +54,12 @@ export default function SimpleDialog(props) {
     .filter(d => d.Size <= equipItem.Size)
     .filter(d => ( data.decoString[d.Name].toLowerCase().indexOf(queryString.toLowerCase()) > -1 ))
     .sort((a, b) => data.decoString[a.Name].localeCompare(data.decoString[b.Name]))
+  }
+  else if (equipItem.Mode == 2) {
+    var searchLabel = "Weapon search"
+    var queryData = Object.values(data.weapons[searchClass])
+    .filter(w => ( data.weaponString[searchClass][w.Name].toLowerCase().indexOf(queryString.toLowerCase()) > -1))
+    .sort((a, b) => data.weaponString[searchClass][a.Name].localeCompare(data.weaponString[searchClass][b.Name]))
   }
   else {
     var searchLabel = "Equipment search"
@@ -122,7 +132,28 @@ export default function SimpleDialog(props) {
           </FixedSizeList>
         }
 
-        { equipItem.Mode != 1 &&
+        { equipItem.Mode == 2 &&
+          <FixedSizeList
+            height={height}
+            width={width}
+            itemSize={height / heightMod[0] + 2}
+            itemCount={queryData.length}
+            overscanCount={5}
+          >
+            {({ index, style }) => {
+              return (
+                <WepCard
+                  data={data}
+                  wep={{...queryData[index], 'Class': searchClass}}
+                  onClick={handleListItemClick}
+                  style={{...style, width: "100%", height: (height / heightMod[0]), mb: 2}}
+                />
+              )
+            }}
+          </FixedSizeList>
+        }
+
+        { equipItem.Mode === undefined &&
           <FixedSizeList
             height={height}
             width={width}

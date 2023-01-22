@@ -50,8 +50,12 @@ export default function Builder(data) {
     const [open, setOpen] = React.useState(false);
     
     const [equipItem, setEquipItem] = React.useState()
+    const [searchClass, setSearchClass] = React.useState(0);
 
     const handleClickOpen = (value) => {
+      if (value.Mode == 2) {
+        setSearchClass(value.Wep.Class);
+      }
       setEquipItem(value);
       setOpen(true);
     };
@@ -62,6 +66,11 @@ export default function Builder(data) {
       if (equipItem.Mode == 1) {
         setEquip(update(equip, {
           [equipItem.Type]: {Slots: {[equipItem.Pos]: {$set: value}}}
+        }))
+      }
+      else if (equipItem.Mode == 2) {
+        setEquip(update(equip, {
+          [6]: {$set: value}
         }))
       }
       else {
@@ -186,8 +195,9 @@ export default function Builder(data) {
                 {open &&
                 <SimpleDialog
                   data={data}
-                  equipItem={equipItem}
                   open={open}
+                  equipItem={equipItem}
+                  searchClass={searchClass}
                   onClose={handleClose}
                 />}
               </Grid>

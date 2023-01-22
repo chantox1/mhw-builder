@@ -1,9 +1,38 @@
 import * as React from 'react';
-import { Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { Paper, Card, CardMedia, CardContent } from '@mui/material';
 import { Typography } from '@mui/material';
 import { ButtonBase } from '@mui/material';
 import SlotDisplay from './slot_display';
+
+function buttonFunction(main, onClick, val) {
+  if (main) {
+    onClick({Mode: 2, Wep: val})
+  }
+  else {
+    onClick(val)
+  }
+}
+
+const WepStat = (props) => (
+  <Box
+    display="flex"
+    border={1}
+    borderRadius={1}
+    borderColor='text.disabled'
+  >
+    { props.children }
+  </Box>
+)
+
+const WepStatIcon = (props) => (
+  <Box
+    maxHeight={25}
+    maxWidth={25}
+    component="img"
+    src={props.src}
+  />
+)
 
 export default function WepCard(props) {
   const { data, main=false, wep, onClick } = props;
@@ -12,8 +41,8 @@ export default function WepCard(props) {
     <Paper style={props.style}>
       <Grid container columnSpacing={1} justify="center" sx={{height: "100%"}}>
         <Grid item xs sx={{height: "100%"}}>
-          <ButtonBase sx={{justifyContent: "left", textAlign: "left", height: "75%", width: "100%", border: 1, borderRadius: 1, borderColor: 'text.secondary'}}
-                      onClick= {() => onClick(wep)}
+          <ButtonBase sx={{justifyContent: "left", textAlign: "left", height: "100%", width: "100%", border: 1, borderRadius: 1, borderColor: 'text.secondary'}}
+            onClick= {() => buttonFunction(main, onClick, wep)}
           >
             <Card sx={{display: "flex", height: "100%", width: "100%"}}>
               <CardMedia  sx={{maxWidth: "20%", objectFit: "contain"}}
@@ -24,6 +53,43 @@ export default function WepCard(props) {
                 <Typography>
                   { data.weaponString[wep.Class][wep.Name] }
                 </Typography>
+
+                <Box display="flex">
+                  <WepStat>
+                    <WepStatIcon
+                      src="/icon/dmg.png"
+                    />
+                    <Typography mr={0.5}>
+                      { wep.Damage }
+                    </Typography>
+                  </WepStat>
+
+                  <WepStat>
+                    <WepStatIcon
+                      src="/icon/aff.png"
+                    />
+                    <Typography mr={0.5}>
+                      { wep.Affinity }%
+                    </Typography>
+                  </WepStat>
+
+                  {(() => {
+                    if ('Element' in wep) {
+                      return (
+                        <WepStat>
+                          <WepStatIcon
+                            src={"/icon/Element/" + wep.Element + ".png" }
+                          />
+                          <Typography mr={0.5}>
+                            { wep.ElementDmg }
+                          </Typography>
+                        </WepStat>
+                      )
+                    }
+                  })()}
+                </Box>
+                
+                
               </CardContent>
             </Card>
           </ButtonBase>

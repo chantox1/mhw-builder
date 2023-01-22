@@ -4,6 +4,7 @@ import { Box, Paper, Grid, ButtonBase, Typography } from '@mui/material';
 import { Card, CardMedia, CardContent } from '@mui/material';
 import { Container, Stack } from '@mui/material';
 import SlotDisplay from './slot_display';
+import { range } from '../src/util';
 
 export default function ArmorCard(props) {
   const { data, main=false, charm=false, armor, onClick } = props
@@ -63,7 +64,7 @@ export default function ArmorCard(props) {
           <Card sx={{display: "flex", width: "100%", height: "32%", border: 1, borderColor: 'text.disabled', mb: "1%"}}>
             <CardMedia sx={{width: "auto", objectFit: "contain", p: 0.4}}
               component="img"
-              image="/icon/Element/def.png"
+              image="/icon/def.png"
             />
             <CardContent sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', p: 0, '&:last-child': { pb: 0 }}}>
               <Typography sx={{mr: 1}}>
@@ -75,57 +76,21 @@ export default function ArmorCard(props) {
               </Typography>
             </CardContent>
           </Card>
-          
+
           <Box sx={{ display: "flex", height: "65%", alignItems: "center", justifyContent: 'space-between', borderRadius: 1, border: 1, borderColor: 'text.disabled'}}>
-            <Card sx={{height: "100%"}}>
-              <CardMedia sx={{height: "50%", objectFit: "contain"}}
-                component="img"
-                image={"/icon/Element/fire.png"}
-              />
-              <CardContent sx={{ p:0, '&:last-child': { pb: 0 }}}>
-                <Typography align="center">{ armor.Stats[1] }</Typography>
-              </CardContent>
-            </Card>
-
-            <Card sx={{height: "100%"}}>
-              <CardMedia sx={{height: "50%", objectFit: "contain"}}
-                component="img"
-                image={"/icon/Element/water.png"}
-              />
-              <CardContent sx={{ p:0, '&:last-child': { pb: 0 }}}>
-                <Typography align="center">{ armor.Stats[2] }</Typography>
-              </CardContent>
-            </Card>
-
-            <Card sx={{height: "100%"}}>
-              <CardMedia sx={{height: "50%", objectFit: "contain"}}
-                component="img"
-                image={"/icon/Element/thunder.png"}
-              />
-              <CardContent sx={{ p:0, '&:last-child': { pb: 0 }}}>
-                <Typography align="center">{ armor.Stats[4] }</Typography>
-              </CardContent>
-            </Card>
-
-            <Card sx={{height: "100%"}}>
-              <CardMedia sx={{height: "50%", objectFit: "contain"}}
-                component="img"
-                image={"/icon/Element/ice.png"}
-              />
-              <CardContent sx={{ p:0, '&:last-child': { pb: 0 }}}>
-                <Typography align="center">{ armor.Stats[3] }</Typography>
-              </CardContent>
-            </Card>
-
-            <Card sx={{height: "100%"}}>
-              <CardMedia sx={{height: "50%", objectFit: "contain"}}
-                component="img"
-                image={"/icon/Element/dragon.png"}
-              />
-              <CardContent sx={{ p:0, '&:last-child': { pb: 0 }}}>
-                <Typography align="center">{ armor.Stats[5] }</Typography>
-              </CardContent>
-            </Card>
+            { range(1, 5).map(i => {
+              return (
+                <Card sx={{height: "100%"}}>
+                  <CardMedia sx={{height: "50%", objectFit: "contain"}}
+                    component="img"
+                    image={"/icon/Element/" + i + ".png"}
+                  />
+                  <CardContent sx={{ p:0, '&:last-child': { pb: 0 }}}>
+                    <Typography align="center">{ armor.Stats[i] }</Typography>
+                  </CardContent>
+                </Card>
+              )
+            })}
           </Box>
         </Grid>
         }
