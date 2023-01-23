@@ -78,7 +78,7 @@ export default function ArmorCard(props) {
           </Card>
 
           <Box sx={{ display: "flex", height: "65%", alignItems: "center", justifyContent: 'space-between', borderRadius: 1, border: 1, borderColor: 'text.disabled'}}>
-            { range(1, 5).map(i => {
+            { [1,2,4,3,5].map(i => {
               return (
                 <Card sx={{height: "100%"}}>
                   <CardMedia sx={{height: "50%", objectFit: "contain"}}
