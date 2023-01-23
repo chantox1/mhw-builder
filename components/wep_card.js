@@ -45,14 +45,18 @@ export default function WepCard(props) {
             onClick= {() => buttonFunction(main, onClick, wep)}
           >
             <Card sx={{display: "flex", height: "100%", width: "100%"}}>
-              <CardMedia  sx={{maxWidth: "20%", objectFit: "contain"}}
-                component="img"
-                image={"/icon/Wep/" + wep.Class + "/" + wep.Rarity + ".png"}
-              />
+              <Box display="flex" alignItems="center">
+                <CardMedia  sx={{objectFit: "contain"}}
+                  component="img"
+                  image={"/icon/Wep/" + wep.Class + "/" + wep.Rarity + ".png"}
+                />
+              </Box>
               <CardContent sx={{ flexGrow: 1, display: "flex", flexDirection: "column", p: 0.65}}>
-                <Typography>
-                  { data.weaponString[wep.Class][wep.Name] }
-                </Typography>
+                <Box>
+                  <Typography noWrap>
+                    { data.weaponString[wep.Class][wep.Name] }
+                  </Typography>
+                </Box>
 
                 <Box display="flex">
                   <WepStat>
