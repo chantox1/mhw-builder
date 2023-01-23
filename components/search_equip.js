@@ -14,7 +14,7 @@ import { useMeasure } from 'react-use';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-export default function SimpleDialog(props) {
+export default function SearchDialog(props) {
   const { data, open, equipItem, searchClass, onClose } = props;
 
   // Get dialog dimensions
