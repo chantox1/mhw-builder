@@ -20,6 +20,7 @@ const WepStat = (props) => (
     border={1}
     borderRadius={1}
     borderColor='text.disabled'
+    sx={props.sx}
   >
     { props.children }
   </Box>
@@ -31,6 +32,7 @@ const WepStatIcon = (props) => (
     maxWidth={25}
     component="img"
     src={props.src}
+    sx={{...props.sx, p: 0.2}}
   />
 )
 
@@ -59,7 +61,7 @@ export default function WepCard(props) {
                 </Box>
 
                 <Box display="flex">
-                  <WepStat>
+                  <WepStat sx={{mr: 0.5}}>
                     <WepStatIcon
                       src="/icon/dmg.png"
                     />
@@ -68,7 +70,7 @@ export default function WepCard(props) {
                     </Typography>
                   </WepStat>
 
-                  <WepStat>
+                  <WepStat sx={{mr: 0.5}}>
                     <WepStatIcon
                       src="/icon/aff.png"
                     />
@@ -100,7 +102,13 @@ export default function WepCard(props) {
         </Grid>
         <Grid item xs sx={{height: "100%"}}>
           { wep.Slots.map((s, i, arr) => {
-            let divStyle = {height: "32%", justifyContent: "left", textAlign: "left", display: "flex", width: "100%", borderRadius: 1, border: 1, borderColor: 'text.disabled', p: 0.2}
+            let divStyle = {justifyContent: "left", textAlign: "left", display: "flex", width: "100%", borderRadius: 1, border: 1, borderColor: 'text.disabled', p: 0.2}
+            if (main) {
+              divStyle.height = "25%"
+            }
+            else {
+              divStyle.height = "32%"
+            }
             if (!(i + 1 === arr.length)) {
               divStyle.mb = "0.8%"
             }

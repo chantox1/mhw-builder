@@ -181,10 +181,11 @@ export default function Builder(data) {
               {/* Active effect icons */}
             </Paper>
 
-            <WepCard main data={data} wep={equip[6]} onClick={handleClickOpen} style={{ height: "13vh", marginBottom: "0.5vh", padding:2 }} />
 
-            <Grid container spacing={1}>
+
+            <Grid container spacing={"0.5vh"}>
               <Grid item xs={12} md={8}>
+                <WepCard main data={data} wep={equip[6]} onClick={handleClickOpen} style={{ height: "13vh", marginBottom: "0.5vh", padding:2 }} />
                 <ArmorCard main data={data} armor={equip[0]} onClick={handleClickOpen} style={{ height: "10vh", marginBottom: "0.6vh", padding:2 }}/>
                 <ArmorCard main data={data} armor={equip[1]} onClick={handleClickOpen} style={{ height: "10vh", marginBottom: "0.6vh", padding:2 }}/>
                 <ArmorCard main data={data} armor={equip[2]} onClick={handleClickOpen} style={{ height: "10vh", marginBottom: "0.6vh", padding:2 }}/>
@@ -203,6 +204,9 @@ export default function Builder(data) {
               </Grid>
 
               <Grid item xs={12} md={4}>
+                <Paper style={{height: "13vh", marginBottom: "0.5vh"}}>
+                  {/* Safi/Gun mod zone */}
+                </Paper>
                 <Paper style={{height: "63vh", padding: "1vh"}}>
                   {/* Calcs */}
                 </Paper>
