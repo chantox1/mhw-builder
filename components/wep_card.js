@@ -14,6 +14,24 @@ function buttonFunction(main, onClick, val) {
   }
 }
 
+function getSharpness(data, wep) {
+  var sharpness = [];
+  const delta = parseInt(wep.SharpNo) * 50;   // TODO: redump with int
+  const max = 150 + delta;
+  let len = 0;
+  let i = 0;
+  while (len < max) {
+    let dif = data.sharpness[wep.SharpId].Bar[i] - len;
+    if (len + dif > max) {
+      dif = max - len;
+    }
+    sharpness.push((dif / 4).toString() + '%');
+    len = data.sharpness[wep.SharpId].Bar[i]
+    i++;
+  }
+  return sharpness;
+}
+
 const WepStat = (props) => (
   <Box
     display="flex"
@@ -35,6 +53,8 @@ const WepStatIcon = (props) => (
     sx={{...props.sx, p: 0.2}}
   />
 )
+
+const sharpColors = ['#be3844', '#d3673d', '#cab232', '#6eaf1e', '#4678e6', '#e2e2e2', '#8755f0']
 
 export default function WepCard(props) {
   const { data, main=false, wep, onClick } = props;
@@ -94,8 +114,16 @@ export default function WepCard(props) {
                     }
                   })()}
                 </Box>
-                
-                
+                <Box display="flex" width={175} marginTop={1}>
+                  { getSharpness(data, wep).map((s, i) => {
+                    console.log("Sharp val:")
+                    console.log(s)
+                    return (
+                      <Box width={s} backgroundColor={sharpColors[i]} paddingTop={1}/>
+                    )
+                  })}
+                  {console.log(getSharpness(data, wep))}
+                </Box>
               </CardContent>
             </Card>
           </ButtonBase>
