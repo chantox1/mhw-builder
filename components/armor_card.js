@@ -19,22 +19,28 @@ export default function ArmorCard(props) {
             onClick= {() => onClick(armor)}
           >
             <Card sx={{display: "flex", height: "100%", width: "100%"}}>
-              <CardMedia  sx={{maxWidth: "20%", objectFit: "contain"}}
-                component="img"
-                image={"/icon/" + type[armor.Type] + "/" + armor.Rarity + ".png"}
-              />
-              <CardContent sx={{ flexGrow: 1, display: "flex", flexDirection: "column", p: 0.65}}>
-                <Typography>
-                  { data.armorString[armor.Name] }
-                </Typography>
-                { armor.Skills.map(s => {
-                  return (
-                    <Typography variant="caption" color="text.secondary">
-                      { data.skillString[data.skills[s[0]].Name] + " " + s[1] }
+              <Box display="flex" alignItems="center">
+                <CardMedia  sx={{objectFit: "contain"}}
+                  component="img"
+                  image={"/icon/" + type[armor.Type] + "/" + armor.Rarity + ".png"}
+                />
+              </Box>
+              <Box>
+                <CardContent sx={{ height: "100%", display: "flex", flexDirection: "column", p: 0.65 }}>
+                  <Box>
+                    <Typography noWrap>
+                      { data.armorString[armor.Name] }
                     </Typography>
-                  )
-                })}
-              </CardContent>
+                  </Box>
+                  { armor.Skills.map(s => {
+                    return (
+                      <Typography variant="caption" color="text.secondary">
+                        { data.skillString[data.skills[s[0]].Name] + " " + s[1] }
+                      </Typography>
+                    )
+                  })}
+                </CardContent>
+              </Box>
             </Card>
           </ButtonBase>
         </Grid>
