@@ -24,12 +24,25 @@ function getSharpness(data, wep) {
     let dif = data.sharpness[wep.SharpId].Bar[i] - len;
     if (len + dif > max) {
       dif = max - len;
+      sharpness.push((dif / 4).toString() + '%');
+      len = max;
+      break;
     }
     sharpness.push((dif / 4).toString() + '%');
     len = data.sharpness[wep.SharpId].Bar[i]
     i++;
   }
-  return sharpness;
+  var extra = new Array(i);
+  while (len < 400) {
+    let dif = data.sharpness[wep.SharpId].Bar[i] - len;
+    if (len + dif > max + 50) {
+      dif = max + 50 - len;
+    }
+    extra.push((dif / 4).toString() + '%');
+    len = data.sharpness[wep.SharpId].Bar[i];
+    i++;
+  }
+  return [sharpness, extra];
 }
 
 const WepStat = (props) => (
@@ -58,6 +71,7 @@ const sharpColors = ['#be3844', '#d3673d', '#cab232', '#6eaf1e', '#4678e6', '#e2
 
 export default function WepCard(props) {
   const { data, main=false, wep, onClick } = props;
+  const [sharpness, extra] = getSharpness(data, wep);
 
   return (
     <Paper style={props.style}>
@@ -128,9 +142,14 @@ export default function WepCard(props) {
                   })()}
                 </Box>
                 <Box display="flex" width={175} marginTop={1} marginBottom={0.5}>
-                  { getSharpness(data, wep).map((s, i) => {
+                  { sharpness.map((s, i) => {
                     return (
-                      <Box width={s} backgroundColor={sharpColors[i]} paddingTop={1}/>
+                      <Box width={s} backgroundColor={sharpColors[i]} paddingTop={0.65}/>
+                    )
+                  })}
+                  { extra.map((s, i) => {
+                    return (
+                      <Box width={s} backgroundColor={sharpColors[i]} marginTop={0.65} paddingTop={0.35}/>
                     )
                   })}
                 </Box>

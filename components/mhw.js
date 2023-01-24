@@ -120,6 +120,8 @@ export default function Builder(data) {
     setMySkills(tempSkills);
   }, [equip]);
 
+  const [calcs, setCalcs] = React.useState();
+
   React.useEffect(() => {
     let e = JSON.parse(JSON.stringify(mySkills));
     const classNo = 50;  // TODO: Set proper size
