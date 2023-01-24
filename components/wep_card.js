@@ -129,13 +129,10 @@ export default function WepCard(props) {
                 </Box>
                 <Box display="flex" width={175} marginTop={1}>
                   { getSharpness(data, wep).map((s, i) => {
-                    console.log("Sharp val:")
-                    console.log(s)
                     return (
                       <Box width={s} backgroundColor={sharpColors[i]} paddingTop={1}/>
                     )
                   })}
-                  {console.log(getSharpness(data, wep))}
                 </Box>
               </CardContent>
             </Card>
