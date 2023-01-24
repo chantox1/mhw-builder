@@ -74,10 +74,10 @@ export default function SearchDialog(props) {
 
   const theme = useTheme();
   if (useMediaQuery(theme.breakpoints.up('sm'))) {
-    var heightMod = [8, 25];
+    var heightMod = [8, 25, 7];
   }
   else {
-    var heightMod = [5.5, 17]
+    var heightMod = [5.5, 17, 4.8]
   }
 
   {/* TODO: Autofocus textfield */}
@@ -136,7 +136,7 @@ export default function SearchDialog(props) {
           <FixedSizeList
             height={height}
             width={width}
-            itemSize={height / heightMod[0] + 2}
+            itemSize={height / heightMod[2] + 2}
             itemCount={queryData.length}
             overscanCount={5}
           >
@@ -146,7 +146,7 @@ export default function SearchDialog(props) {
                   data={data}
                   wep={{...queryData[index], 'Class': searchClass}}
                   onClick={handleListItemClick}
-                  style={{...style, width: "100%", height: (height / heightMod[0]), mb: 2}}
+                  style={{...style, width: "100%", height: (height / heightMod[2]), mb: 2}}
                 />
               )
             }}

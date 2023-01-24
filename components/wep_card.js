@@ -112,6 +112,19 @@ export default function WepCard(props) {
                         </WepStat>
                       )
                     }
+
+                    else if ('HiddenEle' in wep) {
+                      return (
+                        <WepStat>
+                          <WepStatIcon
+                            src={"/icon/Element/" + wep.HiddenEle + ".png" }
+                          />
+                          <Typography color='text.disabled' mr={0.5}>
+                            ({ wep.HiddenEleDmg })
+                          </Typography>
+                        </WepStat>
+                      )
+                    }
                   })()}
                 </Box>
                 <Box display="flex" width={175} marginTop={1}>
