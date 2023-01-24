@@ -127,13 +127,25 @@ export default function WepCard(props) {
                     }
                   })()}
                 </Box>
-                <Box display="flex" width={175} marginTop={1}>
+                <Box display="flex" width={175} marginTop={1} marginBottom={0.5}>
                   { getSharpness(data, wep).map((s, i) => {
                     return (
                       <Box width={s} backgroundColor={sharpColors[i]} paddingTop={1}/>
                     )
                   })}
                 </Box>
+                {(() => {
+                  if ('Skill' in wep) {
+                    return (
+                      <Box>
+                        <Typography variant="caption" color="text.secondary">
+                          + { data.skillString[data.skills[wep.Skill].Name] }
+                        </Typography>
+                      </Box>
+                    )
+                  }
+                })()}
+                
               </CardContent>
             </Card>
           </ButtonBase>
