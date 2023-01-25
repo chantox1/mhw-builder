@@ -197,6 +197,7 @@ export default function Builder(data) {
                 open={open}
                 equipItem={equipItem}
                 searchClass={searchClass}
+                setSearchClass={setSearchClass}
                 onClose={handleClose}
               />}
             </Grid>
