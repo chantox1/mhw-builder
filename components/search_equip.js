@@ -183,7 +183,7 @@ export default function SearchDialog(props) {
                     data={data}
                     wep={{...queryData[index], 'Class': searchClass}}
                     onClick={handleListItemClick}
-                    style={{...style, width: "100%", height: (height / heightMod[2]), mb: 2}}
+                    sx={{...style, width: "100%", height: (height / heightMod[2]), mb: 2}}
                   />
                 )
               }}
@@ -205,7 +205,7 @@ export default function SearchDialog(props) {
                     charm={equipItem.Type == 5}
                     armor={queryData[index]}
                     onClick={handleListItemClick}
-                    style={{...style, width: "100%", height: (height / heightMod[0]), mb: 2}}
+                    sx={{...style, width: "100%", height: (height / heightMod[0]), mb: 2}}
                   />
                 )
               }}

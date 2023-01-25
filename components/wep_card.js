@@ -75,7 +75,7 @@ export default function WepCard(props) {
   let sharpBarHeight = wep.SharpNo == "5" ? 1 : 0.6
 
   return (
-    <Paper style={props.style}>
+    <Paper style={props.sx}>
       <Grid container columnSpacing={1} justify="center" sx={{height: "100%"}}>
         <Grid item xs sx={{height: "100%"}}>
           <ButtonBase sx={{justifyContent: "left", textAlign: "left", height: "100%", width: "100%", border: 1, borderRadius: 1, borderColor: 'text.secondary'}}
@@ -188,7 +188,7 @@ export default function WepCard(props) {
                 main={main}
                 slot={s}
                 pos={i}
-                style={divStyle}
+                sx={divStyle}
                 type={6}  // wep is always on equip slot 6
                 onClick={onClick}
               />

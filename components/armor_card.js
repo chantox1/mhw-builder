@@ -12,7 +12,7 @@ export default function ArmorCard(props) {
   const augDef = [66, 58, 52, 44, 38, 32, 26, 20, 58, 52, 44, 38]
 
   return (
-    <Paper style={props.style}>
+    <Paper sx={props.sx}>
       <Grid container columnSpacing={1} justify="center" sx={{height: "100%"}}>
         <Grid item xs sx={{height: "100%"}}>
           <ButtonBase sx={{justifyContent: "left", textAlign: "left", height: "100%", width: "100%", borderRadius: 1, border: 1, borderColor: 'text.secondary'}}
@@ -47,7 +47,7 @@ export default function ArmorCard(props) {
         { !(charm) &&
         <Grid item sm sx={{height: "100%"}}>
           { armor.Slots.map((s, i, arr) => {
-            let divStyle = {height: "32%", justifyContent: "left", textAlign: "left", display: "flex", width: "100%", borderRadius: 1, border: 1, borderColor: 'text.disabled', p: 0.2}
+            let divStyle = {height: "31%", justifyContent: "left", textAlign: "left", display: "flex", width: "100%", borderRadius: 1, border: 1, borderColor: 'text.disabled', p: 0.2}
             if (!(i + 1 === arr.length)) {
               divStyle.mb = "0.8%"
             }
@@ -57,7 +57,7 @@ export default function ArmorCard(props) {
                 main={main}
                 slot={s}
                 pos={i}
-                style={divStyle}
+                sx={divStyle}
                 type={armor.Type}
                 onClick={onClick}
               />
