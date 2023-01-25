@@ -72,6 +72,7 @@ const sharpColors = ['#be3844', '#d3673d', '#cab232', '#6eaf1e', '#4678e6', '#e2
 export default function WepCard(props) {
   const { data, main=false, wep, onClick } = props;
   const [sharpness, extra] = getSharpness(data, wep);
+  let sharpBarHeight = wep.SharpNo == "5" ? 1 : 0.6
 
   return (
     <Paper style={props.style}>
@@ -144,7 +145,7 @@ export default function WepCard(props) {
                 <Box display="flex" width={175} marginTop={1} marginBottom={0.5}>
                   { sharpness.map((s, i) => {
                     return (
-                      <Box width={s} backgroundColor={sharpColors[i]} paddingTop={0.65}/>
+                      <Box width={s} backgroundColor={sharpColors[i]} paddingTop={sharpBarHeight}/>
                     )
                   })}
                   { extra.map((s, i) => {
