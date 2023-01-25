@@ -15,6 +15,18 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { range } from '../src/util';
 
+function queryDeco(data, deco, queryString) {
+  var res = data.decoString[deco.Name].toLowerCase().indexOf(queryString.toLowerCase()) > -1;
+  deco.Skills.forEach(s => {
+    if (res) {
+      return res;
+    }
+    res ||= data.skillString[data.skills[s[0]].Name]
+            .toLowerCase().indexOf(queryString.toLowerCase()) > -1
+  });
+  return res;
+}
+
 const WepButton = (props) => (
   <ButtonBase
     onClick={() => props.onClick(props.class)}
@@ -63,7 +75,7 @@ export default function SearchDialog(props) {
     var searchLabel = "Decoration search"
     var queryData = data.decos
     .filter(d => d.Size <= equipItem.Size)
-    .filter(d => ( data.decoString[d.Name].toLowerCase().indexOf(queryString.toLowerCase()) > -1 ))
+    .filter(d => queryDeco(data, d, queryString))
     .sort((a, b) => data.decoString[a.Name].localeCompare(data.decoString[b.Name]))
   }
   else if (equipItem.Mode == 2) {
