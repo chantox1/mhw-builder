@@ -45,6 +45,14 @@ function getSharpness(data, wep) {
   return [sharpness, extra];
 }
 
+function phialString(data, phialMap, phialId) {
+  const dmg = data.phials[phialId].PhialDmg;
+  let dmgStr = dmg == 0 ? "" : " " + dmg.toString();
+  return (
+    phialMap[data.phials[phialId].PhialId].toString() + " Phial" + dmgStr
+  )
+}
+
 const WepStat = (props) => (
   <Box
     display="flex"
@@ -58,7 +66,7 @@ const WepStat = (props) => (
 )
 
 const WepStatIcon = (props) => (
-  <Box
+  <Box alignSelf="center"
     maxHeight={25}
     maxWidth={25}
     component="img"
@@ -68,6 +76,8 @@ const WepStatIcon = (props) => (
 )
 
 const sharpColors = ['#be3844', '#d3673d', '#cab232', '#6eaf1e', '#4678e6', '#e2e2e2', '#8755f0']
+
+const saPhials = ['Power', 'Element', 'Dragon', 'Exhaust', 'Paralysis', 'Poison']
 
 export default function WepCard(props) {
   const { data, main=false, wep, onClick } = props;
@@ -195,6 +205,16 @@ export default function WepCard(props) {
             )
           })}
         </Grid>
+        { (wep.Class == 8 || wep.Class == 9) &&
+          <Grid item sx={{height: "100%"}}>
+            <Box display="flex" border={1} borderRadius={1} borderColor='text.disabled'>
+              <WepStatIcon src='/icon/phial.png'/>
+              <Typography m={0.5}>
+                { phialString(data, saPhials, wep.WepVar1) }
+              </Typography>
+            </Box>
+          </Grid>
+        }
       </Grid>
     </Paper>
   )

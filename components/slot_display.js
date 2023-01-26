@@ -33,7 +33,9 @@ export default function SlotDisplay(props) {
               component="img"
               src={'/icon/Slot/' + slot.Size + '.png'}
             />
-            <Typography align="center" noWrap> { data.decoString[slot.Deco.Name] } </Typography>
+            <Box alignSelf="center" ml={0.5}>
+              <Typography noWrap> { data.decoString[slot.Deco.Name] } </Typography>
+            </Box>
           </Box>
         </ButtonBase>
       )

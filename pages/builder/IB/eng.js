@@ -5,6 +5,7 @@ import Builder from '../../../components/mhw';
 
 // Common
 import weapons from '../../../data/IB/common/wepData.json';
+import phials from '../../../data/IB/common/phials.json';
 import sharpness from '../../../data/IB/common/kire.json';
 import armor from '../../../data/IB/common/armor.json';
 import decos from '../../../data/IB/common/decos.json';
@@ -21,6 +22,7 @@ export default function IB() {
     const data = {
         weapons: weapons,
         weaponString: weaponString,
+        phials: phials,
         sharpness: sharpness,
         armor: armor,
         armorString: armorString,
