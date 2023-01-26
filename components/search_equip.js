@@ -220,11 +220,16 @@ export default function SearchDialog(props) {
             sx={{ml: 1, mr: 0.5, mb: 0.5}}
           >
             { range(0,10).map(i => {
+              let sx = {border: 1, borderRadius: 1, borderColor: 'text.secondary', mr: 0.5}
+              if (i == searchClass) {
+                sx.border = 2
+                sx.borderColor = 'primary.highlight'
+              }
               return (
                 <WepButton
                   class={i}
                   onClick={setSearchClass}
-                  sx={{border: 1, borderRadius: 1, borderColor: 'text.secondary', mr: 0.5}}
+                  sx={sx}
                 />
               )
             })}
