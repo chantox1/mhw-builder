@@ -114,7 +114,7 @@ export default function SearchDialog(props) {
     innerStyle['width'] = 700;
   }
   else {
-    var heightMod = [5.5, 17, 4.8];
+    var heightMod = [5.5, 17, 3.6];
   }
 
   {/* TODO: Autofocus textfield */}

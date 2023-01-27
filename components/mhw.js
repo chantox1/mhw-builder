@@ -2,6 +2,8 @@ import * as React from 'react';
 import { Box, Grid } from '@mui/material';
 import { Paper, Toolbar } from '@mui/material';
 import { Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import ModeIcon from '@mui/icons-material/Mode';
 import update from 'immutability-helper';
 import ArmorCard from './armor_card';
@@ -139,6 +141,18 @@ export default function Builder(data) {
     // TODO: calcs w/ bucket
   }, [mySkills, toggleList])
 
+  const theme = useTheme();
+  const breakPoint = theme.breakpoints.values[
+    [...theme.breakpoints.keys].reverse().reduce((output, key) => {
+      const matches = useMediaQuery(theme.breakpoints.only(key));
+
+      return !output && matches ? key : output;
+    }, null) || 'xs'
+  ]
+  const equipBlockStyle = (breakPoint > theme.breakpoints.values.lg) ? {height: "76.5vh"} : {}
+  console.log("style:")
+  console.log(equipBlockStyle)
+
   return (
     <div>
 
@@ -183,13 +197,15 @@ export default function Builder(data) {
 
           <Grid container spacing={"0.5vh"}>
             <Grid item xs={12} md={8}>
-              <WepCard main data={data} wep={equip[6]} onClick={handleClickOpen} sx={{ height: "13vh", marginBottom: "0.5vh", padding:2 }}/>
-              <ArmorCard main data={data} armor={equip[0]} onClick={handleClickOpen} sx={{ height: "10vh", marginBottom: "0.6vh", padding:0.3 }}/>
-              <ArmorCard main data={data} armor={equip[1]} onClick={handleClickOpen} sx={{ height: "10vh", marginBottom: "0.6vh", padding:0.3 }}/>
-              <ArmorCard main data={data} armor={equip[2]} onClick={handleClickOpen} sx={{ height: "10vh", marginBottom: "0.6vh", padding:0.3 }}/>
-              <ArmorCard main data={data} armor={equip[3]} onClick={handleClickOpen} sx={{ height: "10vh", marginBottom: "0.6vh", padding:0.3 }}/>
-              <ArmorCard main data={data} armor={equip[4]} onClick={handleClickOpen} sx={{ height: "10vh", marginBottom: "0.6vh", padding:0.3 }}/>
-              <ArmorCard charm data={data} armor={equip[5]} onClick={handleClickOpen} sx={{ height: "10vh", padding:0.3 }}/>
+              <Box display="flex" flexDirection="column" sx={equipBlockStyle}>
+                <WepCard main data={data} wep={equip[6]} onClick={handleClickOpen} sx={{ flexGrow: 1, marginBottom: "0.5vh", padding:2 }}/>
+                <ArmorCard main data={data} armor={equip[0]} onClick={handleClickOpen} sx={{ flexGrow: 1, marginBottom: "0.6vh", padding:0.3 }}/>
+                <ArmorCard main data={data} armor={equip[1]} onClick={handleClickOpen} sx={{ flexGrow: 1, marginBottom: "0.6vh", padding:0.3 }}/>
+                <ArmorCard main data={data} armor={equip[2]} onClick={handleClickOpen} sx={{ flexGrow: 1, marginBottom: "0.6vh", padding:0.3 }}/>
+                <ArmorCard main data={data} armor={equip[3]} onClick={handleClickOpen} sx={{ flexGrow: 1, marginBottom: "0.6vh", padding:0.3 }}/>
+                <ArmorCard main data={data} armor={equip[4]} onClick={handleClickOpen} sx={{ flexGrow: 1, marginBottom: "0.6vh", padding:0.3 }}/>
+                <ArmorCard charm data={data} armor={equip[5]} onClick={handleClickOpen} sx={{ flexGrow: 1, padding:0.3 }}/>
+              </Box>
 
               {open &&
               <SearchDialog

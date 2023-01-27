@@ -45,11 +45,11 @@ function getSharpness(data, wep) {
   return [sharpness, extra];
 }
 
-function phialString(data, phialMap, phialId) {
+function phialString(data, phialId) {
   const dmg = data.phials[phialId].PhialDmg;
   let dmgStr = dmg == 0 ? "" : " " + dmg.toString();
   return (
-    phialMap[data.phials[phialId].PhialId].toString() + dmgStr
+    data.statusString[140 + data.phials[phialId].PhialId] + dmgStr
   )
 }
 
@@ -86,9 +86,9 @@ export default function WepCard(props) {
 
   return (
     <Paper style={props.sx}>
-      <Grid container columnSpacing={1} justify="center" sx={{height: "100%"}}>
-        <Grid item xs sx={{height: "100%"}}>
-          <ButtonBase sx={{justifyContent: "left", textAlign: "left", height: "100%", width: "100%", border: 1, borderRadius: 1, borderColor: 'text.secondary'}}
+      <Grid container columnSpacing={1} height="100%">
+        <Grid item xs flexGrow={1}>
+          <ButtonBase sx={{height: "100%", width: "100%", justifyContent: "left", textAlign: "left", border: 1, borderRadius: 1, borderColor: 'text.secondary'}}
             onClick= {() => buttonFunction(main, onClick, wep)}
           >
             <Card sx={{display: "flex", height: "100%", width: "100%"}}>
@@ -98,7 +98,7 @@ export default function WepCard(props) {
                   image={"/icon/Wep/" + wep.Class + "/" + wep.Rarity + ".png"}
                 />
               </Box>
-              <CardContent sx={{ flexGrow: 1, display: "flex", flexDirection: "column", p: 0.65}}>
+              <CardContent sx={{ display: "flex", flexDirection: "column", p: 0.65}}>
                 <Box>
                   <Typography noWrap>
                     { data.weaponString[wep.Class][wep.Name] }
@@ -180,39 +180,37 @@ export default function WepCard(props) {
             </Card>
           </ButtonBase>
         </Grid>
-        <Grid item xs sx={{height: "100%"}}>
-          { wep.Slots.map((s, i, arr) => {
-            let divStyle = {justifyContent: "left", textAlign: "left", display: "flex", width: "100%", borderRadius: 1, border: 1, borderColor: 'text.disabled', p: 0.2}
-            if (main) {
-              divStyle.height = "25%"
-            }
-            else {
-              divStyle.height = "32%"
-            }
-            if (!(i + 1 === arr.length)) {
-              divStyle.mb = "0.8%"
-            }
-            return (
-              <SlotDisplay
-                data={data}
-                main={main}
-                slot={s}
-                pos={i}
-                sx={divStyle}
-                type={6}  // wep is always on equip slot 6
-                onClick={onClick}
-              />
-            )
-          })}
+        <Grid item xs flexGrow={1}>
+          <Box display="flex" flexDirection="column" height="100%">
+            { wep.Slots.map((s, i, arr) => {
+              let len = arr.length;
+              let divHeight = (100 / len).toString() + "%";
+              let divStyle = {height: {divHeight}, justifyContent: "left", textAlign: "left", display: "flex", width: "100%", borderRadius: 1, border: 1, borderColor: 'text.disabled', p: 0.2}
+              if (!(i + 1 === len)) {
+                divStyle.mb = 0.3;
+              }
+              return (
+                <SlotDisplay
+                  data={data}
+                  main={main}
+                  slot={s}
+                  pos={i}
+                  sx={divStyle}
+                  type={6}  // wep is always on equip slot 6
+                  onClick={onClick}
+                />
+              )
+            })}
+          </Box>
         </Grid>
         { (wep.Class == 8 || wep.Class == 9) &&
-          <Grid item sx={{height: "100%"}}>
-            <Box display="flex" border={1} borderRadius={1} borderColor='text.disabled'>
+          <Grid item>
+            <WepStat>
               <WepStatIcon src='/icon/phial.png'/>
               <Typography m={0.5}>
-                { phialString(data, saPhials, wep.WepVar1) }
+                { phialString(data, wep.WepVar1) }
               </Typography>
-            </Box>
+            </WepStat>
           </Grid>
         }
       </Grid>

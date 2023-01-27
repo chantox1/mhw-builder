@@ -17,6 +17,7 @@ import weaponString from '../../../data/IB/eng/wepStr.json';
 import armorString from '../../../data/IB/eng/armorStr.json';
 import decoString from '../../../data/IB/eng/decoStr.json';
 import skillString from '../../../data/IB/eng/skillStr.json';
+import statusString from '../../../data/IB/eng/statusStr.json';
 
 export default function IB() {
     const data = {
@@ -31,6 +32,7 @@ export default function IB() {
         skills: skills,
         skillString: skillString,
         skillBonus: skillBonus,
+        statusString: statusString,
     }
 
     React.useEffect(() => {

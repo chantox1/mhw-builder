@@ -13,9 +13,9 @@ export default function ArmorCard(props) {
 
   return (
     <Paper sx={props.sx}>
-      <Grid container columnSpacing={1} justify="center" sx={{height: "100%"}}>
-        <Grid item xs sx={{height: "100%"}}>
-          <ButtonBase sx={{justifyContent: "left", textAlign: "left", height: "100%", width: "100%", borderRadius: 1, border: 1, borderColor: 'text.secondary'}}
+      <Grid container columnSpacing={1} height="100%">
+        <Grid item xs sx={{flexGrow: 1}}>
+          <ButtonBase sx={{height: "100%", width: "100%", justifyContent: "left", textAlign: "left", borderRadius: 1, border: 1, borderColor: 'text.secondary'}}
             onClick= {() => onClick(armor)}
           >
             <Card sx={{display: "flex", height: "100%", width: "100%"}}>
@@ -45,9 +45,10 @@ export default function ArmorCard(props) {
           </ButtonBase>
         </Grid>
         { !(charm) &&
-        <Grid item sm sx={{height: "100%"}}>
+        <Grid item xs sx={{flexGrow: 1}}>
+          <Box display="flex" flexDirection="column">
           { armor.Slots.map((s, i, arr) => {
-            let divStyle = {height: "31%", justifyContent: "left", textAlign: "left", display: "flex", width: "100%", borderRadius: 1, border: 1, borderColor: 'text.disabled', p: 0.2}
+            let divStyle = {justifyContent: "left", textAlign: "left", display: "flex", width: "100%", borderRadius: 1, border: 1, borderColor: 'text.disabled', p: 0.2}
             if (!(i + 1 === arr.length)) {
               divStyle.mb = "0.8%"
             }
@@ -63,40 +64,46 @@ export default function ArmorCard(props) {
               />
             )
           })}
+          </Box>
         </Grid>}
           
         { !(charm) &&
-        <Grid item display={{ xs: "none", lg: "block"}} sx={{height: "100%"}}>
-          <Card sx={{display: "flex", width: "100%", height: "32%", border: 1, borderColor: 'text.disabled', mb: "1%"}}>
-            <CardMedia sx={{width: "auto", objectFit: "contain", p: 0.4}}
-              component="img"
-              image="/icon/def.png"
-            />
-            <CardContent sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', p: 0, '&:last-child': { pb: 0 }}}>
-              <Typography sx={{mr: 1}}>
-                { armor.Stats[0] }
-              </Typography>
+        <Grid item display={{ xs: "none", lg: "block"}}>
+          <Box>
+            <Box display="flex" border={1} borderRadius={1} borderColor='text.disabled' mb="1%">
+              <Box
+                maxHeight={25}
+                component="img"
+                src="/icon/def.png"
+              />
+              <Box display="flex" alignItems="center">
+                <Typography sx={{mr: 1}}>
+                  { armor.Stats[0] }
+                </Typography>
 
-              <Typography>
-                ({ armor.Stats[0] + augDef[armor.Rarity - 1]})
-              </Typography>
-            </CardContent>
-          </Card>
+                <Typography>
+                  ({ armor.Stats[0] + augDef[armor.Rarity - 1]})
+                </Typography>
+              </Box>
+            </Box>
 
-          <Box sx={{ display: "flex", height: "65%", alignItems: "center", justifyContent: 'space-between', borderRadius: 1, border: 1, borderColor: 'text.disabled'}}>
-            { [1,2,4,3,5].map(i => {
-              return (
-                <Card sx={{height: "100%"}}>
-                  <CardMedia sx={{height: "50%", objectFit: "contain"}}
-                    component="img"
-                    image={"/icon/Element/" + i + ".png"}
-                  />
-                  <CardContent sx={{ p:0, '&:last-child': { pb: 0 }}}>
-                    <Typography align="center">{ armor.Stats[i] }</Typography>
-                  </CardContent>
-                </Card>
-              )
-            })}
+            <Box display="flex" alignItems="center" border={1} borderRadius={1} borderColor="text.disabled">
+              { [1,2,4,3,5].map(i => {
+                return (
+                  <Box display="flex" flexDirection="column">
+                    <Box
+                      maxHeight={25}
+                      component="img"
+                      src={"/icon/Element/" + i + ".png"}
+                      sx={{mb:0}}
+                    />
+                    <Typography align="center">
+                      { armor.Stats[i] }
+                    </Typography>
+                  </Box>
+                )
+              })}
+            </Box>
           </Box>
         </Grid>
         }
