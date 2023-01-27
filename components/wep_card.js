@@ -49,7 +49,7 @@ function phialString(data, phialMap, phialId) {
   const dmg = data.phials[phialId].PhialDmg;
   let dmgStr = dmg == 0 ? "" : " " + dmg.toString();
   return (
-    phialMap[data.phials[phialId].PhialId].toString() + " Phial" + dmgStr
+    phialMap[data.phials[phialId].PhialId].toString() + dmgStr
   )
 }
 
