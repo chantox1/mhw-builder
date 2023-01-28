@@ -36,7 +36,7 @@ const WepButton = (props) => (
       maxHeight={36}
       maxWidth={36}
       component="img"
-      src={'/icon/Wep/' + props.class.toString() + '/1.png'}
+      src={'/icon/Wep/' + props.class.toString() + '.png'}
     />
   </ButtonBase>
 )
