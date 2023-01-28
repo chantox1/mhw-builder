@@ -46,9 +46,11 @@ export default function ArmorCard(props) {
                   </Box>
                   { armor.Skills.map(s => {
                     return (
+                      <div key={s[0]}>
                       <Typography variant="caption" color="text.secondary">
                         { data.skillString[data.skills[s[0]].Name] + " " + s[1] }
                       </Typography>
+                      </div>
                     )
                   })}
                 </CardContent>
@@ -102,6 +104,7 @@ export default function ArmorCard(props) {
             <Box display="flex" alignItems="center" border={1} borderRadius={1} borderColor="text.disabled">
               { [1,2,4,3,5].map(i => {
                 return (
+                  <div key={i}>
                   <Box display="flex" flexDirection="column">
                     <Box
                       maxHeight={25}
@@ -113,6 +116,7 @@ export default function ArmorCard(props) {
                       { armor.Stats[i] }
                     </Typography>
                   </Box>
+                  </div>
                 )
               })}
             </Box>

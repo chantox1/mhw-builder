@@ -150,8 +150,6 @@ export default function Builder(data) {
     }, null) || 'xs'
   ]
   const equipBlockStyle = (breakPoint > theme.breakpoints.values.lg) ? {height: "76.5vh"} : {}
-  console.log("style:")
-  console.log(equipBlockStyle)
 
   return (
     <div>
@@ -164,7 +162,7 @@ export default function Builder(data) {
     >
       <Toolbar>
         <ModeIcon sx={{ mr: 2 }}/>
-        <Typography variant="h4"> New Set (placeholder) </Typography>
+        <Typography variant="h5"> New Set (placeholder) </Typography>
       </Toolbar>
     </Box>
 
@@ -180,9 +178,11 @@ export default function Builder(data) {
                   .map(s => {
                     const [id, lvl] = s;
                     return (
+                      <div key={id}>
                       <Typography>
                         { data.skillString[data.skills[id].Name] + " " + lvl }
                       </Typography>
+                      </div>
                     )
                   })
                 )

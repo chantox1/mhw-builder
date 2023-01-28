@@ -169,12 +169,16 @@ export default function WepCard(props) {
                 <Box display="flex" width={175} marginTop={1} marginBottom={0.5}>
                   { sharpness.map((s, i) => {
                     return (
+                      <div key={i}>
                       <Box width={s} backgroundColor={sharpColors[i]} paddingTop={sharpBarHeight}/>
+                      </div>
                     )
                   })}
                   { extra.map((s, i) => {
                     return (
+                      <div key={i}>
                       <Box width={s} backgroundColor={sharpColors[i]} marginTop={0.65} paddingTop={0.35}/>
+                      </div>
                     )
                   })}
                 </Box>
