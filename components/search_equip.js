@@ -105,16 +105,20 @@ export default function SearchDialog(props) {
     }, null) || 'xs'
   ]
 
-  if (breakPoint > theme.breakpoints.values.md) {
-    var heightMod = [8, 25, 7];
+  if (breakPoint > theme.breakpoints.values.lg) {
+    var heightMod = [7.5, 25, 5.8];
+    innerStyle['width'] = 900;
+  }
+  else if (breakPoint > theme.breakpoints.values.md) {
+    var heightMod = [6, 25, 4.5];
     innerStyle['width'] = 900;
   }
   else if (breakPoint > theme.breakpoints.values.xs) {
-    var heightMod = [6, 17, 5.5];
+    var heightMod = [6, 17, 4];
     innerStyle['width'] = 700;
   }
   else {
-    var heightMod = [5.5, 17, 3.6];
+    var heightMod = [4, 17, 3.2];
   }
 
   {/* TODO: Autofocus textfield */}
@@ -123,7 +127,7 @@ export default function SearchDialog(props) {
       <Dialog maxWidth='md' onClose={handleClose} open={open}>
         <Box sx={innerStyle}>
           <TextField onChange={e => setInput(e.target.value)} sx={{mb: 1}}
-            color="secondary"
+            color='secondary'
             label={searchLabel}
             InputProps={{
               startAdornment: (
@@ -223,7 +227,7 @@ export default function SearchDialog(props) {
               let sx = {border: 1, borderRadius: 1, borderColor: 'text.secondary', mr: 0.5}
               if (i == searchClass) {
                 sx.border = 2
-                sx.borderColor = 'primary.highlight'
+                sx.borderColor = 'secondary.main'
               }
               return (
                 <WepButton

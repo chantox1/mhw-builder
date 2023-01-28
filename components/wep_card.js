@@ -4,6 +4,7 @@ import { Paper, Card, CardMedia, CardContent } from '@mui/material';
 import { Typography } from '@mui/material';
 import { ButtonBase } from '@mui/material';
 import SlotDisplay from './slot_display';
+import { Skeleton } from '@mui/material';
 
 function buttonFunction(main, onClick, val) {
   if (main) {
@@ -77,10 +78,22 @@ const WepStatIcon = (props) => (
 
 const sharpColors = ['#be3844', '#d3673d', '#cab232', '#6eaf1e', '#4678e6', '#e2e2e2', '#8755f0']
 
-const saPhials = ['Power', 'Element', 'Dragon', 'Exhaust', 'Paralysis', 'Poison']
-
 export default function WepCard(props) {
   const { data, main=false, wep, onClick } = props;
+
+  const [loading, setLoading] = React.useState(true);
+  const [image, setImage] = React.useState({});
+  const handleImageLoaded = () => {
+    setLoading(false);
+  };
+
+  React.useEffect(() => {
+    const image = new Image();
+    image.onload = handleImageLoaded;
+    image.src = "/icon/Wep/" + wep.Class + "/" + wep.Rarity + ".png";
+    setImage(image);
+  }, [wep]);
+
   const [sharpness, extra] = getSharpness(data, wep);
   let sharpBarHeight = wep.SharpNo == "5" ? 1 : 0.6
 
@@ -91,12 +104,13 @@ export default function WepCard(props) {
           <ButtonBase sx={{height: "100%", width: "100%", justifyContent: "left", textAlign: "left", border: 1, borderRadius: 1, borderColor: 'text.secondary'}}
             onClick= {() => buttonFunction(main, onClick, wep)}
           >
-            <Card sx={{display: "flex", height: "100%", width: "100%"}}>
+            <Card sx={{display: "flex"}}>
               <Box display="flex" alignItems="center">
-                <CardMedia  sx={{objectFit: "contain"}}
+                { loading ? <Skeleton variant="circular" width={64} height={64} /> :
+                  <CardMedia sx={{objectFit: "contain"}}
                   component="img"
-                  image={"/icon/Wep/" + wep.Class + "/" + wep.Rarity + ".png"}
-                />
+                  image={image.src}
+                /> }
               </Box>
               <CardContent sx={{ display: "flex", flexDirection: "column", p: 0.65}}>
                 <Box>
@@ -204,7 +218,7 @@ export default function WepCard(props) {
           </Box>
         </Grid>
         { (wep.Class == 8 || wep.Class == 9) &&
-          <Grid item>
+          <Grid item xl={3}>
             <WepStat>
               <WepStatIcon src='/icon/phial.png'/>
               <Typography m={0.5}>

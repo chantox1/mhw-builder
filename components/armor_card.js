@@ -1,15 +1,26 @@
 import * as React from 'react';
-import PropTypes from 'react';
 import { Box, Paper, Grid, ButtonBase, Typography } from '@mui/material';
 import { Card, CardMedia, CardContent } from '@mui/material';
-import { Container, Stack } from '@mui/material';
 import SlotDisplay from './slot_display';
-import { range } from '../src/util';
+import { Skeleton } from '@mui/material';
 
 export default function ArmorCard(props) {
   const { data, main=false, charm=false, armor, onClick } = props
   const type = ["Head", "Chest", "Arms", "Waist", "Legs", "Charm"]
   const augDef = [66, 58, 52, 44, 38, 32, 26, 20, 58, 52, 44, 38]
+
+  const [loading, setLoading] = React.useState(true);
+  const [image, setImage] = React.useState({});
+  const handleImageLoaded = () => {
+    setLoading(false);
+  };
+
+  React.useEffect(() => {
+    const image = new Image();
+    image.onload = handleImageLoaded;
+    image.src = "/icon/" + type[armor.Type] + "/" + armor.Rarity + ".png";
+    setImage(image);
+  }, [armor]);
 
   return (
     <Paper sx={props.sx}>
@@ -18,12 +29,13 @@ export default function ArmorCard(props) {
           <ButtonBase sx={{height: "100%", width: "100%", justifyContent: "left", textAlign: "left", borderRadius: 1, border: 1, borderColor: 'text.secondary'}}
             onClick= {() => onClick(armor)}
           >
-            <Card sx={{display: "flex", height: "100%", width: "100%"}}>
+            <Card sx={{display: "flex"}}>
               <Box display="flex" alignItems="center">
-                <CardMedia  sx={{objectFit: "contain"}}
+                { loading ? <Skeleton variant="circular" width={64} height={64} /> :
+                  <CardMedia sx={{objectFit: "contain"}}
                   component="img"
-                  image={"/icon/" + type[armor.Type] + "/" + armor.Rarity + ".png"}
-                />
+                  image={image.src}
+                /> }
               </Box>
               <Box>
                 <CardContent sx={{ height: "100%", display: "flex", flexDirection: "column", p: 0.65 }}>
@@ -47,23 +59,23 @@ export default function ArmorCard(props) {
         { !(charm) &&
         <Grid item xs sx={{flexGrow: 1}}>
           <Box display="flex" flexDirection="column">
-          { armor.Slots.map((s, i, arr) => {
-            let divStyle = {justifyContent: "left", textAlign: "left", display: "flex", width: "100%", borderRadius: 1, border: 1, borderColor: 'text.disabled', p: 0.2}
-            if (!(i + 1 === arr.length)) {
-              divStyle.mb = "0.8%"
-            }
-            return (
-              <SlotDisplay
-                data={data}
-                main={main}
-                slot={s}
-                pos={i}
-                sx={divStyle}
-                type={armor.Type}
-                onClick={onClick}
-              />
-            )
-          })}
+            { armor.Slots.map((s, i, arr) => {
+              let divStyle = {justifyContent: "left", textAlign: "left", display: "flex", width: "100%", borderRadius: 1, border: 1, borderColor: 'text.disabled', p: 0.2}
+              if (!(i + 1 === arr.length)) {
+                divStyle.mb = "0.8%"
+              }
+              return (
+                <SlotDisplay
+                  data={data}
+                  main={main}
+                  slot={s}
+                  pos={i}
+                  sx={divStyle}
+                  type={armor.Type}
+                  onClick={onClick}
+                />
+              )
+            })}
           </Box>
         </Grid>}
           
