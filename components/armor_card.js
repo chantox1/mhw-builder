@@ -29,7 +29,7 @@ export default function ArmorCard(props) {
           <ButtonBase sx={{height: "100%", width: "100%", justifyContent: "left", textAlign: "left", borderRadius: 1, border: 1, borderColor: 'text.secondary'}}
             onClick= {() => onClick(armor)}
           >
-            <Card sx={{display: "flex"}}>
+            <Card sx={{display: "flex", height: "100%"}}>
               <Box display="flex" alignItems="center">
                 { loading ? <Skeleton variant="circular" width={64} height={64} /> :
                   <CardMedia sx={{objectFit: "contain"}}
