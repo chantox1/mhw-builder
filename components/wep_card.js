@@ -139,7 +139,26 @@ export default function WepCard(props) {
                   </WepStat>
 
                   {(() => {
-                    if ('Element' in wep) {
+                    if (wep.Class == 2 && wep.WepVar1 != 0) {
+                      const entry = data.dualEle[wep.WepVar1]
+                      return (
+                        <WepStat>
+                          <WepStatIcon
+                            src={"/icon/Element/" + entry.Element1 + ".png" }
+                          />
+                          <Typography mr={0.5}>
+                            { entry.Element1Dmg }
+                          </Typography>
+                          <WepStatIcon
+                            src={"/icon/Element/" + entry.Element2 + ".png" }
+                          />
+                          <Typography mr={0.5}>
+                            { entry.Element2Dmg }
+                          </Typography>
+                        </WepStat>
+                      )
+                    }
+                    else if ('Element' in wep) {
                       return (
                         <WepStat>
                           <WepStatIcon
@@ -151,7 +170,6 @@ export default function WepCard(props) {
                         </WepStat>
                       )
                     }
-
                     else if ('HiddenEle' in wep) {
                       return (
                         <WepStat>
