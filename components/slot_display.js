@@ -69,10 +69,10 @@ export default function SlotDisplay(props) {
             />
             <Sprite
               src='/icon/Slot/gems-over.png'
-              pos={[33*(slot.Size - 1),30*(slot.Deco.Color)]}
+              pos={[33*(slot.Deco.Size - 1),30*(slot.Deco.Color)]}
               width={27}
               crop={[33,30]}
-              sx={{position: 'absolute'}}
+              sx={{position: "absolute"}}
             />
             <Box alignSelf="center" ml={0.5}>
               <Typography noWrap> { data.decoString[slot.Deco.Name] } </Typography>
