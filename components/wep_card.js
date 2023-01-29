@@ -5,6 +5,14 @@ import { Typography } from '@mui/material';
 import { ButtonBase } from '@mui/material';
 import SlotDisplay from './slot_display';
 import { Skeleton } from '@mui/material';
+import { styled } from "@mui/material/styles";
+
+const CardContentNoPad = styled(CardContent)(`
+  padding: 0;
+  &:last-child {
+    padding-bottom: 0;
+  }
+`);
 
 function buttonFunction(main, onClick, val) {
   if (main) {
@@ -121,13 +129,13 @@ export default function WepCard(props) {
   let sharpBarHeight = wep.SharpNo == "5" ? 1 : 0.6
 
   return (
-    <Paper style={props.sx}>
+    <Paper sx={props.sx}>
       <Grid container columnSpacing={1} height="100%">
         <Grid item xs flexGrow={1}>
           <ButtonBase sx={{height: "100%", width: "100%", justifyContent: "left", textAlign: "left", border: 1, borderRadius: 1, borderColor: 'text.secondary'}}
             onClick= {() => buttonFunction(main, onClick, wep)}
           >
-            <Card sx={{display: "flex"}}>
+            <Card sx={{display: "flex", height: "100%"}}>
               <Box display="flex" alignItems="center">
                 { loading ? <Skeleton variant="circular" width={64} height={64} /> :
                   <CardMedia sx={{objectFit: "contain"}}
@@ -135,7 +143,8 @@ export default function WepCard(props) {
                   image={image.src}
                 /> }
               </Box>
-              <CardContent sx={{ display: "flex", flexDirection: "column", p: 0.65}}>
+              <Box>
+              <CardContentNoPad height="100%" sx={{ display: "flex", flexDirection: "column", p: 0.65 }}>
                 <Box>
                   <Typography noWrap>
                     { data.weaponString[wep.Class][wep.Name] }
@@ -247,7 +256,8 @@ export default function WepCard(props) {
                   }
                 })()}
                 
-              </CardContent>
+              </CardContentNoPad>
+              </Box>
             </Card>
           </ButtonBase>
         </Grid>
