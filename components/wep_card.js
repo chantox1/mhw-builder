@@ -214,6 +214,14 @@ export default function WepCard(props) {
                       ))}
                     </WepStat>
                   }
+                  { (wep.Class == 7) &&
+                    <WepStat sx={{ml: 0.5}}>
+                      <WepStatIcon src='/icon/shell.png'/>
+                      <Typography m={0.5}>
+                        { shellString(data, wep.WepVar1) }
+                      </Typography>
+                    </WepStat>
+                  }
                 </Box>
                 <Box display="flex" width={175} marginTop={1} marginBottom={0.5}>
                   { sharpness.map((s, i) => {
@@ -266,16 +274,6 @@ export default function WepCard(props) {
             })}
           </Box>
         </Grid>
-        { (wep.Class == 7) &&
-          <Grid item xl={2}>
-            <WepStat>
-              <WepStatIcon src='/icon/shell.png'/>
-              <Typography m={0.5}>
-                { shellString(data, wep.WepVar1) }
-              </Typography>
-            </WepStat>
-          </Grid>
-        }
         { (wep.Class == 8 || wep.Class == 9) &&
           <Grid item xl={3}>
             <WepStat>
