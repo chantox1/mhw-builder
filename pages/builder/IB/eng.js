@@ -6,6 +6,7 @@ import Builder from '../../../components/mhw';
 // Common
 import weapons from '../../../data/IB/common/wepData.json';
 import phials from '../../../data/IB/common/phials.json';
+import shelling from '../../../data/IB/common/shelling.json';
 import dualEle from '../../../data/IB/common/dualEle.json';
 import sharpness from '../../../data/IB/common/kire.json';
 import armor from '../../../data/IB/common/armor.json';
@@ -25,6 +26,7 @@ export default function IB() {
         weapons: weapons,
         weaponString: weaponString,
         phials: phials,
+        shelling: shelling,
         dualEle: dualEle,
         sharpness: sharpness,
         armor: armor,

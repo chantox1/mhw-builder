@@ -46,9 +46,23 @@ function getSharpness(data, wep) {
   return [sharpness, extra];
 }
 
+function shellString(data, shellId) {
+  const [id,lvl] = data.shelling[shellId];
+  if (id != 0) {
+    var strId = (id == 1) ? 2 : 1;
+  }
+  else {
+    var strId = id;
+  }
+  return (
+    data.statusString[79 + strId] + " " + lvl.toString()
+  )
+}
+
 function phialString(data, phialId) {
+  const id = data.phials[phialId].PhialId;
   const dmg = data.phials[phialId].PhialDmg;
-  let dmgStr = dmg == 0 ? "" : " " + dmg.toString();
+  const dmgStr = dmg == 0 ? "" : " " + dmg.toString();
   return (
     data.statusString[140 + data.phials[phialId].PhialId] + dmgStr
   )
@@ -239,6 +253,16 @@ export default function WepCard(props) {
             })}
           </Box>
         </Grid>
+        { (wep.Class == 7) &&
+          <Grid item xl={2}>
+            <WepStat>
+              <WepStatIcon src='/icon/shell.png'/>
+              <Typography m={0.5}>
+                { shellString(data, wep.WepVar1) }
+              </Typography>
+            </WepStat>
+          </Grid>
+        }
         { (wep.Class == 8 || wep.Class == 9) &&
           <Grid item xl={3}>
             <WepStat>
