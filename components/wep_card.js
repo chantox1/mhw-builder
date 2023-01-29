@@ -60,11 +60,10 @@ function shellString(data, shellId) {
 }
 
 function phialString(data, phialId) {
-  const id = data.phials[phialId].PhialId;
-  const dmg = data.phials[phialId].PhialDmg;
+  const [id, dmg] = data.phials[phialId];
   const dmgStr = dmg == 0 ? "" : " " + dmg.toString();
   return (
-    data.statusString[140 + data.phials[phialId].PhialId] + dmgStr
+    data.statusString[140 + id] + dmgStr
   );
 }
 
