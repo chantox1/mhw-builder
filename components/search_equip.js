@@ -95,6 +95,7 @@ export default function SearchDialog(props) {
 
   // Get dialog dimensions
   const [outerRef, { height }] = useMeasure();
+  const [itemRef, { itemHeight}] = useMeasure();
 
   // Store user input
   const [userInput, setInput] = React.useState("");  // This is set as the user types
@@ -191,14 +192,14 @@ export default function SearchDialog(props) {
             <FixedSizeList
               height={height}
               width="100%"
-              itemSize={height / heightMod[1] + 2}
+              itemSize={32}
               itemCount={queryData.length}
               overscanCount={10}
             >
               {({ index, style }) => {
                 var d = queryData[index]
                 return (
-                  <div style={{...style, height: (height / heightMod[1] + 2), marginBottom: 2}}>
+                  <div style={{...style, height: (32)}}>
                   <ButtonBase
                     sx={{
                       display: "flex", justifyContent: "left", textAlign: "left", width: "100%",
@@ -212,9 +213,7 @@ export default function SearchDialog(props) {
                       width={27}
                       crop={[64,64]}
                     />
-                    <Box alignSelf="center" ml={0.5}>
-                      <Typography noWrap> { data.decoString[d.Name] } </Typography>
-                    </Box>
+                    <Typography noWrap> { data.decoString[d.Name] } </Typography>
                   </ButtonBase>
                   </div>
                 )
