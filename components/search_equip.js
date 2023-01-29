@@ -13,7 +13,7 @@ import { FixedSizeList } from 'react-window';
 import { useMeasure } from 'react-use';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { range } from '../src/util';
+import Sprite from './sprite';
 
 function queryDeco(data, deco, queryString) {
   var res = data.decoString[deco.Name].toLowerCase().indexOf(queryString.toLowerCase()) > -1;
@@ -157,15 +157,15 @@ export default function SearchDialog(props) {
                     }}
                     onClick = {() => handleListItemClick({Size: equipItem.Size, Deco: d})}
                   >
-                    <Card sx={{ display: "flex", p:0.2, flexGrow: 1 }}>
-                      <CardMedia sx={{ maxWidth: 24, objectFit: "contain"}}
-                        component="img"
-                        image={"/icon/Slot/" + d.Size + ".png"}
-                      />
-                      <CardContent sx={{ p:0, '&:last-child': { pb: 0 }}}>
-                        <Typography noWrap> { data.decoString[d.Name] } </Typography>
-                      </CardContent>
-                    </Card>
+                    <Sprite
+                      src='/icon/gems.png'
+                      pos={[64*(d.Size - 1),64*d.Color]}
+                      width={27}
+                      crop={[64,64]}
+                    />
+                    <Box alignSelf="center" ml={0.5}>
+                      <Typography noWrap> { data.decoString[d.Name] } </Typography>
+                    </Box>
                   </ButtonBase>
                   </div>
                 )
