@@ -226,8 +226,7 @@ export default function SearchDialog(props) {
             { [0,3,1,2,4,5,6,7,8,9,10].map(i => {
               let sx = {border: 1, borderRadius: 1, borderColor: 'text.secondary', mr: 0.5}
               if (i == searchClass) {
-                sx.border = 2
-                sx.borderColor = 'secondary.main'
+                sx.backgroundColor = 'secondary.main'
               }
               return (
                 <WepButton
