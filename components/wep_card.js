@@ -56,7 +56,7 @@ function shellString(data, shellId) {
   }
   return (
     data.statusString[79 + strId] + " " + lvl.toString()
-  )
+  );
 }
 
 function phialString(data, phialId) {
@@ -65,7 +65,17 @@ function phialString(data, phialId) {
   const dmgStr = dmg == 0 ? "" : " " + dmg.toString();
   return (
     data.statusString[140 + data.phials[phialId].PhialId] + dmgStr
-  )
+  );
+}
+
+function kinsectString(data, bonusId) {
+  let offset = 149;
+  if (bonusId > 5) {
+    offset = 238;
+  }
+  return (
+    data.statusString[offset + bonusId]
+  );
 }
 
 const WepStat = (props) => (
@@ -265,6 +275,16 @@ export default function WepCard(props) {
               <WepStatIcon src='/icon/phial.png'/>
               <Typography m={0.5}>
                 { phialString(data, wep.WepVar1) }
+              </Typography>
+            </WepStat>
+          </Grid>
+        }
+        { (wep.Class == 10) &&
+          <Grid item xl={3}>
+            <WepStat>
+              <WepStatIcon src='/icon/kinsect.png'/>
+              <Typography m={0.5}>
+                { kinsectString(data, wep.WepVar1) }
               </Typography>
             </WepStat>
           </Grid>
