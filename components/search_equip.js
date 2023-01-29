@@ -15,6 +15,23 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Sprite from './sprite';
 
+function startsWithFirst(a, b, queryString) {
+  const aStarts = a.toLowerCase().startsWith(queryString);
+  const bStarts = b.toLowerCase().startsWith(queryString);
+  if (aStarts) {
+    if (bStarts) {
+      return a.localeCompare(b);
+    }
+    return -1;
+  }
+  else {
+    if (bStarts) {
+      return 1;
+    }
+    return a.localeCompare(b);
+  }
+}
+
 function queryDeco(data, deco, queryString) {
   var res = data.decoString[deco.Name].toLowerCase().indexOf(queryString.toLowerCase()) > -1;
   deco.Skills.forEach(s => {
@@ -27,14 +44,36 @@ function queryDeco(data, deco, queryString) {
   return res;
 }
 
-function sortDeco(data) {
+function sortDeco(data, queryString) {
   return function(a, b) {
     let comp = b.Size - a.Size
-    if (comp == 0) {
-      return data.decoString[a.Name].localeCompare(data.decoString[b.Name])
-    }
-    return comp;
-  }
+    if (comp != 0) return comp;
+    return startsWithFirst(
+      data.decoString[a.Name],
+      data.decoString[b.Name],
+      queryString
+    );
+  };
+}
+
+function sortWep(data, searchClass, queryString) {
+  return function(a, b) {
+    return startsWithFirst(
+      data.weaponString[searchClass][a.Name],
+      data.weaponString[searchClass][b.Name],
+      queryString
+    );
+  };
+}
+
+function sortArmor(data, queryString) {
+  return function(a, b) {
+    return startsWithFirst(
+      data.armorString[a.Name],
+      data.armorString[b.Name],
+      queryString
+    );
+  };
 }
 
 const WepButton = (props) => (
@@ -82,27 +121,27 @@ export default function SearchDialog(props) {
   };
 
   if (equipItem.Mode == 1) {
-    var searchLabel = "Decoration search"
+    var searchLabel = "Decoration search";
     var queryData = data.decos
     .filter(d => d.Size <= equipItem.Size)
     .filter(d => queryDeco(data, d, queryString))
-    .sort(sortDeco(data))
+    .sort(sortDeco(data, queryString));
   }
   else if (equipItem.Mode == 2) {
-    var searchLabel = "Weapon search"
+    var searchLabel = "Weapon search";
     var queryData = Object.values(data.weapons[searchClass])
     .filter(w => ( data.weaponString[searchClass][w.Name].toLowerCase().indexOf(queryString.toLowerCase()) > -1))
-    .sort((a, b) => data.weaponString[searchClass][a.Name].localeCompare(data.weaponString[searchClass][b.Name]))
+    .sort(sortWep(data, searchClass, queryString));
   }
   else {
-    var searchLabel = "Equipment search"
+    var searchLabel = "Equipment search";
     var queryData = Object.values(data.armor)
     .filter(a => a.Type == equipItem.Type)
     .filter(a => ( data.armorString[a.Name].toLowerCase().indexOf(queryString.toLowerCase()) > -1 ))
     .filter(a => ( data.armorString[a.Name].indexOf("Layered") == -1 ))
     .filter(a => ( data.armorString[a.Name].indexOf("HARDUMMY") == -1 ))
     .filter(a => ( data.armorString[a.Name].indexOf("Unavailable") == -1 ))
-    .sort((a, b) => data.armorString[a.Name].localeCompare(data.armorString[b.Name]))
+    .sort(sortArmor(data, queryString));
   }
 
   var innerStyle = {p: 1}
