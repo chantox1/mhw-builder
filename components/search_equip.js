@@ -27,6 +27,16 @@ function queryDeco(data, deco, queryString) {
   return res;
 }
 
+function sortDeco(data) {
+  return function(a, b) {
+    let comp = b.Size - a.Size
+    if (comp == 0) {
+      return data.decoString[a.Name].localeCompare(data.decoString[b.Name])
+    }
+    return comp;
+  }
+}
+
 const WepButton = (props) => (
   <ButtonBase
     onClick={() => props.onClick(props.class)}
@@ -76,7 +86,7 @@ export default function SearchDialog(props) {
     var queryData = data.decos
     .filter(d => d.Size <= equipItem.Size)
     .filter(d => queryDeco(data, d, queryString))
-    .sort((a, b) => data.decoString[a.Name].localeCompare(data.decoString[b.Name]))
+    .sort(sortDeco(data))
   }
   else if (equipItem.Mode == 2) {
     var searchLabel = "Weapon search"
