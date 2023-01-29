@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Grid } from '@mui/material';
+import { Avatar, Box, Grid } from '@mui/material';
 import { Paper, Card, CardMedia, CardContent } from '@mui/material';
 import { Typography } from '@mui/material';
 import { ButtonBase } from '@mui/material';
@@ -50,6 +50,34 @@ function phialString(data, phialId) {
   let dmgStr = dmg == 0 ? "" : " " + dmg.toString();
   return (
     data.statusString[140 + data.phials[phialId].PhialId] + dmgStr
+  )
+}
+
+const Sprite = (props) => {
+  const { src, pos, crop, size, p=0 } = props;
+  const norm = (size[0]-2*p)/crop[0]
+
+  return (
+    <Box
+      sx={{
+        ...props.sx,
+        width: size[0],
+        height: size[1],
+        padding: p
+      }}
+    >
+      <Box
+        sx={{
+          width: crop[0],
+          height: crop[1],
+          backgroundImage: `url(${src})`,
+          backgroundPosition: `${pos[0]*-1}px ${pos[1]*-1}px`,
+          backgroundRepeat: 'no-repeat',
+          transform: `scale(${norm})`,
+          transformOrigin: '0 0',
+        }}
+      />
+    </Box>
   )
 }
 
@@ -107,8 +135,13 @@ export default function WepCard(props) {
 
                 <Box display="flex">
                   <WepStat sx={{mr: 0.5}}>
-                    <WepStatIcon
-                      src="/icon/dmg.png"
+                    <Sprite
+                      src='/icon/weaponetc.png'
+                      pos={[0,0]}
+                      crop={[64,64]}
+                      size={[20,20]}
+                      p={0.25}
+                      sx={{mr: 0.3}}
                     />
                     <Typography mr={0.5}>
                       { wep.Damage }
@@ -116,8 +149,13 @@ export default function WepCard(props) {
                   </WepStat>
 
                   <WepStat sx={{mr: 0.5}}>
-                    <WepStatIcon
-                      src="/icon/aff.png"
+                  <Sprite
+                      src='/icon/weaponetc.png'
+                      pos={[64,0]}
+                      crop={[64,64]}
+                      size={[20,20]}
+                      p={0.25}
+                      sx={{mr: 0.3}}
                     />
                     <Typography mr={0.5}>
                       { wep.Affinity }%
