@@ -217,7 +217,7 @@ export default function WepCard(props) {
                   { (wep.Class == 7) &&
                     <WepStat sx={{ml: 0.5}}>
                       <WepStatIcon src='/icon/shell.png'/>
-                      <Typography m={0.5}>
+                      <Typography sx={{mr: 0.5}}>
                         { shellString(data, wep.WepVar1) }
                       </Typography>
                     </WepStat>
