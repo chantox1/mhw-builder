@@ -206,6 +206,14 @@ export default function WepCard(props) {
                       )
                     }
                   })()}
+
+                  { (wep.Class == 5) &&
+                    <WepStat sx={{ml: 0.5}}>
+                      { data.notes[wep.WepVar1].map((id, i) => (
+                        <WepStatIcon src={'/icon/Notes/' + i + '-' + id + '.png'}/>
+                      ))}
+                    </WepStat>
+                  }
                 </Box>
                 <Box display="flex" width={175} marginTop={1} marginBottom={0.5}>
                   { sharpness.map((s, i) => {
