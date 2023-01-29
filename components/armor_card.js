@@ -68,6 +68,7 @@ export default function ArmorCard(props) {
               }
               return (
                 <SlotDisplay
+                  key={i}
                   data={data}
                   main={main}
                   slot={s}

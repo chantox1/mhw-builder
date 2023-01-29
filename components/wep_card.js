@@ -210,7 +210,7 @@ export default function WepCard(props) {
                   { (wep.Class == 5) &&
                     <WepStat sx={{ml: 0.5}}>
                       { data.notes[wep.WepVar1].map((id, i) => (
-                        <WepStatIcon src={'/icon/Notes/' + i + '-' + id + '.png'}/>
+                        <WepStatIcon key={i} src={'/icon/Notes/' + i + '-' + id + '.png'}/>
                       ))}
                     </WepStat>
                   }
@@ -262,6 +262,7 @@ export default function WepCard(props) {
               }
               return (
                 <SlotDisplay
+                  key={i}
                   data={data}
                   main={main}
                   slot={s}

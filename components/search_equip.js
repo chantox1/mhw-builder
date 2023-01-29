@@ -184,6 +184,7 @@ export default function SearchDialog(props) {
               {({ index, style }) => {
                 return (
                   <WepCard
+                    key={index}
                     data={data}
                     wep={{...queryData[index], 'Class': searchClass}}
                     onClick={handleListItemClick}
@@ -205,6 +206,7 @@ export default function SearchDialog(props) {
               {({ index, style }) => {
                 return (
                   <ArmorCard
+                    key={index}
                     data={data}
                     charm={equipItem.Type == 5}
                     armor={queryData[index]}
@@ -230,6 +232,7 @@ export default function SearchDialog(props) {
               }
               return (
                 <WepButton
+                  key={i}
                   class={i}
                   onClick={setSearchClass}
                   sx={sx}
