@@ -216,7 +216,8 @@ export default function Builder(data) {
       return !output && matches ? key : output;
     }, null) || 'xs'
   ]
-  const equipBlockStyle = (breakPoint > theme.breakpoints.values.lg) ? {height: "76.5vh"} : {}
+  var equipBlockStyle = (breakPoint > theme.breakpoints.values.lg) ? {height: "76.5vh"} : {}
+  var mantleWrap = (breakPoint > theme.breakpoints.values.md) ? "nowrap" : "wrap"
 
   return (
     <div>
@@ -265,19 +266,25 @@ export default function Builder(data) {
           <Grid container spacing={"0.5vh"}>
             <Grid item xs={12} md={8}>
               <Box display="flex" flexDirection="column" sx={equipBlockStyle}>
-                <WepCard main data={data} wep={equip.Weapon} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3 }}/>
-                <ArmorCard main data={data} armor={equip.Armor[0]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3 }}/>
-                <ArmorCard main data={data} armor={equip.Armor[1]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3 }}/>
-                <ArmorCard main data={data} armor={equip.Armor[2]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3 }}/>
-                <ArmorCard main data={data} armor={equip.Armor[3]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3 }}/>
-                <ArmorCard main data={data} armor={equip.Armor[4]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3 }}/>
-                <Grid container>
-                  <Grid item xs>
-                    <ArmorCard charm data={data} armor={equip.Armor[5]} onClick={handleClickOpen} sx={{ p:0.3, mr: 0.5 }}/>
+                <WepCard main data={data} wep={equip.Weapon} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3}}/>
+                <ArmorCard main data={data} armor={equip.Armor[0]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5,p:0.3}}/>
+                <ArmorCard main data={data} armor={equip.Armor[1]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3}}/>
+                <ArmorCard main data={data} armor={equip.Armor[2]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3}}/>
+                <ArmorCard main data={data} armor={equip.Armor[3]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3}}/>
+                <ArmorCard main data={data} armor={equip.Armor[4]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3}}/>
+                <Grid container spacing={0.3}>
+                  <Grid item xs={12} lg>
+                    <ArmorCard charm data={data} armor={equip.Armor[5]} onClick={handleClickOpen} sx={{p: 0.3}}/>
                   </Grid>
-                  <Grid item xs display="flex">
-                    <MantleCard main data={data} pos={0} mantle={equip.Mantle[0]} onClick={handleClickOpen} sx={{ flexGrow: 1, height: "100%", p: 0.3, mr: 0.5 }}/>
-                    <MantleCard main data={data} pos={1} mantle={equip.Mantle[1]} onClick={handleClickOpen} sx={{ flexGrow: 1, height: "100%", p: 0.3 }}/>
+                  <Grid item xs>
+                    <Grid container wrap={mantleWrap} spacing={0.3}>
+                      <Grid item xs>
+                        <MantleCard main data={data} pos={0} mantle={equip.Mantle[0]} onClick={handleClickOpen} sx={{height: "100%", p: 0.3}}/>
+                      </Grid>
+                      <Grid item xs>
+                        <MantleCard main data={data} pos={1} mantle={equip.Mantle[1]} onClick={handleClickOpen} sx={{height: "100%", p: 0.3}}/>
+                      </Grid>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Box>
