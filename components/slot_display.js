@@ -26,8 +26,6 @@ export default function SlotDisplay(props) {
       )
     }
     else {
-      console.log("filled slot:")
-      console.log(slot.Deco)
       return (
         <ButtonBase sx={sx}
           onClick = {() => onClick({Mode: 1, Type: type, Pos: pos, Size: slot.Size, Item: slot})}
@@ -40,7 +38,7 @@ export default function SlotDisplay(props) {
               crop={[33,30]}
             />
             <Box alignSelf="center" ml={0.5}>
-              <Typography noWrap> { data.decoString[slot.Deco.Name] } </Typography>
+              <Typography noWrap mr={0.5}> { data.decoString[slot.Deco.Name] } </Typography>
             </Box>
           </Box>
         </ButtonBase>

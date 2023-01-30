@@ -41,9 +41,9 @@ export default function ArmorCard(props) {
               <Box display="flex" alignItems="center">
                 { loading ? <Skeleton variant="circular" width={64} height={64} /> :
                   <CardMedia sx={{objectFit: "contain"}}
-                  component="img"
-                  image={image.src}
-                /> }
+                    component="img"
+                    image={image.src}
+                  /> }
               </Box>
               <Box>
                 <CardContentNoPad sx={{ display: "flex", flexDirection: "column", p: 0.65 }}>

@@ -14,6 +14,7 @@ import { useMeasure } from 'react-use';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Sprite from './sprite';
+import MantleCard from './mantle_card';
 
 function startsWithFirst(a, b, queryString) {
   const aStarts = a.toLowerCase().startsWith(queryString);
@@ -95,7 +96,7 @@ export default function SearchDialog(props) {
 
   // Get dialog dimensions
   const [outerRef, { height }] = useMeasure();
-  const [itemRef, { itemHeight}] = useMeasure();
+  const [itemRef, { width: iWidth, height: iHeight }] = useMeasure();
 
   // Store user input
   const [userInput, setInput] = React.useState("");  // This is set as the user types
@@ -111,6 +112,9 @@ export default function SearchDialog(props) {
     }
     else if (equipItem.Mode == 2) {
       onClose(equipItem.Wep)
+    }
+    else if (equipItem.Mode == 3) {
+      onClose(equipItem.Mantle)
     }
     else {
       onClose(equipItem);
@@ -133,6 +137,11 @@ export default function SearchDialog(props) {
     var queryData = Object.values(data.weapons[searchClass])
     .filter(w => ( data.weaponString[searchClass][w.Name].toLowerCase().indexOf(queryString.toLowerCase()) > -1))
     .sort(sortWep(data, searchClass, queryString));
+  }
+  else if (equipItem.Mode == 3) {
+    var searchLabel = "Mantle search";
+    var queryData = Object.values(data.mantles)
+    .filter(m => ( data.mantleString[m.Name].toLowerCase().indexOf(queryString.toLowerCase()) > -1 ));
   }
   else {
     var searchLabel = "Equipment search";
@@ -188,7 +197,7 @@ export default function SearchDialog(props) {
             }}
           />
 
-          {equipItem.Mode == 1 &&
+          { equipItem.Mode == 1 &&
             <FixedSizeList
               height={height}
               width="100%"
@@ -200,21 +209,21 @@ export default function SearchDialog(props) {
                 var d = queryData[index]
                 return (
                   <div style={{...style, height: (32)}}>
-                  <ButtonBase
-                    sx={{
-                      display: "flex", justifyContent: "left", textAlign: "left", width: "100%",
-                      border: 1, borderRadius: 1, borderColor: 'text.secondary'
-                    }}
-                    onClick = {() => handleListItemClick({Size: equipItem.Size, Deco: d})}
-                  >
-                    <Sprite
-                      src='/icon/gems.png'
-                      pos={[64*(d.Size - 1),64*d.Color]}
-                      width={27}
-                      crop={[64,64]}
-                    />
-                    <Typography noWrap> { data.decoString[d.Name] } </Typography>
-                  </ButtonBase>
+                    <ButtonBase
+                      sx={{
+                        display: "flex", justifyContent: "left", textAlign: "left", width: "100%",
+                        border: 1, borderRadius: 1, borderColor: 'text.secondary'
+                      }}
+                      onClick = {() => handleListItemClick({Size: equipItem.Size, Deco: d})}
+                    >
+                      <Sprite
+                        src='/icon/gems.png'
+                        pos={[64*(d.Size - 1),64*d.Color]}
+                        width={27}
+                        crop={[64,64]}
+                      />
+                      <Typography noWrap> { data.decoString[d.Name] } </Typography>
+                    </ButtonBase>
                   </div>
                 )
               }}
@@ -235,6 +244,28 @@ export default function SearchDialog(props) {
                     key={index}
                     data={data}
                     wep={{...queryData[index], 'Class': searchClass}}
+                    onClick={handleListItemClick}
+                    sx={{...style, width: "100%", height: (height / heightMod[2]), mb: 2}}
+                  />
+                )
+              }}
+            </FixedSizeList>
+          }
+
+          { equipItem.Mode == 3 &&
+            <FixedSizeList
+              height={height}
+              width="100%"
+              itemSize={height / heightMod[2] + 2}
+              itemCount={queryData.length}
+              overscanCount={5}
+            >
+              {({ index, style }) => {
+                return (
+                  <MantleCard
+                    key={index}
+                    data={data}
+                    mantle={queryData[index]}
                     onClick={handleListItemClick}
                     sx={{...style, width: "100%", height: (height / heightMod[2]), mb: 2}}
                   />

@@ -8,6 +8,7 @@ import ModeIcon from '@mui/icons-material/Mode';
 import update from 'immutability-helper';
 import ArmorCard from './armor_card';
 import WepCard from './wep_card';
+import MantleCard from './mantle_card';
 import SearchDialog from './search_equip';
 
 function pushSkill(skillDict, skill) {
@@ -60,33 +61,87 @@ export default function Builder(data) {
     setOpen(true);
   };
 
-  const [equip, setEquip] = React.useState([
-    data.armor[0],        // Head
-    data.armor[667],      // Chest
-    data.armor[1284],     // Arms
-    data.armor[1899],     // Waist
-    data.armor[2508],     // Legs
-    data.armor[3123],     // Charm
-    {...data.weapons[0][10], 'Class': 0}
-  ]);
+  const [equip, setEquip] = React.useState({
+    "Armor": {
+      "0": data.armor[0],     // Head
+      "1": data.armor[667],   // Chest
+      "2": data.armor[1284],  // Arms
+      "3": data.armor[1899],  // Waist
+      "4": data.armor[2508],  // Legs
+      "5": data.armor[3123]   // Charm
+    },
+    "Weapon": {...data.weapons[0][10], 'Class': 0},
+    "Mantle": {
+      "0": null,
+      "1": null,
+    }
+  });
 
-  // Replaces equipped item/deco by that passed from the equip search
   const handleClose = (value) => {
     setOpen(false);
 
+    // Set slot
     if (equipItem.Mode == 1) {
-      setEquip(update(equip, {
-        [equipItem.Type]: {Slots: {[equipItem.Pos]: {$set: value}}}
-      }))
+      if (equipItem.Type <= 5) {
+        setEquip(update(equip, {
+          Armor: {
+            [equipItem.Type]: {
+              Slots: {
+                [equipItem.Pos]: {
+                  $set: value
+                }
+              }
+            }
+          }
+        }))
+      }
+      else if (equipItem.Type == 6) {
+        setEquip(update(equip, {
+          Weapon: {
+            Slots: {
+              [equipItem.Pos]: {
+                $set: value
+              }
+            }
+          }
+        }))
+      }
+      else if (equipItem.Type == 7) {
+        setEquip(update(equip, {
+          Mantle: {
+            [equipItem.Pos[0]]: {
+              Slots: {
+                [equipItem.Pos[1]]: {
+                  $set: value
+                }
+              }
+            }
+          }
+        }))
+      }
     }
+    // Set weapon
     else if (equipItem.Mode == 2) {
       setEquip(update(equip, {
-        [6]: {$set: value}
+        Weapon: {$set: value}
       }))
     }
+    // Set mantle
+    else if (equipItem.Mode == 3) {
+      setEquip(update(equip, {
+        Mantle: {
+          [equipItem.Pos]: {
+            $set: value
+          }
+        }
+      }))
+    }
+    // Set armor
     else {
       setEquip(update(equip, {
-        [value.Type]: {$set: value}
+        Armor: {
+          [value.Type]: {$set: value}
+        }
       }))
     }
   };
@@ -97,14 +152,14 @@ export default function Builder(data) {
   React.useEffect(() => {
     var tempSkills = {}
     let e = JSON.parse(JSON.stringify(equip))  // Deep clone
-    e.forEach(a => {
+    Object.values(e.Armor).forEach(a => {
       if ('SetSkill' in a) {
-        const s = [a.SetSkill, 1]
+        const s = [a.SetSkill, 1];
         pushSkill(tempSkills, s);
       }
 
       if ('Skill' in a) {
-        const s = [a.Skill, 1]
+        const s = [a.Skill, 1];
         pushSkill(tempSkills, s);
       }
 
@@ -118,6 +173,18 @@ export default function Builder(data) {
         }
       })
     });
+
+    let w = e.Weapon;
+    if ('Skill' in w) {
+      const s = [w.Skill, 1];
+      pushSkill(tempSkills, s);
+    }
+    w.Slots.forEach(sl => {
+      if (typeof(sl) != "number") {
+        sl.Deco.Skills.forEach(s => pushSkill(tempSkills, s));
+      }
+    });
+
     applySkillLvlMax(data, tempSkills);
     setMySkills(tempSkills);
   }, [equip]);
@@ -198,13 +265,21 @@ export default function Builder(data) {
           <Grid container spacing={"0.5vh"}>
             <Grid item xs={12} md={8}>
               <Box display="flex" flexDirection="column" sx={equipBlockStyle}>
-                <WepCard main data={data} wep={equip[6]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3}}/>
-                <ArmorCard main data={data} armor={equip[0]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3}}/>
-                <ArmorCard main data={data} armor={equip[1]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3}}/>
-                <ArmorCard main data={data} armor={equip[2]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3}}/>
-                <ArmorCard main data={data} armor={equip[3]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3}}/>
-                <ArmorCard main data={data} armor={equip[4]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3}}/>
-                <ArmorCard charm data={data} armor={equip[5]} onClick={handleClickOpen} sx={{ flexGrow: 1, p:0.3}}/>
+                <WepCard main data={data} wep={equip.Weapon} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3 }}/>
+                <ArmorCard main data={data} armor={equip.Armor[0]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3 }}/>
+                <ArmorCard main data={data} armor={equip.Armor[1]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3 }}/>
+                <ArmorCard main data={data} armor={equip.Armor[2]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3 }}/>
+                <ArmorCard main data={data} armor={equip.Armor[3]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3 }}/>
+                <ArmorCard main data={data} armor={equip.Armor[4]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3 }}/>
+                <Grid container>
+                  <Grid item xs>
+                    <ArmorCard charm data={data} armor={equip.Armor[5]} onClick={handleClickOpen} sx={{ p:0.3, mr: 0.5 }}/>
+                  </Grid>
+                  <Grid item xs display="flex">
+                    <MantleCard main data={data} pos={0} mantle={equip.Mantle[0]} onClick={handleClickOpen} sx={{ flexGrow: 1, height: "100%", p: 0.3, mr: 0.5 }}/>
+                    <MantleCard main data={data} pos={1} mantle={equip.Mantle[1]} onClick={handleClickOpen} sx={{ flexGrow: 1, height: "100%", p: 0.3 }}/>
+                  </Grid>
+                </Grid>
               </Box>
 
               {open &&

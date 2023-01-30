@@ -14,6 +14,7 @@ import armor from '../../../data/IB/common/armor.json';
 import decos from '../../../data/IB/common/decos.json';
 import skills from '../../../data/IB/common/skills.json';
 import skillBonus from '../../../data/IB/common/skill_bonus';
+import mantles from '../../../data/IB/common/mantles.json';
 
 // Lang
 import weaponString from '../../../data/IB/eng/wepStr.json';
@@ -21,6 +22,7 @@ import armorString from '../../../data/IB/eng/armorStr.json';
 import decoString from '../../../data/IB/eng/decoStr.json';
 import skillString from '../../../data/IB/eng/skillStr.json';
 import statusString from '../../../data/IB/eng/statusStr.json';
+import mantleString from '../../../data/IB/eng/mantleStr.json';
 
 export default function IB() {
     const data = {
@@ -39,6 +41,8 @@ export default function IB() {
         skillString: skillString,
         skillBonus: skillBonus,
         statusString: statusString,
+        mantles: mantles,
+        mantleString: mantleString,
     }
 
     React.useEffect(() => {

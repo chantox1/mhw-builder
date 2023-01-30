@@ -139,124 +139,124 @@ export default function WepCard(props) {
               <Box display="flex" alignItems="center">
                 { loading ? <Skeleton variant="circular" width={64} height={64} /> :
                   <CardMedia sx={{objectFit: "contain"}}
-                  component="img"
-                  image={image.src}
-                /> }
+                    component="img"
+                    image={image.src}
+                  /> }
               </Box>
               <Box>
-              <CardContentNoPad height="100%" sx={{ display: "flex", flexDirection: "column", p: 0.65 }}>
-                <Box>
-                  <Typography noWrap>
-                    { data.weaponString[wep.Class][wep.Name] }
-                  </Typography>
-                </Box>
-
-                <Box display="flex">
-                  <WepStat sx={{mr: 0.5}}>
-                    <WepStatIcon
-                      src="/icon/dmg.png"
-                    />
-                    <Typography mr={0.5}>
-                      { wep.Damage }
+                <CardContentNoPad height="100%" sx={{ display: "flex", flexDirection: "column", p: 0.65 }}>
+                  <Box>
+                    <Typography noWrap>
+                      { data.weaponString[wep.Class][wep.Name] }
                     </Typography>
-                  </WepStat>
+                  </Box>
 
-                  <WepStat sx={{mr: 0.5}}>
-                    <WepStatIcon
-                      src="/icon/aff.png"
-                    />
-                    <Typography mr={0.5}>
-                      { wep.Affinity }%
-                    </Typography>
-                  </WepStat>
+                  <Box display="flex">
+                    <WepStat sx={{mr: 0.5}}>
+                      <WepStatIcon
+                        src="/icon/dmg.png"
+                      />
+                      <Typography mr={0.5}>
+                        { wep.Damage }
+                      </Typography>
+                    </WepStat>
 
+                    <WepStat sx={{mr: 0.5}}>
+                      <WepStatIcon
+                        src="/icon/aff.png"
+                      />
+                      <Typography mr={0.5}>
+                        { wep.Affinity }%
+                      </Typography>
+                    </WepStat>
+
+                    {(() => {
+                      if (wep.Class == 2 && wep.WepVar1 != 0) {
+                        const entry = data.dualEle[wep.WepVar1]
+                        return (
+                          <WepStat>
+                            <WepStatIcon
+                              src={"/icon/Element/" + entry.Element1 + ".png" }
+                            />
+                            <Typography mr={0.5}>
+                              { entry.Element1Dmg }
+                            </Typography>
+                            <WepStatIcon
+                              src={"/icon/Element/" + entry.Element2 + ".png" }
+                            />
+                            <Typography mr={0.5}>
+                              { entry.Element2Dmg }
+                            </Typography>
+                          </WepStat>
+                        )
+                      }
+                      else if ('Element' in wep) {
+                        return (
+                          <WepStat>
+                            <WepStatIcon
+                              src={"/icon/Element/" + wep.Element + ".png" }
+                            />
+                            <Typography mr={0.5}>
+                              { wep.ElementDmg }
+                            </Typography>
+                          </WepStat>
+                        )
+                      }
+                      else if ('HiddenEle' in wep) {
+                        return (
+                          <WepStat>
+                            <WepStatIcon
+                              src={"/icon/Element/" + wep.HiddenEle + ".png" }
+                            />
+                            <Typography color='text.disabled' mr={0.5}>
+                              ({ wep.HiddenEleDmg })
+                            </Typography>
+                          </WepStat>
+                        )
+                      }
+                    })()}
+
+                    { (wep.Class == 5) &&
+                      <WepStat sx={{ml: 0.5}}>
+                        { data.notes[wep.WepVar1].map((id, i) => (
+                          <WepStatIcon key={i} src={'/icon/Notes/' + i + '-' + id + '.png'}/>
+                        ))}
+                      </WepStat>
+                    }
+                    { (wep.Class == 7) &&
+                      <WepStat sx={{ml: 0.5}}>
+                        <WepStatIcon src='/icon/shell.png'/>
+                        <Typography sx={{mr: 0.5}}>
+                          { shellString(data, wep.WepVar1) }
+                        </Typography>
+                      </WepStat>
+                    }
+                  </Box>
+                  <Box display="flex" width={175} marginTop={1} marginBottom={0.5}>
+                    { sharpness.map((s, i) => {
+                      return (
+                        <Box key={i} width={s} backgroundColor={sharpColors[i]} paddingTop={sharpBarHeight}/>
+                      )
+                    })}
+                    { extra.map((s, i) => {
+                      return (
+                        <Box key={i} width={s} backgroundColor={sharpColors[i]} marginTop={0.65} paddingTop={0.35}/>
+                      )
+                    })}
+                  </Box>
                   {(() => {
-                    if (wep.Class == 2 && wep.WepVar1 != 0) {
-                      const entry = data.dualEle[wep.WepVar1]
+                    if ('Skill' in wep) {
                       return (
-                        <WepStat>
-                          <WepStatIcon
-                            src={"/icon/Element/" + entry.Element1 + ".png" }
-                          />
-                          <Typography mr={0.5}>
-                            { entry.Element1Dmg }
+                        <Box>
+                          <Typography variant="caption" color="text.secondary">
+                            + { data.skillString[data.skills[wep.Skill].Name] }
                           </Typography>
-                          <WepStatIcon
-                            src={"/icon/Element/" + entry.Element2 + ".png" }
-                          />
-                          <Typography mr={0.5}>
-                            { entry.Element2Dmg }
-                          </Typography>
-                        </WepStat>
-                      )
-                    }
-                    else if ('Element' in wep) {
-                      return (
-                        <WepStat>
-                          <WepStatIcon
-                            src={"/icon/Element/" + wep.Element + ".png" }
-                          />
-                          <Typography mr={0.5}>
-                            { wep.ElementDmg }
-                          </Typography>
-                        </WepStat>
-                      )
-                    }
-                    else if ('HiddenEle' in wep) {
-                      return (
-                        <WepStat>
-                          <WepStatIcon
-                            src={"/icon/Element/" + wep.HiddenEle + ".png" }
-                          />
-                          <Typography color='text.disabled' mr={0.5}>
-                            ({ wep.HiddenEleDmg })
-                          </Typography>
-                        </WepStat>
+                        </Box>
                       )
                     }
                   })()}
-
-                  { (wep.Class == 5) &&
-                    <WepStat sx={{ml: 0.5}}>
-                      { data.notes[wep.WepVar1].map((id, i) => (
-                        <WepStatIcon key={i} src={'/icon/Notes/' + i + '-' + id + '.png'}/>
-                      ))}
-                    </WepStat>
-                  }
-                  { (wep.Class == 7) &&
-                    <WepStat sx={{ml: 0.5}}>
-                      <WepStatIcon src='/icon/shell.png'/>
-                      <Typography sx={{mr: 0.5}}>
-                        { shellString(data, wep.WepVar1) }
-                      </Typography>
-                    </WepStat>
-                  }
-                </Box>
-                <Box display="flex" width={175} marginTop={1} marginBottom={0.5}>
-                  { sharpness.map((s, i) => {
-                    return (
-                      <Box key={i} width={s} backgroundColor={sharpColors[i]} paddingTop={sharpBarHeight}/>
-                    )
-                  })}
-                  { extra.map((s, i) => {
-                    return (
-                      <Box key={i} width={s} backgroundColor={sharpColors[i]} marginTop={0.65} paddingTop={0.35}/>
-                    )
-                  })}
-                </Box>
-                {(() => {
-                  if ('Skill' in wep) {
-                    return (
-                      <Box>
-                        <Typography variant="caption" color="text.secondary">
-                          + { data.skillString[data.skills[wep.Skill].Name] }
-                        </Typography>
-                      </Box>
-                    )
-                  }
-                })()}
-                
-              </CardContentNoPad>
+                  
+                </CardContentNoPad>
               </Box>
             </Card>
           </ButtonBase>
@@ -278,7 +278,7 @@ export default function WepCard(props) {
                   slot={s}
                   pos={i}
                   sx={divStyle}
-                  type={6}  // wep is always on equip slot 6
+                  type={6}
                   onClick={onClick}
                 />
               )
