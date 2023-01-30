@@ -48,19 +48,22 @@ export default function ArmorCard(props) {
               <Box>
                 <CardContentNoPad sx={{ display: "flex", flexDirection: "column", p: 0.65 }}>
                   <Box>
-                    <Typography noWrap>
+                    <Typography noWrap mr={0.3}>
                       { data.armorString[armor.Name] }
                     </Typography>
                   </Box>
-                  { armor.Skills.map(s => {
-                    return (
-                      <div key={s[0]}>
-                      <Typography variant="caption" color="text.secondary">
-                        { data.skillString[data.skills[s[0]].Name] + " " + s[1] }
-                      </Typography>
-                      </div>
-                    )
-                  })}
+                  { armor.Skills.length > 0 &&
+                    <Box mb={0.5}>
+                      { armor.Skills.map(s => {
+                        return (
+                          <div key={s[0]}>
+                          <Typography variant="caption" color="text.secondary">
+                            { data.skillString[data.skills[s[0]].Name] + " " + s[1] }
+                          </Typography>
+                          </div>
+                        )
+                      })}
+                    </Box> }
                 </CardContentNoPad>
               </Box>
             </Card>

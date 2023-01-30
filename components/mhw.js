@@ -216,8 +216,9 @@ export default function Builder(data) {
       return !output && matches ? key : output;
     }, null) || 'xs'
   ]
-  var equipBlockStyle = (breakPoint > theme.breakpoints.values.lg) ? {height: "76.5vh"} : {}
-  var mantleWrap = (breakPoint > theme.breakpoints.values.md) ? "nowrap" : "wrap"
+  // Hacky fix for flex & minHeight
+  var equipBlockStyle = (breakPoint < theme.breakpoints.values.md) ? {} : {height: "1px", minHeight: "76.5vh"};
+  var mantleWrap = (breakPoint > theme.breakpoints.values.md) ? "nowrap" : "wrap";
 
   return (
     <div>
@@ -235,7 +236,7 @@ export default function Builder(data) {
     </Box>
 
     <Grid container wrap="wrap-reverse" spacing={1}>
-      <Grid item xs={12} sm={2.5}>
+      <Grid item xs={12} md={2.5}>
           <Paper style={{height: "82vh", overflow: 'auto'}}>
             {(() => {
                 let e = JSON.parse(JSON.stringify(mySkills));
@@ -258,7 +259,7 @@ export default function Builder(data) {
           </Paper>
       </Grid>
 
-      <Grid item xs={12} sm={9.5}>
+      <Grid item xs={12} md={9.5}>
           <Paper style={{height: "5vh", marginBottom: "0.5vh"}}>
             {/* Active effect icons */}
           </Paper>
@@ -277,12 +278,12 @@ export default function Builder(data) {
                     <ArmorCard charm data={data} armor={equip.Armor[5]} onClick={handleClickOpen} sx={{p: 0.3}}/>
                   </Grid>
                   <Grid item xs>
-                    <Grid container wrap={mantleWrap} spacing={0.3}>
-                      <Grid item xs>
-                        <MantleCard main data={data} pos={0} mantle={equip.Mantle[0]} onClick={handleClickOpen} sx={{height: "100%", p: 0.3}}/>
+                    <Grid container wrap={mantleWrap} spacing={0.3} height="100%">
+                      <Grid item>
+                        <MantleCard main data={data} pos={0} mantle={equip.Mantle[0]} onClick={handleClickOpen} sx={{flex: 1, p: 0.3}}/>
                       </Grid>
-                      <Grid item xs>
-                        <MantleCard main data={data} pos={1} mantle={equip.Mantle[1]} onClick={handleClickOpen} sx={{height: "100%", p: 0.3}}/>
+                      <Grid item>
+                        <MantleCard main data={data} pos={1} mantle={equip.Mantle[1]} onClick={handleClickOpen} sx={{flex: 1, p: 0.3}}/>
                       </Grid>
                     </Grid>
                   </Grid>
