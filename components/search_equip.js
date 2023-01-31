@@ -256,8 +256,8 @@ export default function SearchDialog(props) {
             <FixedSizeList
               height={height}
               width="100%"
-              itemSize={height / heightMod[2] + 2}
-              itemCount={queryData.length}
+              itemSize={31*3 + 2}  // TODO: fix mobile height from wrapping
+              itemCount={queryData.length + 1}
               overscanCount={5}
             >
               {({ index, style }) => {
@@ -267,7 +267,7 @@ export default function SearchDialog(props) {
                     data={data}
                     mantle={queryData[index]}
                     onClick={handleListItemClick}
-                    sx={{...style, width: "100%", height: (height / heightMod[2]), mb: 2}}
+                    sx={{...style, width: "100%", height: (93), mb: 2}}
                   />
                 )
               }}

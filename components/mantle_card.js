@@ -23,9 +23,31 @@ function buttonFunction(main, pos, onClick, val) {
   }
 }
 
+const EmptyCard = (props) => {
+  const {data, main, width, height} = props;
+  return (
+    <Box display="flex" sx={props.sx}>
+      <Box
+        width={width}
+        height={height}
+        component='img'
+        src='/icon/mantle-empty.png'
+        alignSelf="center"
+      />
+      { !main &&
+      <Box>
+        <CardContentNoPad sx={{p: 0.65}}>
+          <Typography noWrap mr={0.5}>
+            { data.statusString[31] }
+          </Typography>
+        </CardContentNoPad>
+      </Box> }
+    </Box>
+  )
+}
+
 export default function MantleCard(props) {
-  const { data, main=false, mantle, onClick } = props;
-  const pos = main ? props.pos : -1;
+  const { data, main=false, mantle, pos, onClick } = props;
 
   return (
     <Paper sx={props.sx}>
@@ -35,7 +57,8 @@ export default function MantleCard(props) {
             onClick= {() => buttonFunction(main, pos, onClick, mantle)}
           >
             <Card sx={{display: "flex", height: "100%"}}>
-              { mantle == null ? <Box width={48} height={48}/> :
+              { mantle == null ? 
+                <EmptyCard data={data} main={main} width={52} height={52}/> :
                 <Box display="flex">
                   <Sprite
                     src='/icon/mantles.png'
