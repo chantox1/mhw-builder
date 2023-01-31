@@ -38,7 +38,7 @@ export default function SlotDisplay(props) {
               crop={[33,30]}
             />
             <Box alignSelf="center" ml={0.5}>
-              <Typography noWrap mr={0.5}> { data.decoString[slot.Deco.Name] } </Typography>
+              <Typography variant='body2' noWrap mr={0.5}> { data.decoString[slot.Deco.Name] } </Typography>
             </Box>
           </Box>
         </ButtonBase>

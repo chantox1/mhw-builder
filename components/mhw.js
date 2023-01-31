@@ -274,15 +274,15 @@ export default function Builder(data) {
                 <ArmorCard main data={data} armor={equip.Armor[3]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3}}/>
                 <ArmorCard main data={data} armor={equip.Armor[4]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3}}/>
                 <Grid container spacing={0.3}>
-                  <Grid item xs={12} lg>
+                  <Grid item xs={12} xl={4}>
                     <ArmorCard charm data={data} armor={equip.Armor[5]} onClick={handleClickOpen} sx={{p: 0.3}}/>
                   </Grid>
                   <Grid item xs>
                     <Grid container wrap={mantleWrap} spacing={0.3} height="100%">
-                      <Grid item>
+                      <Grid item xl={6}>
                         <MantleCard main data={data} pos={0} mantle={equip.Mantle[0]} onClick={handleClickOpen} sx={{flex: 1, p: 0.3}}/>
                       </Grid>
-                      <Grid item>
+                      <Grid item xl={6}>
                         <MantleCard main data={data} pos={1} mantle={equip.Mantle[1]} onClick={handleClickOpen} sx={{flex: 1, p: 0.3}}/>
                       </Grid>
                     </Grid>
