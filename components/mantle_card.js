@@ -51,8 +51,8 @@ export default function MantleCard(props) {
 
   return (
     <Paper sx={props.sx}>
-      <Grid container columnSpacing={1} height="100%">
-        <Grid item xs flexGrow={1}>
+      <Grid container spacing={0.35} height="100%">
+        <Grid item xs={12} flexGrow={1}>
           <ButtonBase sx={{height: "100%", width: "100%", justifyContent: "left", textAlign: "left", border: 1, borderRadius: 1, borderColor: 'text.secondary'}}
             onClick= {() => buttonFunction(main, pos, onClick, mantle)}
           >
@@ -79,32 +79,32 @@ export default function MantleCard(props) {
             </Card>
           </ButtonBase>
         </Grid>
-          { (!(mantle == null) && (mantle.Slots.length != 0 || !main)) &&
-            <Grid item xs flexGrow={1}>
-              <Box display="flex" flexDirection="column" height="100%">
-                { mantle.Slots.map((s, i, arr) => {
-                  let len = arr.length;
-                  let divHeight = (100 / len).toString() + "%";
-                  let divStyle = {height: {divHeight}, justifyContent: "left", textAlign: "left", display: "flex", width: "100%", borderRadius: 1, border: 1, borderColor: 'text.disabled', p: 0.2}
-                  if (!(i + 1 === len)) {
-                    divStyle.mb = 0.3;
-                  }
-                  return (
-                    <SlotDisplay
-                      key={i}
-                      data={data}
-                      main={main}
-                      slot={s}
-                      pos={[pos, i]}
-                      sx={divStyle}
-                      type={7}
-                      onClick={onClick}
-                    />
-                  )})
+        { (!(mantle == null) && (mantle.Slots.length != 0)) &&
+          <Grid item xs flexGrow={1}>
+            <Box display="flex" flexDirection="column" height="100%">
+              { mantle.Slots.map((s, i, arr) => {
+                let len = arr.length;
+                let divHeight = (100 / len).toString() + "%";
+                let divStyle = {height: {divHeight}, justifyContent: "left", textAlign: "left", display: "flex", width: "100%", borderRadius: 1, border: 1, borderColor: 'text.disabled', p: 0.2}
+                if (!(i + 1 === len)) {
+                  divStyle.mb = 0.3;
                 }
-              </Box>
-            </Grid>
-          }
+                return (
+                  <SlotDisplay
+                    key={i}
+                    data={data}
+                    main={main}
+                    slot={s}
+                    pos={[pos, i]}
+                    sx={divStyle}
+                    type={7}
+                    onClick={onClick}
+                  />
+                )})
+              }
+            </Box>
+          </Grid>
+        }
       </Grid>
     </Paper>
   )

@@ -9,12 +9,15 @@ import SearchIcon from '@mui/icons-material/Search';
 import { ButtonBase } from '@mui/material';
 import { Card, CardMedia, CardContent} from '@mui/material';
 import { Grid } from '@mui/material'
+import { Switch } from '@mui/material';
 import { FixedSizeList } from 'react-window';
 import { useMeasure } from 'react-use';
 import { useTheme } from '@mui/material/styles';
+import { FormControlLabel } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Sprite from './sprite';
 import MantleCard from './mantle_card';
+
 
 function startsWithFirst(a, b, queryString) {
   const aStarts = a.toLowerCase().startsWith(queryString);
@@ -94,6 +97,11 @@ const WepButton = (props) => (
 export default function SearchDialog(props) {
   const { data, open, equipItem, searchClass, setSearchClass, onClose } = props;
 
+  const [plus, setPlus] = React.useState(true);
+  const togglePlus = (event) => {
+    setPlus(event.target.checked);
+  }
+
   // Get dialog dimensions
   const [outerRef, { height }] = useMeasure();
   const [itemRef, { width: iWidth, height: iHeight }] = useMeasure();
@@ -141,6 +149,7 @@ export default function SearchDialog(props) {
   else if (equipItem.Mode == 3) {
     var searchLabel = "Mantle search";
     var queryData = Object.values(data.mantles)
+    .filter(m => ( plus ? m.Slots.length > 0 : m.Slots.length == 0 ))
     .filter(m => ( data.mantleString[m.Name].toLowerCase().indexOf(queryString.toLowerCase()) > -1 ));
   }
   else {
@@ -256,7 +265,7 @@ export default function SearchDialog(props) {
             <FixedSizeList
               height={height}
               width="100%"
-              itemSize={31*3 + 2}  // TODO: fix mobile height from wrapping
+              itemSize={52 + 2*34 + 2}
               itemCount={queryData.length + 1}
               overscanCount={5}
             >
@@ -267,7 +276,7 @@ export default function SearchDialog(props) {
                     data={data}
                     mantle={queryData[index]}
                     onClick={handleListItemClick}
-                    sx={{...style, width: "100%", height: (93), mb: 2}}
+                    sx={{...style, height: 52 + 2*34, mb: 2}}
                   />
                 )
               }}
@@ -318,6 +327,22 @@ export default function SearchDialog(props) {
                 />
               )
             })}
+          </Box>
+        }
+        {equipItem.Mode == 3 &&
+          <Box
+            sx={{ml: 1}}
+          >
+            <FormControlLabel
+              label="+"
+              control={
+                <Switch
+                  color="secondary"
+                  checked={plus}
+                  onChange={togglePlus}
+                />
+              }
+            />
           </Box>
         }
       </Dialog>
