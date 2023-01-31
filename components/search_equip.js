@@ -1,21 +1,17 @@
 import * as React from 'react';
-import Dialog from '@mui/material/Dialog';
-import Typography from '@mui/material/Typography';
-import { Button, Container, InputAdornment, Paper, TextField } from '@mui/material';
+import { Dialog } from '@mui/material';
+import { Typography } from '@mui/material';
+import { InputAdornment, TextField, Switch, FormControlLabel } from '@mui/material';
 import { Box } from '@mui/material';
-import ArmorCard from './armor_card';
-import WepCard from './wep_card';
-import SearchIcon from '@mui/icons-material/Search';
 import { ButtonBase } from '@mui/material';
-import { Card, CardMedia, CardContent} from '@mui/material';
-import { Grid } from '@mui/material'
-import { Switch } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import SearchIcon from '@mui/icons-material/Search';
 import { FixedSizeList } from 'react-window';
 import { useMeasure } from 'react-use';
-import { useTheme } from '@mui/material/styles';
-import { FormControlLabel } from '@mui/material';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import Sprite from './sprite';
+import ArmorCard from './armor_card';
+import WepCard from './wep_card';
 import MantleCard from './mantle_card';
 
 
@@ -103,8 +99,8 @@ export default function SearchDialog(props) {
   }
 
   // Get dialog dimensions
-  const [outerRef, { height }] = useMeasure();
-  const [itemRef, { width: iWidth, height: iHeight }] = useMeasure();
+  const [outerRef, { height: oHeight }] = useMeasure();
+  const [lowerRef, { height: lHeight}] = useMeasure();
 
   // Store user input
   const [userInput, setInput] = React.useState("");  // This is set as the user types
@@ -189,9 +185,11 @@ export default function SearchDialog(props) {
     var heightMod = [4, 17, 3.2];
   }
 
+  var actualHeight = oHeight - lHeight;
+
   {/* TODO: Autofocus textfield */}
   return (
-    <Box ref={outerRef} style={{height: "75vh"}}>
+    <Box ref={outerRef} style={{height: "100%"}}>
       <Dialog maxWidth='md' onClose={handleClose} open={open}>
         <Box sx={innerStyle}>
           <TextField onChange={e => setInput(e.target.value)} sx={{mb: 1}}
@@ -208,7 +206,7 @@ export default function SearchDialog(props) {
 
           { equipItem.Mode == 1 &&
             <FixedSizeList
-              height={height}
+              height={actualHeight}
               width="100%"
               itemSize={32}
               itemCount={queryData.length}
@@ -217,7 +215,7 @@ export default function SearchDialog(props) {
               {({ index, style }) => {
                 var d = queryData[index]
                 return (
-                  <div style={{...style, height: (32)}}>
+                  <div style={{...style, height: 32}}>
                     <ButtonBase
                       sx={{
                         display: "flex", justifyContent: "left", textAlign: "left", width: "100%",
@@ -241,9 +239,9 @@ export default function SearchDialog(props) {
 
           { equipItem.Mode == 2 &&
             <FixedSizeList
-              height={height}
+              height={actualHeight}
               width="100%"
-              itemSize={height / heightMod[2] + 2}
+              itemSize={actualHeight / heightMod[2] + 2}
               itemCount={queryData.length}
               overscanCount={5}
             >
@@ -254,7 +252,7 @@ export default function SearchDialog(props) {
                     data={data}
                     wep={{...queryData[index], 'Class': searchClass}}
                     onClick={handleListItemClick}
-                    sx={{...style, width: "100%", height: (height / heightMod[2]), mb: 2}}
+                    sx={{...style, width: "100%", height: (actualHeight / heightMod[2]), mb: 2}}
                   />
                 )
               }}
@@ -263,7 +261,7 @@ export default function SearchDialog(props) {
 
           { equipItem.Mode == 3 &&
             <FixedSizeList
-              height={height}
+              height={actualHeight}
               width="100%"
               itemSize={52 + 2*34 + 2}
               itemCount={queryData.length + 1}
@@ -285,9 +283,9 @@ export default function SearchDialog(props) {
 
           { equipItem.Mode === undefined &&
             <FixedSizeList
-              height={height}
+              height={actualHeight}
               width="100%"
-              itemSize={height / heightMod[0] + 2}
+              itemSize={actualHeight / heightMod[0] + 2}
               itemCount={queryData.length}
               overscanCount={5}
             >
@@ -299,7 +297,7 @@ export default function SearchDialog(props) {
                     charm={equipItem.Type == 5}
                     armor={queryData[index]}
                     onClick={handleListItemClick}
-                    sx={{...style, width: "100%", height: (height / heightMod[0]), mb: 2}}
+                    sx={{...style, width: "100%", height: (actualHeight / heightMod[0]), mb: 2}}
                   />
                 )
               }}
@@ -308,42 +306,47 @@ export default function SearchDialog(props) {
         </Box>
 
         { equipItem.Mode == 2 &&
-          <Box
-            display="flex"
-            flexWrap="wrap"
-            sx={{ml: 1, mr: 0.5, mb: 0.5}}
-          >
-            { [0,3,1,2,4,5,6,7,8,9,10].map(i => {
-              let sx = {border: 1, borderRadius: 1, borderColor: 'text.secondary', mr: 0.5}
-              if (i == searchClass) {
-                sx.backgroundColor = 'secondary.main'
-              }
-              return (
-                <WepButton
-                  key={i}
-                  class={i}
-                  onClick={setSearchClass}
-                  sx={sx}
-                />
-              )
-            })}
-          </Box>
+          <div ref={lowerRef}>
+            <Box
+              display="flex"
+              flexWrap="wrap"
+              sx={{ml: 1, mr: 0.5, mb: 0.5}}
+            >
+              { [0,3,1,2,4,5,6,7,8,9,10].map(i => {
+                let sx = {border: 1, borderRadius: 1, borderColor: 'text.secondary', mr: 0.5}
+                if (i == searchClass) {
+                  sx.backgroundColor = 'secondary.main'
+                }
+                return (
+                  <WepButton
+                    key={i}
+                    class={i}
+                    onClick={setSearchClass}
+                    sx={sx}
+                  />
+                )
+              })}
+            </Box>
+          </div>
         }
         {equipItem.Mode == 3 &&
-          <Box
-            sx={{ml: 1}}
-          >
-            <FormControlLabel
-              label="+"
-              control={
-                <Switch
-                  color="secondary"
-                  checked={plus}
-                  onChange={togglePlus}
-                />
-              }
-            />
-          </Box>
+          <div ref={lowerRef}>
+            <Box
+              ref={lowerRef}
+              sx={{ml: 1}}
+            >
+              <FormControlLabel
+                label="+"
+                control={
+                  <Switch
+                    color="secondary"
+                    checked={plus}
+                    onChange={togglePlus}
+                  />
+                }
+              />
+            </Box>
+          </div>
         }
       </Dialog>
     </Box>

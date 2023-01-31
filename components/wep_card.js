@@ -5,14 +5,6 @@ import { Typography } from '@mui/material';
 import { ButtonBase } from '@mui/material';
 import SlotDisplay from './slot_display';
 import { Skeleton } from '@mui/material';
-import { styled } from "@mui/material/styles";
-
-const CardContentNoPad = styled(CardContent)(`
-  padding: 0;
-  &:last-child {
-    padding-bottom: 0;
-  }
-`);
 
 function buttonFunction(main, onClick, val) {
   if (main) {
@@ -25,7 +17,7 @@ function buttonFunction(main, onClick, val) {
 
 function getSharpness(data, wep) {
   var sharpness = [];
-  const delta = parseInt(wep.SharpNo) * 50;   // TODO: redump with int
+  const delta = parseInt(wep.SharpNo) * 50;  // TODO: redump with int
   const max = 150 + delta;
   let len = 0;
   let i = 0;
@@ -144,7 +136,7 @@ export default function WepCard(props) {
                   /> }
               </Box>
               <Box>
-                <CardContentNoPad height="100%" sx={{ display: "flex", flexDirection: "column", p: 0.65 }}>
+                <CardContent variant='nopad' height="100%" sx={{ display: "flex", flexDirection: "column", p: 0.65 }}>
                   <Box>
                     <Typography noWrap>
                       { data.weaponString[wep.Class][wep.Name] }
@@ -256,7 +248,7 @@ export default function WepCard(props) {
                     }
                   })()}
                   
-                </CardContentNoPad>
+                </CardContent>
               </Box>
             </Card>
           </ButtonBase>

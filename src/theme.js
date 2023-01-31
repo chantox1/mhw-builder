@@ -38,6 +38,19 @@ const theme = createTheme({
   },
   shadows: shadows.map(() => 'none'),
   components: {
+    MuiCardContent: {
+      variants: [
+        {
+          props: { variant: 'nopad'},
+          style: {
+            padding: 0,
+            "&:last-child": {
+              paddingBottom: 0
+            }
+          }
+        }
+      ]
+    },
     MuiCssBaseline: {
       styleOverrides: {
         body: {

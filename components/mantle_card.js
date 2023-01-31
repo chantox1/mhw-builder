@@ -7,13 +7,6 @@ import SlotDisplay from './slot_display';
 import Sprite from './sprite';
 import { styled } from "@mui/material/styles";
 
-const CardContentNoPad = styled(CardContent)(`
-  padding: 0;
-  &:last-child {
-    padding-bottom: 0;
-  }
-`);
-
 function buttonFunction(main, pos, onClick, val) {
   if (main) {
     onClick({Mode: 3, Pos: pos, Mantle: val})
@@ -36,11 +29,11 @@ const EmptyCard = (props) => {
       />
       { !main &&
       <Box>
-        <CardContentNoPad sx={{p: 0.65}}>
+        <CardContent variant='nopad' sx={{p: 0.65}}>
           <Typography noWrap mr={0.5}>
             { data.statusString[31] }
           </Typography>
-        </CardContentNoPad>
+        </CardContent>
       </Box> }
     </Box>
   )
@@ -68,11 +61,11 @@ export default function MantleCard(props) {
                     sx={{alignSelf: "center"}}
                   />
                   <Box>
-                    <CardContentNoPad sx={{p: 0.65}}>
+                    <CardContent variant='nopad' sx={{p: 0.65}}>
                       <Typography noWrap mr={0.5}>
                         { data.mantleString[mantle.Name] }
                       </Typography>
-                    </CardContentNoPad>
+                    </CardContent>
                   </Box>
                 </Box>
               }

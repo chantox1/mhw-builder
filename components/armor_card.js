@@ -5,13 +5,6 @@ import SlotDisplay from './slot_display';
 import { Skeleton } from '@mui/material';
 import { styled } from "@mui/material/styles";
 
-const CardContentNoPad = styled(CardContent)(`
-  padding: 0;
-  &:last-child {
-    padding-bottom: 0;
-  }
-`);
-
 export default function ArmorCard(props) {
   const { data, main=false, charm=false, armor, onClick } = props
   const type = ["Head", "Chest", "Arms", "Waist", "Legs", "Charm"]
@@ -46,7 +39,7 @@ export default function ArmorCard(props) {
                   /> }
               </Box>
               <Box>
-                <CardContentNoPad sx={{ display: "flex", flexDirection: "column", p: 0.65 }}>
+                <CardContent variant='nopad' sx={{ display: "flex", flexDirection: "column", p: 0.65 }}>
                   <Box>
                     <Typography noWrap mr={0.3}>
                       { data.armorString[armor.Name] }
@@ -64,7 +57,7 @@ export default function ArmorCard(props) {
                         )
                       })}
                     </Box> }
-                </CardContentNoPad>
+                </CardContent>
               </Box>
             </Card>
           </ButtonBase>
