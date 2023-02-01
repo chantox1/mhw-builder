@@ -27,14 +27,13 @@ const EmptyCard = (props) => {
         src='/icon/mantle-empty.png'
         alignSelf="center"
       />
-      { !main &&
       <Box>
         <CardContent variant='nopad' sx={{p: 0.65}}>
-          <Typography noWrap mr={0.5}>
+          <Typography color='text.disabled' noWrap mr={0.5}>
             { data.statusString[31] }
           </Typography>
         </CardContent>
-      </Box> }
+      </Box>
     </Box>
   )
 }
