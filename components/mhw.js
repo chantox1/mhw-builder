@@ -9,6 +9,7 @@ import update from 'immutability-helper';
 import ArmorCard from './armor_card';
 import WepCard from './wep_card';
 import MantleCard from './mantle_card';
+import SkillCard from './skill_card';
 import SearchDialog from './search_equip';
 
 function pushSkill(skillDict, skill) {
@@ -237,20 +238,17 @@ export default function Builder(data) {
 
     <Grid container wrap="wrap-reverse" spacing={1}>
       <Grid item xs={12} md={2.5}>
-          <Paper style={{height: "82vh", overflow: 'auto'}}>
+          <Paper sx={{height: "82vh", overflow: 'auto', p: 0.3}}>
             {(() => {
                 let e = JSON.parse(JSON.stringify(mySkills));
                 return (
                   Object.values(e)
-                  .sort((a, b) => (a[1] - b[1]))
-                  .reverse()
+                  .sort((a, b) => (b[1] - a[1]))
                   .map(s => {
                     const [id, lvl] = s;
                     return (
                       <div key={id}>
-                      <Typography>
-                        { data.skillString[data.skills[id].Name] + " " + lvl }
-                      </Typography>
+                        <SkillCard data={data} skill={s} sx={{mb: 0.3}}/>
                       </div>
                     )
                   })

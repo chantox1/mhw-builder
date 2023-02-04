@@ -13,6 +13,7 @@ import sharpness from '../../../data/IB/common/kire.json';
 import armor from '../../../data/IB/common/armor.json';
 import decos from '../../../data/IB/common/decos.json';
 import skills from '../../../data/IB/common/skills.json';
+import skillColor from '../../../data/IB/common/skillColor.json';
 import skillBonus from '../../../data/IB/common/skill_bonus';
 import mantles from '../../../data/IB/common/mantles.json';
 
@@ -38,6 +39,7 @@ export default function IB() {
         decos: decos,
         decoString: decoString,
         skills: skills,
+        skillColor: skillColor,
         skillString: skillString,
         skillBonus: skillBonus,
         statusString: statusString,
