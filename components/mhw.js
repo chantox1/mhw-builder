@@ -13,7 +13,7 @@ import WepCard from './wep_card';
 import MantleCard from './mantle_card';
 import SkillCard from './skill_card';
 import SearchDialog from './search_equip';
-import { useScreenshot, createFileName } from "use-react-screenshot";
+import { useScreenshot, createFileName } from 'use-react-screenshot';
 
 function pushSkill(skillDict, skill) {
   const [id, lvl] = skill;
@@ -53,7 +53,7 @@ function applySkillLvlMax(data, skillDict) {
 
 export default function Builder(data) {
   const screenshotRef = React.useRef(null);
-  const [image, takeScreenShot] = useScreenshot();
+  const [image, takeScreenShot] = useScreenshot({scale: 2});
 
   const download = (image, { name = "img", extension = "png" } = {}) => {
     const a = document.createElement("a");

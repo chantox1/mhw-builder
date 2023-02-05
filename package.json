@@ -25,7 +25,7 @@
     "react-jsx-parser": "^1.29.0",
     "react-use": "^17.4.0",
     "react-window": "^1.8.8",
-    "use-react-screenshot": "^3.0.0"
+    "use-react-screenshot": "https://github.com/chantox1/use-react-screenshot/tarball/master"
   },
   "devDependencies": {
     "eslint": "latest",
