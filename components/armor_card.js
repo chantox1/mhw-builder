@@ -3,7 +3,6 @@ import { Box, Paper, Grid, ButtonBase, Typography } from '@mui/material';
 import { Card, CardMedia, CardContent } from '@mui/material';
 import SlotDisplay from './slot_display';
 import { Skeleton } from '@mui/material';
-import { styled } from "@mui/material/styles";
 
 export default function ArmorCard(props) {
   const { data, main=false, charm=false, armor, onClick } = props

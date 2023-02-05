@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { Box, Grid } from '@mui/material';
-import { Paper, Card, CardMedia, CardContent } from '@mui/material';
+import { Paper, Card, CardContent } from '@mui/material';
 import { Typography } from '@mui/material';
 import { ButtonBase } from '@mui/material';
 import SlotDisplay from './slot_display';
 import Sprite from './sprite';
-import { styled } from "@mui/material/styles";
 
 function buttonFunction(main, pos, onClick, val) {
   if (main) {

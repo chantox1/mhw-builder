@@ -1,12 +1,7 @@
 import * as React from 'react';
-import { Box, Grid } from '@mui/material';
-import { Paper, Card, CardMedia, CardContent } from '@mui/material';
+import { Box } from '@mui/material';
 import { Typography } from '@mui/material';
-import { ButtonBase } from '@mui/material';
-import SlotDisplay from './slot_display';
 import Sprite from './sprite';
-import { Toolbar } from '@mui/material'
-import Image from 'next/image'
 
 function lvlIcon(mode) {
   var sx = {};
@@ -31,7 +26,7 @@ function lvlIcon(mode) {
     <Box
       component="img"
       src={src}
-      sx={{...sx, position: 'relative', right: 86}}
+      sx={{...sx, position: 'relative', right: 87}}
     />
   )
 }
