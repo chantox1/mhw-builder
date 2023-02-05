@@ -52,20 +52,20 @@ function applySkillLvlMax(data, skillDict) {
 }
 
 export default function Builder(data) {
-  const ref = React.useRef(null);
-  const [image, takeScreenShot] = useScreenshot({
-    type: "image/jpeg",
-    quality: 1.0
-  });
+  const screenshotRef = React.useRef(null);
+  const [image, takeScreenShot] = useScreenshot();
 
-  const download = (image, { name = "img", extension = "jpg" } = {}) => {
+  const download = (image, { name = "img", extension = "png" } = {}) => {
     const a = document.createElement("a");
     a.href = image;
     a.download = createFileName(extension, name);
     a.click();
   };
 
-  const downloadScreenshot = () => takeScreenShot(ref.current).then(download);
+  const getImage = () => {
+    takeScreenShot(screenshotRef.current)
+    .then((img) => download(img, {name: "New set"}))
+  };
 
   const [open, setOpen] = React.useState(false);
   const [equipItem, setEquipItem] = React.useState()
@@ -256,13 +256,13 @@ export default function Builder(data) {
       <Toolbar>
         <ModeIcon sx={{ mr: 2 }}/>
         <Typography variant="h5" flex={1}> New Set (placeholder) </Typography>
-        <IconButton edge="start" color="inherit" aria-label="menu" onClick={downloadScreenshot}>
+        <IconButton edge="start" color="inherit" aria-label="menu" onClick={getImage}>
           <PhotoCameraIcon />
         </IconButton>
       </Toolbar>
     </Box>
 
-    <Grid ref={ref} backgroundColor="background.default" container wrap="wrap-reverse" spacing={1}>
+    <Grid ref={screenshotRef} backgroundColor="background.default" container wrap="wrap-reverse" spacing={1}>
       <Grid item xs={12} lg={2}>
           <Paper sx={{height: "83vh", overflow: 'auto', p: 0.3}}>
             {(() => {
