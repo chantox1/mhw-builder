@@ -1,16 +1,19 @@
 import * as React from 'react';
 import { Box, Grid } from '@mui/material';
 import { Paper, Toolbar } from '@mui/material';
+import { IconButton } from '@mui/material';
 import { Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import ModeIcon from '@mui/icons-material/Mode';
+import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import update from 'immutability-helper';
 import ArmorCard from './armor_card';
 import WepCard from './wep_card';
 import MantleCard from './mantle_card';
 import SkillCard from './skill_card';
 import SearchDialog from './search_equip';
+import { useScreenshot, createFileName } from "use-react-screenshot";
 
 function pushSkill(skillDict, skill) {
   const [id, lvl] = skill;
@@ -49,6 +52,21 @@ function applySkillLvlMax(data, skillDict) {
 }
 
 export default function Builder(data) {
+  const ref = React.useRef(null);
+  const [image, takeScreenShot] = useScreenshot({
+    type: "image/jpeg",
+    quality: 1.0
+  });
+
+  const download = (image, { name = "img", extension = "jpg" } = {}) => {
+    const a = document.createElement("a");
+    a.href = image;
+    a.download = createFileName(extension, name);
+    a.click();
+  };
+
+  const downloadScreenshot = () => takeScreenShot(ref.current).then(download);
+
   const [open, setOpen] = React.useState(false);
   const [equipItem, setEquipItem] = React.useState()
   const [searchClass, setSearchClass] = React.useState(0);
@@ -237,11 +255,14 @@ export default function Builder(data) {
     >
       <Toolbar>
         <ModeIcon sx={{ mr: 2 }}/>
-        <Typography variant="h5"> New Set (placeholder) </Typography>
+        <Typography variant="h5" flex={1}> New Set (placeholder) </Typography>
+        <IconButton edge="start" color="inherit" aria-label="menu" onClick={downloadScreenshot}>
+          <PhotoCameraIcon />
+        </IconButton>
       </Toolbar>
     </Box>
 
-    <Grid container wrap="wrap-reverse" spacing={1}>
+    <Grid ref={ref} backgroundColor="background.default" container wrap="wrap-reverse" spacing={1}>
       <Grid item xs={12} lg={2}>
           <Paper sx={{height: "83vh", overflow: 'auto', p: 0.3}}>
             {(() => {

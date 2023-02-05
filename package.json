@@ -24,7 +24,8 @@
     "react-dom": "latest",
     "react-jsx-parser": "^1.29.0",
     "react-use": "^17.4.0",
-    "react-window": "^1.8.8"
+    "react-window": "^1.8.8",
+    "use-react-screenshot": "^3.0.0"
   },
   "devDependencies": {
     "eslint": "latest",
