@@ -39,8 +39,9 @@ function applySkillLvlMax(data, skillDict) {
         }
       }
     }
-    let max = secret ? s.MaxSecret : s.Max;
+    skillDict[key][2] = secret;
 
+    let max = secret ? s.MaxSecret : s.Max;
     if (lvl > max) {
       skillDict[key][1] = max;
     }
@@ -159,11 +160,6 @@ export default function Builder(data) {
         pushSkill(tempSkills, s);
       }
 
-      if ('Skill' in a) {
-        const s = [a.Skill, 1];
-        pushSkill(tempSkills, s);
-      }
-
       if ('Skills' in a) {
         a.Skills.forEach(s => pushSkill(tempSkills, s));
       }
@@ -218,8 +214,8 @@ export default function Builder(data) {
     }, null) || 'xs'
   ]
   // Hacky fix for flex & minHeight
-  var equipBlockStyle = (breakPoint < theme.breakpoints.values.md) ? {} : {height: "1px", minHeight: "76.5vh"};
-  var mantleWrap = (breakPoint > theme.breakpoints.values.md) ? "nowrap" : "wrap";
+  var equipBlockStyle = (breakPoint < theme.breakpoints.values.lg) ? {} : {height: "1px", minHeight: "76.5vh"};
+  var mantleWrap = (breakPoint > theme.breakpoints.values.lg) ? "nowrap" : "wrap";
 
   return (
     <div>
@@ -237,7 +233,7 @@ export default function Builder(data) {
     </Box>
 
     <Grid container wrap="wrap-reverse" spacing={1}>
-      <Grid item xs={12} md={2.5}>
+      <Grid item xs={12} lg={2}>
           <Paper sx={{height: "82vh", overflow: 'auto', p: 0.3}}>
             {(() => {
                 let e = JSON.parse(JSON.stringify(mySkills));
@@ -257,7 +253,7 @@ export default function Builder(data) {
           </Paper>
       </Grid>
 
-      <Grid item xs={12} md={9.5}>
+      <Grid item xs={12} lg={10}>
           <Paper style={{height: "5vh", marginBottom: "0.5vh"}}>
             {/* Active effect icons */}
           </Paper>
