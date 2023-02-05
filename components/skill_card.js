@@ -43,7 +43,7 @@ export default function SkillCard(props) {
   console.log(s)
 
   const skillsFilled = [];
-  var lvlTextStyle = {}
+  var lvlTextStyle = {mr: 0.3}
   var i=0;
   if (secret) {
     var full = (lvl < s.Max) ? lvl : s.Max;

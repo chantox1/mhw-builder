@@ -189,7 +189,7 @@ export default function SearchDialog(props) {
 
   {/* TODO: Autofocus textfield */}
   return (
-    <Box ref={outerRef} style={{height: "100%"}}>
+    <Box ref={outerRef} style={{height: "75vh", position: "absolute"}}>
       <Dialog maxWidth='md' onClose={handleClose} open={open}>
         <Box sx={innerStyle}>
           <TextField onChange={e => setInput(e.target.value)} sx={{mb: 1}}

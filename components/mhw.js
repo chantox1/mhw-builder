@@ -218,7 +218,16 @@ export default function Builder(data) {
   var mantleWrap = (breakPoint > theme.breakpoints.values.lg) ? "nowrap" : "wrap";
 
   return (
-    <div>
+    <Box>
+    {open &&
+      <SearchDialog
+        data={data}
+        open={open}
+        equipItem={equipItem}
+        searchClass={searchClass}
+        setSearchClass={setSearchClass}
+        onClose={handleClose}
+      />}
 
     <Box
       sx={{
@@ -262,11 +271,11 @@ export default function Builder(data) {
             <Grid item xs={12} md={8}>
               <Box display="flex" flexDirection="column" sx={equipBlockStyle}>
                 <WepCard main data={data} wep={equip.Weapon} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3}}/>
-                <ArmorCard main data={data} armor={equip.Armor[0]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5,p:0.3}}/>
-                <ArmorCard main data={data} armor={equip.Armor[1]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3}}/>
-                <ArmorCard main data={data} armor={equip.Armor[2]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3}}/>
-                <ArmorCard main data={data} armor={equip.Armor[3]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3}}/>
-                <ArmorCard main data={data} armor={equip.Armor[4]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3}}/>
+                <ArmorCard main data={data} armor={equip.Armor[0]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3, height: 1}}/>
+                <ArmorCard main data={data} armor={equip.Armor[1]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3, height: 1}}/>
+                <ArmorCard main data={data} armor={equip.Armor[2]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3, height: 1}}/>
+                <ArmorCard main data={data} armor={equip.Armor[3]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3, height: 1}}/>
+                <ArmorCard main data={data} armor={equip.Armor[4]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3, height: 1}}/>
                 <Grid container spacing={0.3}>
                   <Grid item xs={12} xl={4}>
                     <ArmorCard charm data={data} armor={equip.Armor[5]} onClick={handleClickOpen} sx={{p: 0.3}}/>
@@ -283,16 +292,6 @@ export default function Builder(data) {
                   </Grid>
                 </Grid>
               </Box>
-
-              {open &&
-              <SearchDialog
-                data={data}
-                open={open}
-                equipItem={equipItem}
-                searchClass={searchClass}
-                setSearchClass={setSearchClass}
-                onClose={handleClose}
-              />}
             </Grid>
 
             <Grid item xs={12} md={4}>
@@ -306,6 +305,6 @@ export default function Builder(data) {
           </Grid>
       </Grid>
     </Grid>
-    </div>
+    </Box>
   );
 }
