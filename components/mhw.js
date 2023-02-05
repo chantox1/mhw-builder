@@ -214,7 +214,7 @@ export default function Builder(data) {
     }, null) || 'xs'
   ]
   // Hacky fix for flex & minHeight
-  var equipBlockStyle = (breakPoint < theme.breakpoints.values.lg) ? {} : {height: "1px", minHeight: "76.5vh"};
+  var equipBlockStyle = (breakPoint < theme.breakpoints.values.lg) ? {} : {height: "1px", minHeight: "77.5vh"};
   var mantleWrap = (breakPoint > theme.breakpoints.values.lg) ? "nowrap" : "wrap";
 
   return (
@@ -234,7 +234,7 @@ export default function Builder(data) {
 
     <Grid container wrap="wrap-reverse" spacing={1}>
       <Grid item xs={12} lg={2}>
-          <Paper sx={{height: "82vh", overflow: 'auto', p: 0.3}}>
+          <Paper sx={{height: "83vh", overflow: 'auto', p: 0.3}}>
             {(() => {
                 let e = JSON.parse(JSON.stringify(mySkills));
                 return (
@@ -299,7 +299,7 @@ export default function Builder(data) {
               <Paper style={{height: "13vh", marginBottom: "0.5vh"}}>
                 {/* Safi/Gun mod zone */}
               </Paper>
-              <Paper style={{height: "63vh", padding: "1vh"}}>
+              <Paper style={{height: "64vh", padding: "1vh"}}>
                 {/* Calcs */}
               </Paper>
             </Grid>

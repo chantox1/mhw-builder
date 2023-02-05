@@ -89,7 +89,7 @@ export default function SkillCard(props) {
       <Sprite
         src='/icon/gems.png'
         pos={[256 + 64*data.skillColor[id].Set, 64*data.skillColor[id].Color]}
-        width={27}
+        width={32}
         crop={[64,64]}
         sx={{alignSelf: "center", mr: 0.5}}
       />
