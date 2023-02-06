@@ -1,31 +1,34 @@
 /*
 Classes:
-    0: Base attack bonus
-    1: Base attack mult
-    2: Attack bonus
-    3: Post-cap Attack mult
-    
-    4: Affinity bonus
-    5: Set crit dmg
+  0: Free element / TODO: Ammo up
 
-    6: Base ele mult (percentage)
-    7: Ele bonus
-    8: Pre-cap ele mult
-    9: Post-cap ele mult
-    10: Set ele crit dmg
+  1: Base attack bonus
+  2: Base attack mult
+  3: Attack bonus
+  4: Post-cap Attack mult
+  
+  5: Affinity bonus
+  6: Set crit dmg
+
+  7: Base ele mult (percentage)
+  8: Ele bonus
+  9: Pre-cap ele mult
+  10: Post-cap ele mult
+
+  11: Set ele crit dmg
 */
 
 const skillBonus = {
   19: [ // Attack boost
     {   
       effect: {
-        class: 2, 
+        class: 3, 
         param: 1
       },
     },
     {
       effect: {
-        class: 4,
+        class: 5,
         param: 2
       }
     }
@@ -34,14 +37,14 @@ const skillBonus = {
     {
       cond: arg => {return arg == 1},
       effect: {
-        class: 7, 
+        class: 8, 
         param: 1,
       }
     },
     {
       cond: arg => {return arg == 1},
       effect: {
-        class: 6,
+        class: 7,
         param: 2,
       }
     }
@@ -50,14 +53,14 @@ const skillBonus = {
     {   
       cond: arg => {return arg == 2},
       effect: {
-        class: 7,
+        class: 8,
         param: 1,
       }
     },
     {
       cond: arg => {return arg == 2},
       effect: {
-        class: 6,
+        class: 7,
         param: 2,
       }
     }
@@ -66,14 +69,14 @@ const skillBonus = {
     {
       cond: arg => {return arg == 3},
       effect: {
-        class: 7, 
+        class: 8, 
         param: 1,
       }
     },
     {
       cond: arg => {return arg == 3},
       effect: {
-        class: 6,
+        class: 7,
         param: 2,
       }
     }
@@ -82,14 +85,14 @@ const skillBonus = {
     {
       cond: arg => {return arg == 4},
       effect: {
-        class: 7, 
+        class: 8, 
         param: 1,
       }
     },
     {
       cond: arg => {return arg == 4},
       effect: {
-        class: 6,
+        class: 7,
         param: 2,
       }
     }
@@ -98,14 +101,14 @@ const skillBonus = {
     {
       cond: arg => {return arg == 5},
       effect: {
-        class: 7, 
+        class: 8, 
         param: 1,
       }
     },
     {
       cond: arg => {return arg == 5},
       effect: {
-        class: 6,
+        class: 7,
         param: 2,
       }
     }
@@ -114,14 +117,14 @@ const skillBonus = {
     {
       cond: arg => {return arg == 6},
       effect: {
-        class: 7, 
+        class: 8, 
         value: 10,
       }
     },
     {
       cond: arg => {return arg == 6},
       effect: {
-        class: 6,
+        class: 7,
         param: 1,
       }
     }
@@ -130,14 +133,14 @@ const skillBonus = {
     {
       cond: arg => {return arg == 7},
       effect: {
-        class: 7, 
+        class: 8, 
         value: 10,
       }
     },
     {
       cond: arg => {return arg == 7},
       effect: {
-        class: 6,
+        class: 7,
         param: 1,
       }
     }
@@ -146,14 +149,14 @@ const skillBonus = {
     {
       cond: arg => {return arg == 8},
       effect: {
-        class: 7, 
+        class: 8, 
         value: 10,
       }
     },
     {
       cond: arg => {return arg == 8},
       effect: {
-        class: 6,
+        class: 7,
         param: 1,
       }
     }
@@ -162,22 +165,30 @@ const skillBonus = {
     {   
       cond: arg => {return arg == 9},
       effect: {
-        class: 7, 
+        class: 8, 
         value: 10,
       }
     },
     {
       cond: arg => {return arg == 9},
       effect: {
-        class: 6,
+        class: 7,
         param: 1,
+      }
+    }
+  ],
+  47: [ // Free elem / TODO: ammo up
+    {
+      effect: {
+        class: 0,
+        param: 1
       }
     }
   ],
   48: [ // Critical eye
     {   
       effect: {
-        class: 4, 
+        class: 5, 
         param: 1
       }
     }
@@ -185,7 +196,7 @@ const skillBonus = {
   49: [ // Critical boost
     {   
       effect: {
-        class: 5, 
+        class: 6, 
         param: 1
       }
     }
@@ -194,7 +205,7 @@ const skillBonus = {
     {
       cond: arg => {return arg == 0},
       effect: {
-        class: 1,
+        class: 2,
         value: 105
       }
     }

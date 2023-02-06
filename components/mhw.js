@@ -222,6 +222,7 @@ export default function Builder(data) {
 
   React.useEffect(() => {
     let e = JSON.parse(JSON.stringify(mySkills));
+
     const classNo = 50;  // TODO: Set proper size
     let bonusBucket = Array.from(Array(classNo), () => new Array())
     for (const key in e) {
@@ -232,24 +233,43 @@ export default function Builder(data) {
         }
       }
     }
-    console.log(mySkills);
     console.log(bonusBucket);
 
     let calcs = {
       "Attack": myAttack,
       "Affinity": myAffinity,
+      "Element": myEle,
       "EleDmg": myEleDmg,
     }
+
+    let eleDmgCap = Math.max(myEleDmg * 1.6, myEleDmg + 15);
 
     for (var i=0; i < classNo; i++) {
       var sum = 0;
       var mult = 1;
       const bonusPackage = bonusBucket[i];
       switch(i) {
-        case 1:
+        case 0:
           bonusPackage.forEach(s => {
             const [id, bonus] = s;
-            if (!('cond' in bonus) || bonus.cond(myEle)) {
+            const lvl = mySkills[id][1];
+            sum += data.skills[id].Params[lvl - 1][bonus.effect.param]
+            console.log("free elem sum:")
+            console.log(sum)
+          })
+          if (sum > 0) {
+            if ('HiddenEle' in equip.Weapon) {
+              calcs.Element = equip.Weapon.HiddenEle;
+              let freeEle = (equip.Weapon.HiddenEleDmg * sum/3);
+              eleDmgCap = Math.max(freeEle * 1.6, freeEle + 15);
+              calcs.EleDmg = freeEle
+            }
+          }
+          break;
+        case 2:
+          bonusPackage.forEach(s => {
+            const [id, bonus] = s;
+            if (!('cond' in bonus) || bonus.cond(calcs.EleDmg)) {
               if ('param' in bonus.effect) {
                 const lvl = mySkills[id][1];
                 mult *= (data.skills[id].Params[lvl - 1][bonus.effect.param]/100);
@@ -261,7 +281,7 @@ export default function Builder(data) {
           })
           calcs.Attack *= mult;
           break;
-        case 2:
+        case 3:
           bonusPackage.forEach(s => {
             const [id, bonus] = s;
             const lvl = mySkills[id][1];
@@ -269,12 +289,12 @@ export default function Builder(data) {
           })
           calcs.Attack += sum;
           break;
-        case 3:
+        case 4:
           // TODO: Post-cap attack mult
           calcs.Attack *= mult;
           calcs.Attack = Math.round(calcs.Attack);
           break;
-        case 4:
+        case 5:
           bonusPackage.forEach(s => {
             const [id, bonus] = s;
             const lvl = mySkills[id][1];
@@ -282,7 +302,7 @@ export default function Builder(data) {
           })
           calcs.Affinity += sum;
           break;
-        case 6:
+        case 7:
           bonusPackage.forEach(s => {
             const [id, bonus] = s;
             if (!('cond' in bonus) || bonus.cond(myEle)) {
@@ -292,7 +312,7 @@ export default function Builder(data) {
           })
           calcs.EleDmg *= mult;
           break;
-        case 7:
+        case 8:
           bonusPackage.forEach(s => {
             const [id, bonus] = s;
             if (!('cond' in bonus) || bonus.cond(myEle)) {
@@ -307,15 +327,14 @@ export default function Builder(data) {
           })
           calcs.EleDmg += sum;
           break;
-        case 8:
+        case 9:
           // TODO: pre-cap ele mult
           calcs.EleDmg *= mult;
-          let eleDmgCap = Math.max(myEleDmg * 1.6, myEleDmg + 15);
           if (calcs.EleDmg > eleDmgCap) {
             calcs.EleDmg = eleDmgCap;
           }
           break;
-        case 9:
+        case 10:
           // TODO: post-cap ele mult
           calcs.EleDmg *= mult;
           calcs.EleDmg = Math.round(calcs.EleDmg);
@@ -325,6 +344,7 @@ export default function Builder(data) {
 
     setMyAttack(calcs.Attack);
     setMyAffinity(calcs.Affinity);
+    setMyEle(calcs.Element);
     setMyEleDmg(calcs.EleDmg);
 
   }, [mySkills, toggleList])
