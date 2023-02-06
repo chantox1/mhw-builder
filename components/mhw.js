@@ -82,25 +82,14 @@ export default function Builder(data) {
     setOpen(true);
   };
 
-  const equipId = {
-    "Armor": {
-      "0": 0,
-      "1": 667,
-      "2": 1284,
-      "3": 1899,
-      "4": 2508,
-      "5": 3123
-    },
-    "Weapon": [0,10]
-  }
   const [equip, setEquip] = React.useState({
     "Armor": {
-      "0": {"Name":0,"Rarity":1,"Type":0,"Stats":[2,2,0,0,0,0],"Skills":[[77,1]],"Slots":[]},     // Head
-      "1": {"Name":1141,"Rarity":1,"Type":1,"Stats":[2,2,0,0,0,0],"Skills":[],"Slots":[]},   // Chest
-      "2": {"Name":2181,"Rarity":1,"Type":2,"Stats":[2,2,0,0,0,0],"Skills":[],"Slots":[]},  // Arms
-      "3": {"Name":3217,"Rarity":1,"Type":3,"Stats":[2,2,0,0,0,0],"Skills":[],"Slots":[]},  // Waist
-      "4": {"Name":4245,"Rarity":1,"Type":4,"Stats":[2,2,0,0,0,0],"Skills":[],"Slots":[]},  // Legs
-      "5": {"Name":5281,"Rarity":3,"Type":5,"Stats":[0,0,0,0,0,0],"Skills":[[19,1],[97,1]],"Slots":[]}   // Charm
+      "0": data.armor[0],     // Head
+      "1": data.armor[667],   // Chest
+      "2": data.armor[1284],  // Arms
+      "3": data.armor[1899],  // Waist
+      "4": data.armor[2508],  // Legs
+      "5": data.armor[3123]   // Charm
     },
     "Weapon": {...data.weapons[0][10], 'Class': 0},
     "Mantle": {
@@ -235,23 +224,33 @@ export default function Builder(data) {
         }
       }
     }
-    console.log(mySkills);
     console.log(bonusBucket);
 
-    var summer = 0;
-    bonusBucket[2].forEach(s => {
-      const [id, bonus] = s;
-      const lvl = mySkills[id][1]
-      summer += data.skills[id].Params[lvl - 1][bonus.effect.param]
-    })
-    setMyAttack(myAttack + summer);
-    summer = 0;
-    bonusBucket[4].forEach(s => {
-      const [id, bonus] = s;
-      const lvl = mySkills[id][1]
-      summer += data.skills[id].Params[lvl - 1][bonus.effect.param]
-    })
-    setMyAffinity(myAffinity + summer);
+    for (var i=0; i < classNo; i++) {
+      var sum = 0;
+      var mult = 1;
+      const bonus = bonusBucket[i];
+      if (bonus.length > 0) {
+        switch(i) {
+          case 2:
+            bonus.forEach(s => {
+              const [id, bonus] = s;
+              const lvl = mySkills[id][1]
+              sum += data.skills[id].Params[lvl - 1][bonus.effect.param]
+            })
+            setMyAttack(myAttack + sum);
+            break;
+          case 4:
+            bonus.forEach(s => {
+              const [id, bonus] = s;
+              const lvl = mySkills[id][1]
+              sum += data.skills[id].Params[lvl - 1][bonus.effect.param]
+            })
+            setMyAffinity(myAffinity + sum);
+            break;
+        }
+      }
+    }
 
   }, [mySkills, toggleList])
 
