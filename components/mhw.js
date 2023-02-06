@@ -270,8 +270,6 @@ export default function Builder(data) {
               mult *= (delta/100) // This is a percentage
             }
           })
-          console.log("Mult:")
-          console.log(mult)
           calcs.EleDmg *= mult;
           break;
         case 7:
@@ -296,6 +294,7 @@ export default function Builder(data) {
           if (calcs.EleDmg > eleDmgCap) {
             calcs.EleDmg = eleDmgCap;
           }
+          break;
         case 9:
           // TODO: post-cap ele mult
           calcs.EleDmg *= mult;
