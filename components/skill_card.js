@@ -35,7 +35,6 @@ export default function SkillCard(props) {
   const { data, skill } = props;
   const [id, lvl, secret] = skill;
   const s = data.skills[id];
-  console.log(s)
 
   const skillsFilled = [];
   var lvlTextStyle = {mr: 0.3}

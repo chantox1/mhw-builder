@@ -4,6 +4,7 @@ import { Paper, Toolbar } from '@mui/material';
 import { IconButton } from '@mui/material';
 import { Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { TableContainer, Table, TableBody, TableCell, TableRow } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import ModeIcon from '@mui/icons-material/Mode';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
@@ -81,14 +82,25 @@ export default function Builder(data) {
     setOpen(true);
   };
 
+  const equipId = {
+    "Armor": {
+      "0": 0,
+      "1": 667,
+      "2": 1284,
+      "3": 1899,
+      "4": 2508,
+      "5": 3123
+    },
+    "Weapon": [0,10]
+  }
   const [equip, setEquip] = React.useState({
     "Armor": {
-      "0": data.armor[0],     // Head
-      "1": data.armor[667],   // Chest
-      "2": data.armor[1284],  // Arms
-      "3": data.armor[1899],  // Waist
-      "4": data.armor[2508],  // Legs
-      "5": data.armor[3123]   // Charm
+      "0": {"Name":0,"Rarity":1,"Type":0,"Stats":[2,2,0,0,0,0],"Skills":[[77,1]],"Slots":[]},     // Head
+      "1": {"Name":1141,"Rarity":1,"Type":1,"Stats":[2,2,0,0,0,0],"Skills":[],"Slots":[]},   // Chest
+      "2": {"Name":2181,"Rarity":1,"Type":2,"Stats":[2,2,0,0,0,0],"Skills":[],"Slots":[]},  // Arms
+      "3": {"Name":3217,"Rarity":1,"Type":3,"Stats":[2,2,0,0,0,0],"Skills":[],"Slots":[]},  // Waist
+      "4": {"Name":4245,"Rarity":1,"Type":4,"Stats":[2,2,0,0,0,0],"Skills":[],"Slots":[]},  // Legs
+      "5": {"Name":5281,"Rarity":3,"Type":5,"Stats":[0,0,0,0,0,0],"Skills":[[19,1],[97,1]],"Slots":[]}   // Charm
     },
     "Weapon": {...data.weapons[0][10], 'Class': 0},
     "Mantle": {
@@ -202,9 +214,14 @@ export default function Builder(data) {
 
     applySkillLvlMax(data, tempSkills);
     setMySkills(tempSkills);
-  }, [equip]);
 
-  const [calcs, setCalcs] = React.useState();
+    // Set base stats
+    setMyAttack(equip.Weapon.Damage);
+    setMyAffinity(equip.Weapon.Affinity);
+  }, [equip]);
+    
+  const [myAttack, setMyAttack] = React.useState(equip.Weapon.Damage);
+  const [myAffinity, setMyAffinity] = React.useState(equip.Weapon.Affinity);
 
   React.useEffect(() => {
     let e = JSON.parse(JSON.stringify(mySkills));
@@ -218,9 +235,24 @@ export default function Builder(data) {
         }
       }
     }
+    console.log(mySkills);
     console.log(bonusBucket);
 
-    // TODO: calcs w/ bucket
+    var summer = 0;
+    bonusBucket[2].forEach(s => {
+      const [id, bonus] = s;
+      const lvl = mySkills[id][1]
+      summer += data.skills[id].Params[lvl - 1][bonus.effect.param]
+    })
+    setMyAttack(myAttack + summer);
+    summer = 0;
+    bonusBucket[4].forEach(s => {
+      const [id, bonus] = s;
+      const lvl = mySkills[id][1]
+      summer += data.skills[id].Params[lvl - 1][bonus.effect.param]
+    })
+    setMyAffinity(myAffinity + summer);
+
   }, [mySkills, toggleList])
 
   const theme = useTheme();
@@ -319,9 +351,18 @@ export default function Builder(data) {
               <Paper style={{height: "13vh", marginBottom: "0.5vh"}}>
                 {/* Safi/Gun mod zone */}
               </Paper>
-              <Paper style={{height: "64vh", padding: "1vh"}}>
-                {/* Calcs */}
-              </Paper>
+              <TableContainer component={Paper} sx={{height: "64vh"}}>
+                <Table>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell>Raw</TableCell>
+                      <TableCell>{myAttack}</TableCell>
+                      <TableCell>Affinity</TableCell>
+                      <TableCell>{myAffinity}%</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </Grid>
           </Grid>
       </Grid>
