@@ -190,6 +190,15 @@ const skillBonus = {
       }
     }
   ],
+  159: [ // Non-elemental boost
+    {
+      cond: arg => {return arg == 0},
+      effect: {
+        class: 1,
+        value: 105
+      }
+    }
+  ]
 }
 
 export default skillBonus;

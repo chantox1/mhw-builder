@@ -232,6 +232,7 @@ export default function Builder(data) {
         }
       }
     }
+    console.log(mySkills);
     console.log(bonusBucket);
 
     let calcs = {
@@ -245,6 +246,21 @@ export default function Builder(data) {
       var mult = 1;
       const bonusPackage = bonusBucket[i];
       switch(i) {
+        case 1:
+          bonusPackage.forEach(s => {
+            const [id, bonus] = s;
+            if (!('cond' in bonus) || bonus.cond(myEle)) {
+              if ('param' in bonus.effect) {
+                const lvl = mySkills[id][1];
+                mult *= (data.skills[id].Params[lvl - 1][bonus.effect.param]/100);
+              }
+              else {
+                mult *= (bonus.effect.value/100);
+              }
+            }
+          })
+          calcs.Attack *= mult;
+          break;
         case 2:
           bonusPackage.forEach(s => {
             const [id, bonus] = s;
@@ -252,6 +268,11 @@ export default function Builder(data) {
             sum += data.skills[id].Params[lvl - 1][bonus.effect.param]
           })
           calcs.Attack += sum;
+          break;
+        case 3:
+          // TODO: Post-cap attack mult
+          calcs.Attack *= mult;
+          calcs.Attack = Math.round(calcs.Attack);
           break;
         case 4:
           bonusPackage.forEach(s => {
@@ -266,8 +287,7 @@ export default function Builder(data) {
             const [id, bonus] = s;
             if (!('cond' in bonus) || bonus.cond(myEle)) {
               const lvl = mySkills[id][1];
-              const delta = data.skills[id].Params[lvl - 1][bonus.effect.param]
-              mult *= (delta/100) // This is a percentage
+              mult *= (data.skills[id].Params[lvl - 1][bonus.effect.param]/100)
             }
           })
           calcs.EleDmg *= mult;
