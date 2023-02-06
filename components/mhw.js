@@ -242,7 +242,9 @@ export default function Builder(data) {
       "EleDmg": myEleDmg,
     }
 
-    let eleDmgCap = Math.max(myEleDmg * 1.6, myEleDmg + 15);
+    let rawCap = myAttack * data.attackCap;
+    let eleDmgCap = Math.max(myEleDmg * data.elementCap[0],
+                             myEleDmg + data.elementCap[1]);
 
     for (var i=0; i < classNo; i++) {
       var sum = 0;
@@ -253,16 +255,15 @@ export default function Builder(data) {
           bonusPackage.forEach(s => {
             const [id, bonus] = s;
             const lvl = mySkills[id][1];
-            sum += data.skills[id].Params[lvl - 1][bonus.effect.param]
-            console.log("free elem sum:")
-            console.log(sum)
+            sum += data.skills[id].Params[lvl - 1][bonus.effect.param];
           })
           if (sum > 0) {
             if ('HiddenEle' in equip.Weapon) {
               calcs.Element = equip.Weapon.HiddenEle;
               let freeEle = (equip.Weapon.HiddenEleDmg * sum/3);
-              eleDmgCap = Math.max(freeEle * 1.6, freeEle + 15);
-              calcs.EleDmg = freeEle
+              eleDmgCap = Math.max(freeEle * data.elementCap[0],
+                                   freeEle + data.elementCap[1]);
+              calcs.EleDmg = freeEle;
             }
           }
           break;
@@ -285,9 +286,12 @@ export default function Builder(data) {
           bonusPackage.forEach(s => {
             const [id, bonus] = s;
             const lvl = mySkills[id][1];
-            sum += data.skills[id].Params[lvl - 1][bonus.effect.param]
+            sum += data.skills[id].Params[lvl - 1][bonus.effect.param];
           })
           calcs.Attack += sum;
+          if (calcs.Attack > rawCap) {
+            calcs.Attack = rawCap;
+          }
           break;
         case 4:
           // TODO: Post-cap attack mult
@@ -298,7 +302,7 @@ export default function Builder(data) {
           bonusPackage.forEach(s => {
             const [id, bonus] = s;
             const lvl = mySkills[id][1];
-            sum += data.skills[id].Params[lvl - 1][bonus.effect.param]
+            sum += data.skills[id].Params[lvl - 1][bonus.effect.param];
           })
           calcs.Affinity += sum;
           break;
@@ -307,7 +311,7 @@ export default function Builder(data) {
             const [id, bonus] = s;
             if (!('cond' in bonus) || bonus.cond(myEle)) {
               const lvl = mySkills[id][1];
-              mult *= (data.skills[id].Params[lvl - 1][bonus.effect.param]/100)
+              mult *= (data.skills[id].Params[lvl - 1][bonus.effect.param]/100);
             }
           })
           calcs.EleDmg *= mult;

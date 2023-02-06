@@ -45,6 +45,8 @@ export default function IB() {
         statusString: statusString,
         mantles: mantles,
         mantleString: mantleString,
+        attackCap: 2,
+        elementCap: [1.6, 15]
     }
 
     React.useEffect(() => {
