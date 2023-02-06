@@ -1,6 +1,4 @@
 /*
-TODO: this can be a json file when done
-
 Classes:
     0: Base attack bonus
     1: Base attack mult
@@ -10,13 +8,11 @@ Classes:
     4: Affinity bonus
     5: Set crit dmg
 
-    6: Base ele mult (percentage) {Pass element id as extra parameter here}
-    7: Ele bonus {Pass element id as extra parameter here}
-    8: Ele bonus (always 10) {Pass element id as extra parameter here} <- this is used in the status attack skills
-    9: Pre-cap ele mult
-    10: Post-cap ele mult
-
-    11: Set ele crit dmg
+    6: Base ele mult (percentage)
+    7: Ele bonus
+    8: Pre-cap ele mult
+    9: Post-cap ele mult
+    10: Set ele crit dmg
 */
 
 const skillBonus = {
@@ -35,146 +31,146 @@ const skillBonus = {
     }
   ],
   30: [ // Fire attack
-    {   
+    {
+      cond: arg => {return arg == 1},
       effect: {
         class: 7, 
         param: 1,
-        extra: 0
       }
     },
     {
+      cond: arg => {return arg == 1},
       effect: {
         class: 6,
         param: 2,
-        extra: 0
       }
     }
   ],
   31: [ // Water attack
     {   
+      cond: arg => {return arg == 2},
       effect: {
-        class: 7, 
+        class: 7,
         param: 1,
-        extra: 1
       }
     },
     {
+      cond: arg => {return arg == 2},
       effect: {
         class: 6,
         param: 2,
-        extra: 1
       }
     }
   ],
   32: [ // Ice attack
-    {   
+    {
+      cond: arg => {return arg == 3},
       effect: {
         class: 7, 
         param: 1,
-        extra: 2
       }
     },
     {
+      cond: arg => {return arg == 3},
       effect: {
         class: 6,
         param: 2,
-        extra: 2
       }
     }
   ],
   33: [ // Thunder attack
-    {   
+    {
+      cond: arg => {return arg == 4},
       effect: {
         class: 7, 
         param: 1,
-        extra: 3
       }
     },
     {
+      cond: arg => {return arg == 4},
       effect: {
         class: 6,
         param: 2,
-        extra: 3
       }
     }
   ],
   34: [ // Dragon attack
-    {   
+    {
+      cond: arg => {return arg == 5},
       effect: {
         class: 7, 
         param: 1,
-        extra: 4
       }
     },
     {
+      cond: arg => {return arg == 5},
       effect: {
         class: 6,
         param: 2,
-        extra: 4
       }
     }
   ],
   35: [ // Poison attack
-    {   
+    {
+      cond: arg => {return arg == 6},
       effect: {
-        class: 8, 
-        param: 0,
-        extra: 5
+        class: 7, 
+        value: 10,
       }
     },
     {
+      cond: arg => {return arg == 6},
       effect: {
         class: 6,
         param: 1,
-        extra: 5
       }
     }
   ],
   36: [ // Paralysis attack
-    {   
+    {
+      cond: arg => {return arg == 7},
       effect: {
-        class: 8, 
-        param: 0,
-        extra: 6
+        class: 7, 
+        value: 10,
       }
     },
     {
+      cond: arg => {return arg == 7},
       effect: {
         class: 6,
         param: 1,
-        extra: 6
       }
     }
   ],
   37: [ // Sleep attack
-    {   
+    {
+      cond: arg => {return arg == 8},
       effect: {
-        class: 8, 
-        param: 0,
-        extra: 7
+        class: 7, 
+        value: 10,
       }
     },
     {
+      cond: arg => {return arg == 8},
       effect: {
         class: 6,
         param: 1,
-        extra: 7
       }
     }
   ],
   38: [ // Blast attack
     {   
+      cond: arg => {return arg == 9},
       effect: {
-        class: 8, 
-        param: 0,
-        extra: 8
+        class: 7, 
+        value: 10,
       }
     },
     {
+      cond: arg => {return arg == 9},
       effect: {
         class: 6,
         param: 1,
-        extra: 8
       }
     }
   ],

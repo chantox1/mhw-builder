@@ -207,10 +207,18 @@ export default function Builder(data) {
     // Set base stats
     setMyAttack(equip.Weapon.Damage);
     setMyAffinity(equip.Weapon.Affinity);
+    setMyEle('Element' in equip.Weapon ? equip.Weapon.Element : 0);
+    setMyEleDmg('Element' in equip.Weapon ? equip.Weapon.ElementDmg : 0);
   }, [equip]);
     
   const [myAttack, setMyAttack] = React.useState(equip.Weapon.Damage);
   const [myAffinity, setMyAffinity] = React.useState(equip.Weapon.Affinity);
+  const [myEle, setMyEle] = React.useState(
+    'Element' in equip.Weapon ? equip.Weapon.Element : 0
+  );
+  const [myEleDmg, setMyEleDmg] = React.useState(
+    'Element' in equip.Weapon ? equip.Weapon.ElementDmg : 0
+  );
 
   React.useEffect(() => {
     let e = JSON.parse(JSON.stringify(mySkills));
@@ -226,31 +234,79 @@ export default function Builder(data) {
     }
     console.log(bonusBucket);
 
+    let calcs = {
+      "Attack": myAttack,
+      "Affinity": myAffinity,
+      "EleDmg": myEleDmg,
+    }
+
     for (var i=0; i < classNo; i++) {
       var sum = 0;
       var mult = 1;
-      const bonus = bonusBucket[i];
-      if (bonus.length > 0) {
-        switch(i) {
-          case 2:
-            bonus.forEach(s => {
-              const [id, bonus] = s;
-              const lvl = mySkills[id][1]
-              sum += data.skills[id].Params[lvl - 1][bonus.effect.param]
-            })
-            setMyAttack(myAttack + sum);
-            break;
-          case 4:
-            bonus.forEach(s => {
-              const [id, bonus] = s;
-              const lvl = mySkills[id][1]
-              sum += data.skills[id].Params[lvl - 1][bonus.effect.param]
-            })
-            setMyAffinity(myAffinity + sum);
-            break;
-        }
+      const bonusPackage = bonusBucket[i];
+      switch(i) {
+        case 2:
+          bonusPackage.forEach(s => {
+            const [id, bonus] = s;
+            const lvl = mySkills[id][1];
+            sum += data.skills[id].Params[lvl - 1][bonus.effect.param]
+          })
+          calcs.Attack += sum;
+          break;
+        case 4:
+          bonusPackage.forEach(s => {
+            const [id, bonus] = s;
+            const lvl = mySkills[id][1];
+            sum += data.skills[id].Params[lvl - 1][bonus.effect.param]
+          })
+          calcs.Affinity += sum;
+          break;
+        case 6:
+          bonusPackage.forEach(s => {
+            const [id, bonus] = s;
+            if (!('cond' in bonus) || bonus.cond(myEle)) {
+              const lvl = mySkills[id][1];
+              const delta = data.skills[id].Params[lvl - 1][bonus.effect.param]
+              mult *= (delta/100) // This is a percentage
+            }
+          })
+          console.log("Mult:")
+          console.log(mult)
+          calcs.EleDmg *= mult;
+          break;
+        case 7:
+          bonusPackage.forEach(s => {
+            const [id, bonus] = s;
+            if (!('cond' in bonus) || bonus.cond(myEle)) {
+              if ('param' in bonus.effect) {
+                const lvl = mySkills[id][1];
+                sum += data.skills[id].Params[lvl - 1][bonus.effect.param];
+              }
+              else {
+                sum += bonus.effect.value;
+              }
+            }
+          })
+          calcs.EleDmg += sum;
+          break;
+        case 8:
+          // TODO: pre-cap ele mult
+          calcs.EleDmg *= mult;
+          let eleDmgCap = Math.max(myEleDmg * 1.6, myEleDmg + 15);
+          if (calcs.EleDmg > eleDmgCap) {
+            calcs.EleDmg = eleDmgCap;
+          }
+        case 9:
+          // TODO: post-cap ele mult
+          calcs.EleDmg *= mult;
+          calcs.EleDmg = Math.round(calcs.EleDmg);
+          break;
       }
     }
+
+    setMyAttack(calcs.Attack);
+    setMyAffinity(calcs.Affinity);
+    setMyEleDmg(calcs.EleDmg);
 
   }, [mySkills, toggleList])
 
@@ -358,6 +414,10 @@ export default function Builder(data) {
                       <TableCell>{myAttack}</TableCell>
                       <TableCell>Affinity</TableCell>
                       <TableCell>{myAffinity}%</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Ele</TableCell>
+                      <TableCell>{myEleDmg}</TableCell>
                     </TableRow>
                   </TableBody>
                 </Table>
