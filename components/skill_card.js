@@ -3,30 +3,40 @@ import { Box } from '@mui/material';
 import { Typography } from '@mui/material';
 import Sprite from './sprite';
 
-function lvlIcon(mode) {
-  var sx = {};
-  switch (mode) {
-    case 0:
-      var src = '/icon/Skill/skillfilled.bmp';
-      break;
-    case 1:
-      var src = '/icon/Skill/skillempty.bmp';
-      break;
-    case 2:
-      var src = '/icon/Skill/secretfilled.bmp';
-      sx.width = 10;
-      sx.height= 10;
-      break;
-    default:
-      var src= '/icon/Skill/secretempty.bmp';
-      sx.width = 10;
-      sx.height= 10;
-  }
+function lvlIcon(pos) {
+  // var sx = {};
+  // switch (mode) {
+  //   case 0:
+  //     var src = '/icon/Skill/skillfilled.bmp';
+  //     break;
+  //   case 1:
+  //     var src = '/icon/Skill/skillempty.bmp';
+  //     break;
+  //   case 2:
+  //     var src = '/icon/Skill/secretfilled.bmp';
+  //     sx.width = 10;
+  //     sx.height= 10;
+  //     break;
+  //   default:
+  //     var src= '/icon/Skill/secretempty.bmp';
+  //     sx.width = 10;
+  //     sx.height= 10;
+  // }
+  // return (
+  //   <Box
+  //     component="img"
+  //     src={src}
+  //     sx={{...sx, position: 'relative', right: 87}}
+  //   />
+  // )
+  const [x,y] = pos;
   return (
-    <Box
-      component="img"
-      src={src}
-      sx={{...sx, position: 'relative', right: 87}}
+    <Sprite
+      src='/icon/Skill/skill-pips.png'
+      pos={[19*x,18*y]}
+      width={11}
+      crop={[19,18]}
+      sx={{alignSelf: "center"}}
     />
   )
 }
@@ -42,16 +52,16 @@ export default function SkillCard(props) {
   if (secret) {
     var full = (lvl < s.Max) ? lvl : s.Max;
     for (i; i < full; i++) {
-      skillsFilled.push(0);
+      skillsFilled.push([1,0]);
     }
     for (i; i < s.Max; i++) {
-      skillsFilled.push(1);
+      skillsFilled.push([0,0]);
     }
     for (i; i < lvl; i++) {
-      skillsFilled.push(2);
+      skillsFilled.push([1,1]);
     }
     for (i; i < s.MaxSecret; i++) {
-      skillsFilled.push(3);
+      skillsFilled.push([0,1]);
     }
 
     if (lvl == s.MaxSecret) {
@@ -60,10 +70,10 @@ export default function SkillCard(props) {
   }
   else {
     for (i; i < lvl; i++) {
-      skillsFilled.push(0);
+      skillsFilled.push([1,0]);
     }
     for (i; i < s.Max; i++) {
-      skillsFilled.push(1);
+      skillsFilled.push([0,0]);
     }
 
     if (lvl == s.Max) {
@@ -93,10 +103,6 @@ export default function SkillCard(props) {
         </Typography>
         <Box width="100%" display="flex" justifyContent="space-between">
           <Box alignSelf="center" display="flex" mb={0.3} width={95} height={10}>
-            <Box
-              component="img"
-              src='/icon/Skill/skillbar.bmp'
-            />
             {skillsFilled.map(m => {
               return (
                 lvlIcon(m)
