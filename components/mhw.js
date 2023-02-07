@@ -46,8 +46,12 @@ function applySkillLvlMax(data, skillDict) {
     skillDict[key][2] = secret;
 
     let max = secret ? s.MaxSecret : s.Max;
-    if (lvl > max) {
+    if (lvl >= max) {
       skillDict[key][1] = max;
+      skillDict[key][3] = true;
+    }
+    else {
+      skillDict[key][3] = false;
     }
   }
 }
