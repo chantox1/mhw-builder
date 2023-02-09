@@ -5,22 +5,9 @@ import SlotDisplay from './slot_display';
 import { Skeleton } from '@mui/material';
 
 export default function ArmorCard(props) {
-  const { data, main=false, charm=false, armor, onClick } = props
+  const { data, main=false, charm=false, armor, loading=false, onClick } = props
   const type = ["Head", "Chest", "Arms", "Waist", "Legs", "Charm"]
   const augDef = [66, 58, 52, 44, 38, 32, 26, 20, 58, 52, 44, 38]
-
-  const [loading, setLoading] = React.useState(true);
-  const [image, setImage] = React.useState({});
-  const handleImageLoaded = () => {
-    setLoading(false);
-  };
-
-  React.useEffect(() => {
-    const image = new Image();
-    image.onload = handleImageLoaded;
-    image.src = "/icon/" + type[armor.Type] + "/" + armor.Rarity + ".png";
-    setImage(image);
-  }, [armor]);
 
   return (
     <Paper sx={props.sx}>
@@ -32,9 +19,11 @@ export default function ArmorCard(props) {
             <Card sx={{display: "flex", height: "100%"}}>
               <Box display="flex" alignItems="center">
                 { loading ? <Skeleton variant="circular" width={64} height={64} /> :
-                  <CardMedia sx={{objectFit: "contain"}}
+                  <Box
+                    width={64}
+                    height={64}
                     component="img"
-                    image={image.src}
+                    src={"/icon/" + type[armor.Type] + "/" + armor.Rarity + ".png"}
                   /> }
               </Box>
               <Box>

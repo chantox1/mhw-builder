@@ -102,20 +102,7 @@ const WepStatIcon = (props) => (
 const sharpColors = ['#be3844', '#d3673d', '#cab232', '#6eaf1e', '#4678e6', '#e2e2e2', '#8755f0']
 
 export default function WepCard(props) {
-  const { data, main=false, wep, onClick } = props;
-
-  const [loading, setLoading] = React.useState(true);
-  const [image, setImage] = React.useState({});
-  const handleImageLoaded = () => {
-    setLoading(false);
-  };
-
-  React.useEffect(() => {
-    const image = new Image();
-    image.onload = handleImageLoaded;
-    image.src = "/icon/Wep/" + wep.Class + "/" + wep.Rarity + ".png";
-    setImage(image);
-  }, [wep]);
+  const { data, main=false, wep, loading=false, onClick } = props;
 
   const [sharpness, extra] = getSharpness(data, wep);
   let sharpBarHeight = wep.SharpNo == "5" ? 1 : 0.6
@@ -130,9 +117,11 @@ export default function WepCard(props) {
             <Card sx={{display: "flex", height: "100%"}}>
               <Box display="flex" alignItems="center">
                 { loading ? <Skeleton variant="circular" width={64} height={64} /> :
-                  <CardMedia sx={{objectFit: "contain"}}
+                  <Box
+                    width={64}
+                    height={64}
                     component="img"
-                    image={image.src}
+                    src={"/icon/Wep/" + wep.Class + "/" + wep.Rarity + ".png"}
                   /> }
               </Box>
               <Box>

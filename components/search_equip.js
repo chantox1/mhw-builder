@@ -7,7 +7,7 @@ import { ButtonBase } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import SearchIcon from '@mui/icons-material/Search';
-import { FixedSizeList } from 'react-window';
+import { Virtuoso } from 'react-virtuoso';
 import { useMeasure } from 'react-use';
 import Sprite from './sprite';
 import ArmorCard from './armor_card';
@@ -135,18 +135,79 @@ export default function SearchDialog(props) {
     .filter(d => d.Size <= equipItem.Size)
     .filter(d => queryDeco(data, d, queryString))
     .sort(sortDeco(data, queryString));
+
+    const DecoItem = ({ index }) => {
+      var d = queryData[index]
+      return (
+        <Box pb={0.3}>
+          <ButtonBase
+            sx={{
+              display: "flex", justifyContent: "left", textAlign: "left", width: "100%",
+              border: 1, borderRadius: 1, borderColor: 'text.secondary'
+            }}
+            onClick = {() => handleListItemClick({Size: equipItem.Size, Deco: d})}
+          >
+            <Sprite
+              src='/icon/gems.png'
+              pos={[64*(d.Size - 1),64*d.Color]}
+              width={27}
+              crop={[64,64]}
+            />
+            <Typography noWrap> { data.decoString[d.Name] } </Typography>
+          </ButtonBase>
+        </Box>
+      )
+    }
+
+    var InnerItem = React.memo(({index}) => {
+      return <DecoItem index={index}/>
+    })
   }
   else if (equipItem.Mode == 2) {
     var searchLabel = "Weapon search";
     var queryData = Object.values(data.weapons[searchClass])
     .filter(w => ( data.weaponString[searchClass][w.Name].toLowerCase().indexOf(queryString.toLowerCase()) > -1))
     .sort(sortWep(data, searchClass, queryString));
+
+    const WepItem = ({index}) => {
+      return (
+        <Box pb={0.5}>
+          <WepCard
+            key={index}
+            data={data}
+            wep={{...queryData[index], 'Class': searchClass}}
+            onClick={handleListItemClick}
+          />
+        </Box>
+      )
+    }
+
+    var InnerItem = React.memo(({index}) => {
+      return <WepItem index={index}/>
+    })
   }
   else if (equipItem.Mode == 3) {
     var searchLabel = "Mantle search";
     var queryData = Object.values(data.mantles)
     .filter(m => ( plus ? m.Slots.length > 0 : m.Slots.length == 0 ))
     .filter(m => ( data.mantleString[m.Name].toLowerCase().indexOf(queryString.toLowerCase()) > -1 ));
+
+    const MantleItem = ({ index }) => {
+      return (
+        <Box pb={0.5}>
+          <MantleCard
+            key={index}
+            data={data}
+            mantle={queryData[index]}
+            onClick={handleListItemClick}
+          />
+        </Box>
+      )
+    }
+
+    var InnerItem = React.memo(({index}) => {
+      return <MantleItem index={index}/>
+    })
   }
   else {
     var searchLabel = "Equipment search";
@@ -157,6 +218,24 @@ export default function SearchDialog(props) {
     .filter(a => ( data.armorString[a.Name].indexOf("HARDUMMY") == -1 ))
     .filter(a => ( data.armorString[a.Name].indexOf("Unavailable") == -1 ))
     .sort(sortArmor(data, queryString));
+
+    const ArmorItem = ({ index }) => {
+      return (
+        <Box pb={0.5}>
+          <ArmorCard
+            key={index}
+            data={data}
+            charm={equipItem.Type == 5}
+            armor={queryData[index]}
+            onClick={handleListItemClick}
+          />
+        </Box>
+      )
+    }
+
+    var InnerItem = React.memo(({index}) => {
+      return <ArmorItem index={index}/>
+    })
   }
 
   var innerStyle = {p: 1}
@@ -170,19 +249,13 @@ export default function SearchDialog(props) {
   ]
 
   if (breakPoint > theme.breakpoints.values.lg) {
-    var heightMod = [7.5, 25, 5.8];
     innerStyle['width'] = 900;
   }
   else if (breakPoint > theme.breakpoints.values.md) {
-    var heightMod = [6, 25, 4.5];
     innerStyle['width'] = 900;
   }
   else if (breakPoint > theme.breakpoints.values.xs) {
-    var heightMod = [6, 17, 4];
     innerStyle['width'] = 700;
-  }
-  else {
-    var heightMod = [4, 17, 3.2];
   }
 
   var actualHeight = oHeight - lHeight;
@@ -203,106 +276,13 @@ export default function SearchDialog(props) {
               )
             }}
           />
-
-          { equipItem.Mode == 1 &&
-            <FixedSizeList
-              height={actualHeight}
-              width="100%"
-              itemSize={32}
-              itemCount={queryData.length}
-              overscanCount={10}
-            >
-              {({ index, style }) => {
-                var d = queryData[index]
-                return (
-                  <div style={{...style, height: 32}}>
-                    <ButtonBase
-                      sx={{
-                        display: "flex", justifyContent: "left", textAlign: "left", width: "100%",
-                        border: 1, borderRadius: 1, borderColor: 'text.secondary'
-                      }}
-                      onClick = {() => handleListItemClick({Size: equipItem.Size, Deco: d})}
-                    >
-                      <Sprite
-                        src='/icon/gems.png'
-                        pos={[64*(d.Size - 1),64*d.Color]}
-                        width={27}
-                        crop={[64,64]}
-                      />
-                      <Typography noWrap> { data.decoString[d.Name] } </Typography>
-                    </ButtonBase>
-                  </div>
-                )
-              }}
-            </FixedSizeList>
-          }
-
-          { equipItem.Mode == 2 &&
-            <FixedSizeList
-              height={actualHeight}
-              width="100%"
-              itemSize={actualHeight / heightMod[2] + 2}
-              itemCount={queryData.length}
-              overscanCount={5}
-            >
-              {({ index, style }) => {
-                return (
-                  <WepCard
-                    key={index}
-                    data={data}
-                    wep={{...queryData[index], 'Class': searchClass}}
-                    onClick={handleListItemClick}
-                    sx={{...style, width: "100%", height: (actualHeight / heightMod[2]), mb: 2}}
-                  />
-                )
-              }}
-            </FixedSizeList>
-          }
-
-          { equipItem.Mode == 3 &&
-            <FixedSizeList
-              height={actualHeight}
-              width="100%"
-              itemSize={52 + 2*34 + 2}
-              itemCount={queryData.length + 1}
-              overscanCount={5}
-            >
-              {({ index, style }) => {
-                return (
-                  <MantleCard
-                    key={index}
-                    data={data}
-                    mantle={queryData[index]}
-                    onClick={handleListItemClick}
-                    sx={{...style, height: 52 + 2*34, mb: 2}}
-                  />
-                )
-              }}
-            </FixedSizeList>
-          }
-
-          { equipItem.Mode === undefined &&
-            <FixedSizeList
-              height={actualHeight}
-              width="100%"
-              itemSize={actualHeight / heightMod[0] + 2}
-              itemCount={queryData.length}
-              overscanCount={5}
-            >
-              {({ index, style }) => {
-                return (
-                  <ArmorCard
-                    key={index}
-                    data={data}
-                    charm={equipItem.Type == 5}
-                    armor={queryData[index]}
-                    onClick={handleListItemClick}
-                    sx={{...style, width: "100%", height: (actualHeight / heightMod[0]), mb: 2}}
-                  />
-                )
-              }}
-            </FixedSizeList>
-          }
+          <Virtuoso
+            style={{ height: actualHeight }}
+            totalCount={queryData.length}
+            itemContent={index =>
+              <InnerItem index={index}/>
+            }
+          />
         </Box>
 
         { equipItem.Mode == 2 &&
