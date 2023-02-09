@@ -427,7 +427,16 @@ export default function Builder(data) {
 
       <Grid item xs={12} lg={10}>
           <Paper style={{height: "5vh", marginBottom: "0.5vh"}}>
-            {/* Active effect icons */}
+            {Object.values(tglMap).map(t => {
+              if ('src' in t) {
+                return (
+                  <Box
+                    component="img"
+                    src={t.src}
+                  />
+                )
+              }
+            })}
           </Paper>
 
           <Grid container spacing={"0.5vh"}>
