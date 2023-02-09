@@ -56,6 +56,14 @@ function applySkillLvlMax(data, skillDict) {
   }
 }
 
+function isToggled(bonus) {
+  return (!('tglId' in bonus) || toggleList[bonus.tglId].tgl);
+}
+
+function meetsCond(bonus, val) {
+  return (!('cond' in bonus) || bonus.cond(val));
+}
+
 export default function Builder(data) {
   const screenshotRef = React.useRef(null);
   const [image, takeScreenShot] = useScreenshot({scale: 2});
@@ -274,7 +282,7 @@ export default function Builder(data) {
         case 2:
           bonusPackage.forEach(s => {
             const [id, bonus] = s;
-            if (!('cond' in bonus) || bonus.cond(calcs.EleDmg)) {
+            if (isToggled(bonus) && meetsCond(bonus, calcs.EleDmg)) {
               if ('param' in bonus.effect) {
                 const lvl = mySkills[id][1];
                 mult *= (data.skills[id].Params[lvl - 1][bonus.effect.param]/100);
@@ -289,8 +297,10 @@ export default function Builder(data) {
         case 3:
           bonusPackage.forEach(s => {
             const [id, bonus] = s;
-            const lvl = mySkills[id][1];
-            sum += data.skills[id].Params[lvl - 1][bonus.effect.param];
+            if (isToggled(bonus)) {
+              const lvl = mySkills[id][1];
+              sum += data.skills[id].Params[lvl - 1][bonus.effect.param];
+            }
           })
           calcs.Attack += sum;
           if (calcs.Attack > rawCap) {
@@ -305,15 +315,17 @@ export default function Builder(data) {
         case 5:
           bonusPackage.forEach(s => {
             const [id, bonus] = s;
-            const lvl = mySkills[id][1];
-            sum += data.skills[id].Params[lvl - 1][bonus.effect.param];
+            if (isToggled(bonus)) {
+              const lvl = mySkills[id][1];
+              sum += data.skills[id].Params[lvl - 1][bonus.effect.param];
+            }
           })
           calcs.Affinity += sum;
           break;
         case 7:
           bonusPackage.forEach(s => {
             const [id, bonus] = s;
-            if (!('cond' in bonus) || bonus.cond(myEle)) {
+            if (isToggled(bonus) && meetsCond(bonus, calcs.Element)) {
               const lvl = mySkills[id][1];
               mult *= (data.skills[id].Params[lvl - 1][bonus.effect.param]/100);
             }
@@ -323,7 +335,7 @@ export default function Builder(data) {
         case 8:
           bonusPackage.forEach(s => {
             const [id, bonus] = s;
-            if (!('cond' in bonus) || bonus.cond(myEle)) {
+            if (isToggled(bonus) && meetsCond(bonus, calcs.Element)) {
               if ('param' in bonus.effect) {
                 const lvl = mySkills[id][1];
                 sum += data.skills[id].Params[lvl - 1][bonus.effect.param];
