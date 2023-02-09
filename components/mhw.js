@@ -15,6 +15,8 @@ import MantleCard from './mantle_card';
 import SkillCard from './skill_card';
 import SearchDialog from './search_equip';
 import { useScreenshot, createFileName } from 'use-react-screenshot';
+import skillDefault from '../data/IB/common/skill_default';
+import toggleMap from '../data/IB/common/toggle_map';
 
 function pushSkill(skillDict, skill) {
   const [id, lvl] = skill;
@@ -56,8 +58,8 @@ function applySkillLvlMax(data, skillDict) {
   }
 }
 
-function isToggled(bonus) {
-  return (!('tglId' in bonus) || toggleList[bonus.tglId].tgl);
+function isToggled(bonus, tglMap){
+  return (!('tglId' in bonus) || tglMap[bonus.tglId].tgl);
 }
 
 function meetsCond(bonus, val) {
@@ -179,8 +181,8 @@ export default function Builder(data) {
     }
   };
 
-  const [mySkills, setMySkills] = React.useState({})
-  const [toggleList, setToggleList] = React.useState([])  // TODO: toggleList should contain the default toggle of ALL effects
+  const [mySkills, setMySkills] = React.useState({});
+  const [tglMap, setToggleMap] = React.useState(toggleMap);  // TODO: toggleList should contain the default toggle of ALL effects
 
   React.useEffect(() => {
     var tempSkills = {}
@@ -215,79 +217,72 @@ export default function Builder(data) {
 
     applySkillLvlMax(data, tempSkills);
     setMySkills(tempSkills);
-
-    // Set base stats
-    setMyAttack(equip.Weapon.Damage);
-    setMyAffinity(equip.Weapon.Affinity);
-    setMyEle('Element' in equip.Weapon ? equip.Weapon.Element : 0);
-    setMyEleDmg('Element' in equip.Weapon ? equip.Weapon.ElementDmg : 0);
   }, [equip]);
     
-  const [myAttack, setMyAttack] = React.useState(equip.Weapon.Damage);
-  const [myAffinity, setMyAffinity] = React.useState(equip.Weapon.Affinity);
-  const [myEle, setMyEle] = React.useState(
-    'Element' in equip.Weapon ? equip.Weapon.Element : 0
-  );
-  const [myEleDmg, setMyEleDmg] = React.useState(
-    'Element' in equip.Weapon ? equip.Weapon.ElementDmg : 0
-  );
+  const [myAttack, setMyAttack] = React.useState();
+  const [myAffinity, setMyAffinity] = React.useState();
+  const [myEle, setMyEle] = React.useState();
+  const [myEleDmg, setMyEleDmg] = React.useState();
 
   React.useEffect(() => {
-    let e = JSON.parse(JSON.stringify(mySkills));
-
     const classNo = 50;  // TODO: Set proper size
-    let bonusBucket = Array.from(Array(classNo), () => new Array())
+    let bonusBucket = Array.from(Array(classNo), () => new Array());
+    skillDefault.forEach(s => {
+      if (isToggled(s, tglMap)) {
+        bonusBucket[s.effect.class].push([-1, s]);
+      }
+    })
+
+    let e = JSON.parse(JSON.stringify(mySkills));
     for (const key in e) {
       if (key in data.skillBonus) {
         const bonuses = data.skillBonus[key];
-        for (var i=0; i < bonuses.length; i++) {
-          bonusBucket[bonuses[i].effect.class].push([key, bonuses[i]])
-        }
+        bonuses.forEach(s => {
+          if (isToggled(s, tglMap)) {
+            bonusBucket[s.effect.class].push([key, s])
+          }
+        })
       }
     }
     console.log(bonusBucket);
 
     let calcs = {
-      "Attack": myAttack,
-      "Affinity": myAffinity,
-      "Element": myEle,
-      "EleDmg": myEleDmg,
+      "Attack": equip.Weapon.Damage,
+      "Affinity": equip.Weapon.Affinity,
     }
 
-    let rawCap = myAttack * data.attackCap;
-    let eleDmgCap = Math.max(myEleDmg * data.elementCap[0],
-                             myEleDmg + data.elementCap[1]);
+    if ('Element' in equip.Weapon) {
+      calcs.Element = equip.Weapon.Element;
+      calcs.EleDmg = equip.Weapon.ElementDmg;
+    }
+    else if ('HiddenEle' in equip.Weapon && 47 in mySkills) {
+      calcs.Element = equip.Weapon.Element;
+      const [_, lvl] = mySkills[47];
+      calcs.EleDmg = equip.Weapon.HiddenEleDmg * (lvl/3);
+    }
+    else {
+      calcs.Element = 0;
+      calcs.EleDmg = 0;
+    }
+
+    let rawCap = calcs.Attack * data.attackCap;
+    let eleDmgCap = Math.max(calcs.EleDmg * data.elementCap[0],
+                             calcs.EleDmg + data.elementCap[1]);
 
     for (var i=0; i < classNo; i++) {
       var sum = 0;
       var mult = 1;
       const bonusPackage = bonusBucket[i];
       switch(i) {
-        case 0:
-          bonusPackage.forEach(s => {
-            const [id, bonus] = s;
-            const lvl = mySkills[id][1];
-            sum += data.skills[id].Params[lvl - 1][bonus.effect.param];
-          })
-          if (sum > 0) {
-            if ('HiddenEle' in equip.Weapon) {
-              calcs.Element = equip.Weapon.HiddenEle;
-              let freeEle = (equip.Weapon.HiddenEleDmg * sum/3);
-              eleDmgCap = Math.max(freeEle * data.elementCap[0],
-                                   freeEle + data.elementCap[1]);
-              calcs.EleDmg = freeEle;
-            }
-          }
-          break;
         case 2:
           bonusPackage.forEach(s => {
             const [id, bonus] = s;
-            if (isToggled(bonus) && meetsCond(bonus, calcs.EleDmg)) {
+            if (meetsCond(bonus, calcs.EleDmg)) {
               if ('param' in bonus.effect) {
                 const lvl = mySkills[id][1];
                 mult *= (data.skills[id].Params[lvl - 1][bonus.effect.param]/100);
               }
-              else {
+              else if ('value' in bonus.effect) {
                 mult *= (bonus.effect.value/100);
               }
             }
@@ -297,9 +292,12 @@ export default function Builder(data) {
         case 3:
           bonusPackage.forEach(s => {
             const [id, bonus] = s;
-            if (isToggled(bonus)) {
+            if ('param' in bonus.effect) {
               const lvl = mySkills[id][1];
               sum += data.skills[id].Params[lvl - 1][bonus.effect.param];
+            }
+            else if ('value' in bonus.effect) {
+              sum += bonus.effect.value;
             }
           })
           calcs.Attack += sum;
@@ -315,17 +313,15 @@ export default function Builder(data) {
         case 5:
           bonusPackage.forEach(s => {
             const [id, bonus] = s;
-            if (isToggled(bonus)) {
-              const lvl = mySkills[id][1];
-              sum += data.skills[id].Params[lvl - 1][bonus.effect.param];
-            }
+            const lvl = mySkills[id][1];
+            sum += data.skills[id].Params[lvl - 1][bonus.effect.param];
           })
           calcs.Affinity += sum;
           break;
         case 7:
           bonusPackage.forEach(s => {
             const [id, bonus] = s;
-            if (isToggled(bonus) && meetsCond(bonus, calcs.Element)) {
+            if (meetsCond(bonus, calcs.Element)) {
               const lvl = mySkills[id][1];
               mult *= (data.skills[id].Params[lvl - 1][bonus.effect.param]/100);
             }
@@ -335,12 +331,12 @@ export default function Builder(data) {
         case 8:
           bonusPackage.forEach(s => {
             const [id, bonus] = s;
-            if (isToggled(bonus) && meetsCond(bonus, calcs.Element)) {
+            if (meetsCond(bonus, calcs.Element)) {
               if ('param' in bonus.effect) {
                 const lvl = mySkills[id][1];
                 sum += data.skills[id].Params[lvl - 1][bonus.effect.param];
               }
-              else {
+              else if ('value' in bonus.effect) {
                 sum += bonus.effect.value;
               }
             }
@@ -367,7 +363,7 @@ export default function Builder(data) {
     setMyEle(calcs.Element);
     setMyEleDmg(calcs.EleDmg);
 
-  }, [mySkills, toggleList])
+  }, [mySkills, tglMap])
 
   const theme = useTheme();
   const breakPoint = theme.breakpoints.values[

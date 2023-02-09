@@ -1,6 +1,6 @@
 /*
 Classes:
-  0: Free element / TODO: Ammo up
+  0: Reserved
 
   1: Base attack bonus
   2: Base attack mult
@@ -174,14 +174,6 @@ const skillBonus = {
       effect: {
         class: 7,
         param: 1,
-      }
-    }
-  ],
-  47: [ // Free elem / TODO: ammo up
-    {
-      effect: {
-        class: 0,
-        param: 1
       }
     }
   ],
