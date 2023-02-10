@@ -235,6 +235,15 @@ export default function WepCard(props) {
                         </Box>
                       )
                     }
+                    else {
+                      return (
+                        <Box>
+                          <Typography variant="caption" sx={{visibility: "hidden"}}>
+                            + Critical
+                          </Typography>
+                        </Box>
+                      )
+                    }
                   })()}
                   
                 </CardContent>
