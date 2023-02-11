@@ -22,6 +22,7 @@ const toggleData = {
   "DDG": {
     group: 2,
     name: 42,
+    incompatible: "MDD",
     sprite: {
       src: '/icon/buffitems.png',
       pos: [64*1,0],
@@ -32,6 +33,7 @@ const toggleData = {
   "MDD": {
     group: 2,
     name: 44,
+    incompatible: "DDG",
     sprite: {
       src: '/icon/buffitems.png',
       pos: [64*2,0],
@@ -42,9 +44,21 @@ const toggleData = {
   "MTS": {
     group: 2,
     name: 40,
+    incompatible: "MTP",
     sprite: {
       src: '/icon/buffitems.png',
       pos: [0,0],
+      crop: [64,64],
+      width: 32
+    }
+  },
+  "MTP": {
+    group: 2,
+    name: 46,
+    incompatible: "MTS",
+    sprite: {
+      src: '/icon/buffitems.png',
+      pos: [64*3,0],
       crop: [64,64],
       width: 32
     }
@@ -55,16 +69,6 @@ const toggleData = {
     sprite: {
       src: '/icon/buffitems.png',
       pos: [64*4,0],
-      crop: [64,64],
-      width: 32
-    }
-  },
-  "MTP": {
-    group: 2,
-    name: 46,
-    sprite: {
-      src: '/icon/buffitems.png',
-      pos: [64*3,0],
       crop: [64,64],
       width: 32
     }

@@ -5,8 +5,8 @@ const toggleMap = {
   "DDG": false,
   "MDD": false,
   "MTS": false,
-  "DPR": false,
   "MTP": false,
+  "DPR": false,
 }
 
 export default toggleMap

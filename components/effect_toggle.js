@@ -87,6 +87,16 @@ export default function ToggleDialog(props) {
       default:
         var name = item.name;
     }
+    let switchProps = {
+      color: 'secondary',
+      checked: toggleMap[key],
+      onChange: flipToggle(key)
+    }
+    if ('incompatible' in item) {
+      if (toggleMap[item.incompatible]) {
+        switchProps.disabled = true;
+      }
+    }
     return (
       <Box pb={0.5}>
         <Paper
@@ -120,9 +130,7 @@ export default function ToggleDialog(props) {
             { name }
           </Typography>
           <Switch
-            color="secondary"
-            checked={toggleMap[key]}
-            onChange={flipToggle(key)}
+            {...switchProps}
           />
         </Paper>
       </Box>

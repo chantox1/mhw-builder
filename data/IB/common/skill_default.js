@@ -29,16 +29,16 @@ const skillDefault = [
       value: 10
     }
   },
-  { tglId: "DPR",
-    effect: {
-      class: 3,
-      value: 10
-    }
-  },
   { tglId: "MTP",
     effect: {
       class: 3,
       value: 25
+    }
+  },
+  { tglId: "DPR",
+    effect: {
+      class: 3,
+      value: 10
     }
   },
 ]
