@@ -375,7 +375,7 @@ export default function Builder(data) {
     }, null) || 'xs'
   ]
   // Hacky fix for flex & minHeight
-  var equipBlockStyle = (breakPoint < theme.breakpoints.values.lg) ? {} : {height: "1px", minHeight: "77.5vh"};
+  var equipBlockStyle = (breakPoint < theme.breakpoints.values.lg) ? {} : {height: "1px", minHeight: `calc(83vh - 50px)`};
   var mantleWrap = (breakPoint > theme.breakpoints.values.lg) ? "nowrap" : "wrap";
 
   return (
@@ -436,39 +436,48 @@ export default function Builder(data) {
       </Grid>
 
       <Grid item xs={12} lg={10}>
-        <ButtonBase
-          onClick={() => setOpenTglDialog(true)}
+        <Paper
           sx={{
             width: "100%",
-            border: 1,
-            borderRadius: 1,
-            borderColor: 'text.secondary',
-            mb: 0.5,
+            p: 0.3,
+            mb: 0.5
           }}
         >
-          <Paper sx={{display: "flex", p: 0.5, minHeight: 40, width: "100%"}}>
-            {Object.entries(data.toggleData).map(entry => {
-              const [key, item] = entry;
-              if (tglMap[key]) {
-                if ('sprite' in item) {
-                  return (
-                    <Sprite
-                      {...item.sprite}
-                    />
-                  )
+          <ButtonBase
+            onClick={() => setOpenTglDialog(true)}
+            sx={{
+              display: "flex",
+              justifyContent: "left",
+              width: "100%",
+              minHeight: 42,
+              p: 0.5,
+              border: 1,
+              borderRadius: 1,
+              borderColor: 'text.secondary',
+            }}
+          >
+              {Object.entries(data.toggleData).map(entry => {
+                const [key, item] = entry;
+                if (tglMap[key]) {
+                  if ('sprite' in item) {
+                    return (
+                      <Sprite
+                        {...item.sprite}
+                      />
+                    )
+                  }
+                  if ('src' in item) {
+                    return (
+                      <Box
+                        component="img"
+                        src={item.src}
+                      />
+                    )
+                  }
                 }
-                if ('src' in item) {
-                  return (
-                    <Box
-                      component="img"
-                      src={t.src}
-                    />
-                  )
-                }
-              }
-            })}
-          </Paper>
-        </ButtonBase>
+              })}
+          </ButtonBase>
+        </Paper>
 
         <Grid container spacing={"0.5vh"}>
           <Grid item xs={12} md={8}>

@@ -1,7 +1,7 @@
 const toggleData = {
   "PWC": {
     group: 2,
-    name: "Powercharm",
+    name: 180,
     sprite: {
       src: '/icon/buffitems.png',
       pos: [64*4,0],
@@ -11,7 +11,7 @@ const toggleData = {
   },
   "PWT": {
     group: 2,
-    name: "Powertalon",
+    name: 182,
     sprite: {
       src: '/icon/buffitems.png',
       pos: [64*5,0],
@@ -21,7 +21,7 @@ const toggleData = {
   },
   "DDG": {
     group: 2,
-    name: "Demondrug",
+    name: 42,
     sprite: {
       src: '/icon/buffitems.png',
       pos: [64*1,0],
@@ -31,7 +31,7 @@ const toggleData = {
   },
   "MDD": {
     group: 2,
-    name: "Mega Demondrug",
+    name: 44,
     sprite: {
       src: '/icon/buffitems.png',
       pos: [64*2,0],
@@ -41,7 +41,7 @@ const toggleData = {
   },
   "MTS": {
     group: 2,
-    name: "Might Seed",
+    name: 40,
     sprite: {
       src: '/icon/buffitems.png',
       pos: [0,0],
@@ -51,7 +51,7 @@ const toggleData = {
   },
   "DPR": {
     group: 2,
-    name: "Demon Powder",
+    name: 60,
     sprite: {
       src: '/icon/buffitems.png',
       pos: [64*4,0],
@@ -61,7 +61,7 @@ const toggleData = {
   },
   "MTP": {
     group: 2,
-    name: "Might Pill",
+    name: 46,
     sprite: {
       src: '/icon/buffitems.png',
       pos: [64*3,0],

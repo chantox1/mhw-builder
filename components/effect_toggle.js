@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Dialog } from '@mui/material';
+import { Dialog, Paper } from '@mui/material';
 import { Typography } from '@mui/material';
 import { InputAdornment, TextField, Switch, FormControlLabel } from '@mui/material';
 import { Box } from '@mui/material';
@@ -79,14 +79,24 @@ export default function ToggleDialog(props) {
 
   const InnerItem = ({index}) => {
     const [key, item] = queryData[index];
+
+    switch(item.group) {
+      case 2:
+        var name = data.decoString[item.name];
+        break;
+      default:
+        var name = item.name;
+    }
     return (
       <Box pb={0.5}>
-        <Box
-          display='flex'
-          border={1}
-          borderRadius={1}
-          borderColor='text.secondary'
-          p={0.5}
+        <Paper
+          sx={{
+            display: 'flex',
+            border: 1,
+            borderRadius: 1,
+            borderColor: 'text.secondary',
+            p: 0.5
+          }}
         >
           { 'sprite' in item && 
             <Sprite
@@ -107,14 +117,14 @@ export default function ToggleDialog(props) {
             />
           }
           <Typography alignSelf='center' flex={1}>
-            { item.name }
+            { name }
           </Typography>
           <Switch
             color="secondary"
             checked={toggleMap[key]}
             onChange={flipToggle(key)}
           />
-        </Box>
+        </Paper>
       </Box>
     )
   }

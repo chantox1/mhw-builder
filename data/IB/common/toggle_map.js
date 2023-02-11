@@ -1,4 +1,5 @@
 const toggleMap = {
+  // Items
   "PWC": true,
   "PWT": true,
   "DDG": false,
@@ -9,4 +10,3 @@ const toggleMap = {
 }
 
 export default toggleMap
-  
