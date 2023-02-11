@@ -1,12 +1,7 @@
 const toggleMap = {
-    "PWC": {
-        tgl: true,
-        src: "/icon/Skill/pw-charm.png"
-    },
-    "PWT": {
-        tgl: true,
-        src: "/icon/Skill/pw-talon.png"
-    }
+  "PWC": true,
+  "PWT": true,
 }
 
 export default toggleMap
+  

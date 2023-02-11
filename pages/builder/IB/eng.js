@@ -15,7 +15,10 @@ import decos from '../../../data/IB/common/decos.json';
 import skills from '../../../data/IB/common/skills.json';
 import skillColor from '../../../data/IB/common/skillColor.json';
 import skillBonus from '../../../data/IB/common/skill_bonus';
+import skillDefault from '../../../data/IB/common/skill_default';
 import mantles from '../../../data/IB/common/mantles.json';
+import toggleData from '../../../data/IB/common/toggle_data';
+import toggleMap from '../../../data/IB/common/toggle_map';
 
 // Lang
 import weaponString from '../../../data/IB/eng/wepStr.json';
@@ -42,6 +45,9 @@ export default function IB() {
         skillColor: skillColor,
         skillString: skillString,
         skillBonus: skillBonus,
+        skillDefault: skillDefault,
+        toggleData: toggleData,
+        toggleMap: toggleMap,
         statusString: statusString,
         mantles: mantles,
         mantleString: mantleString,

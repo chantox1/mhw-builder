@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Grid } from '@mui/material';
+import { Box, ButtonBase, Grid } from '@mui/material';
 import { Paper, Toolbar } from '@mui/material';
 import { IconButton } from '@mui/material';
 import { Typography } from '@mui/material';
@@ -14,9 +14,9 @@ import WepCard from './wep_card';
 import MantleCard from './mantle_card';
 import SkillCard from './skill_card';
 import SearchDialog from './search_equip';
+import ToggleDialog from './effect_toggle';
 import { useScreenshot, createFileName } from 'use-react-screenshot';
-import skillDefault from '../data/IB/common/skill_default';
-import toggleMap from '../data/IB/common/toggle_map';
+import Sprite from './sprite';
 
 function pushSkill(skillDict, skill) {
   const [id, lvl] = skill;
@@ -59,7 +59,7 @@ function applySkillLvlMax(data, skillDict) {
 }
 
 function isToggled(bonus, tglMap){
-  return (!('tglId' in bonus) || tglMap[bonus.tglId].tgl);
+  return (!('tglId' in bonus) || tglMap[bonus.tglId]);
 }
 
 function meetsCond(bonus, val) {
@@ -82,7 +82,7 @@ export default function Builder(data) {
     .then((img) => download(img, {name: "New set"}))
   };
 
-  const [open, setOpen] = React.useState(false);
+  const [openSearch, setOpenSearch] = React.useState(false);
   const [equipItem, setEquipItem] = React.useState()
   const [searchClass, setSearchClass] = React.useState(0);
 
@@ -93,7 +93,7 @@ export default function Builder(data) {
       setSearchClass(value.Wep.Class);
     }
     setEquipItem(value);
-    setOpen(true);
+    setOpenSearch(true);
   };
 
   const [equip, setEquip] = React.useState({
@@ -113,7 +113,7 @@ export default function Builder(data) {
   });
 
   const handleClose = (value) => {
-    setOpen(false);
+    setOpenSearch(false);
 
     // Set slot
     if (equipItem.Mode == 1) {
@@ -182,7 +182,8 @@ export default function Builder(data) {
   };
 
   const [mySkills, setMySkills] = React.useState({});
-  const [tglMap, setToggleMap] = React.useState(toggleMap);  // TODO: toggleList should contain the default toggle of ALL effects
+  const [tglMap, setToggleMap] = React.useState(data.toggleMap);  // TODO: toggleList should contain the default toggle of ALL effects
+  const [openTglDialog, setOpenTglDialog] = React.useState(false);
 
   React.useEffect(() => {
     var tempSkills = {}
@@ -227,7 +228,7 @@ export default function Builder(data) {
   React.useEffect(() => {
     const classNo = 50;  // TODO: Set proper size
     let bonusBucket = Array.from(Array(classNo), () => new Array());
-    skillDefault.forEach(s => {
+    data.skillDefault.forEach(s => {
       if (isToggled(s, tglMap)) {
         bonusBucket[s.effect.class].push([-1, s]);
       }
@@ -379,14 +380,23 @@ export default function Builder(data) {
 
   return (
     <Box>
-    {open &&
+    {openSearch &&
       <SearchDialog
         data={data}
-        open={open}
+        open={openSearch}
         equipItem={equipItem}
         searchClass={searchClass}
         setSearchClass={setSearchClass}
         onClose={handleClose}
+      />}
+
+    {openTglDialog &&
+      <ToggleDialog
+        data={data}
+        toggleMap={tglMap}
+        setToggleMap={setToggleMap}
+        open={openTglDialog}
+        onClose={() => setOpenTglDialog(false)}
       />}
 
     <Box
@@ -426,68 +436,89 @@ export default function Builder(data) {
       </Grid>
 
       <Grid item xs={12} lg={10}>
-          <Paper style={{height: "5vh", marginBottom: "0.5vh"}}>
-            {Object.values(tglMap).map(t => {
-              if ('src' in t) {
-                return (
-                  <Box
-                    component="img"
-                    src={t.src}
-                  />
-                )
+        <ButtonBase
+          onClick={() => setOpenTglDialog(true)}
+          sx={{
+            width: "100%",
+            border: 1,
+            borderRadius: 1,
+            borderColor: 'text.secondary',
+            mb: 0.5,
+          }}
+        >
+          <Paper sx={{display: "flex", p: 0.5, minHeight: 40, width: "100%"}}>
+            {Object.entries(data.toggleData).map(entry => {
+              const [key, item] = entry;
+              if (tglMap[key]) {
+                if ('sprite' in item) {
+                  return (
+                    <Sprite
+                      {...item.sprite}
+                    />
+                  )
+                }
+                if ('src' in item) {
+                  return (
+                    <Box
+                      component="img"
+                      src={t.src}
+                    />
+                  )
+                }
               }
             })}
           </Paper>
+        </ButtonBase>
 
-          <Grid container spacing={"0.5vh"}>
-            <Grid item xs={12} md={8}>
-              <Box display="flex" flexDirection="column" sx={equipBlockStyle}>
-                <WepCard main data={data} wep={equip.Weapon} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3}}/>
-                <ArmorCard main data={data} armor={equip.Armor[0]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3, height: 1}}/>
-                <ArmorCard main data={data} armor={equip.Armor[1]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3, height: 1}}/>
-                <ArmorCard main data={data} armor={equip.Armor[2]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3, height: 1}}/>
-                <ArmorCard main data={data} armor={equip.Armor[3]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3, height: 1}}/>
-                <ArmorCard main data={data} armor={equip.Armor[4]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3, height: 1}}/>
-                <Grid container spacing={0.3}>
-                  <Grid item xs={12} xl={4}>
-                    <ArmorCard charm data={data} armor={equip.Armor[5]} onClick={handleClickOpen} sx={{p: 0.3}}/>
-                  </Grid>
-                  <Grid item xs>
-                    <Grid container wrap={mantleWrap} spacing={0.3} height="100%">
-                      <Grid item xl={6}>
-                        <MantleCard main data={data} pos={0} mantle={equip.Mantle[0]} onClick={handleClickOpen} sx={{flex: 1, p: 0.3}}/>
-                      </Grid>
-                      <Grid item xl={6}>
-                        <MantleCard main data={data} pos={1} mantle={equip.Mantle[1]} onClick={handleClickOpen} sx={{flex: 1, p: 0.3}}/>
-                      </Grid>
+        <Grid container spacing={"0.5vh"}>
+          <Grid item xs={12} md={8}>
+            <Box display="flex" flexDirection="column" sx={equipBlockStyle}>
+              <WepCard main data={data} wep={equip.Weapon} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3}}/>
+              <ArmorCard main data={data} armor={equip.Armor[0]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3, height: 1}}/>
+              <ArmorCard main data={data} armor={equip.Armor[1]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3, height: 1}}/>
+              <ArmorCard main data={data} armor={equip.Armor[2]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3, height: 1}}/>
+              <ArmorCard main data={data} armor={equip.Armor[3]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3, height: 1}}/>
+              <ArmorCard main data={data} armor={equip.Armor[4]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3, height: 1}}/>
+              <Grid container spacing={0.3}>
+                <Grid item xs={12} xl={4}>
+                  <ArmorCard charm data={data} armor={equip.Armor[5]} onClick={handleClickOpen} sx={{p: 0.3}}/>
+                </Grid>
+                <Grid item xs>
+                  <Grid container wrap={mantleWrap} spacing={0.3} height="100%">
+                    <Grid item xl={6}>
+                      <MantleCard main data={data} pos={0} mantle={equip.Mantle[0]} onClick={handleClickOpen} sx={{flex: 1, p: 0.3}}/>
+                    </Grid>
+                    <Grid item xl={6}>
+                      <MantleCard main data={data} pos={1} mantle={equip.Mantle[1]} onClick={handleClickOpen} sx={{flex: 1, p: 0.3}}/>
                     </Grid>
                   </Grid>
                 </Grid>
-              </Box>
-            </Grid>
-
-            <Grid item xs={12} md={4}>
-              <Paper style={{height: "13vh", marginBottom: "0.5vh"}}>
-                {/* Safi/Gun mod zone */}
-              </Paper>
-              <TableContainer component={Paper} sx={{height: "64vh"}}>
-                <Table>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell>Raw</TableCell>
-                      <TableCell>{myAttack}</TableCell>
-                      <TableCell>Affinity</TableCell>
-                      <TableCell>{myAffinity}%</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>Ele</TableCell>
-                      <TableCell>{myEleDmg}</TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Grid>
+              </Grid>
+            </Box>
           </Grid>
+
+          <Grid item xs={12} md={4}>
+            <Paper style={{height: "13vh", marginBottom: "0.5vh"}}>
+              {/* Safi/Gun mod zone */}
+            </Paper>
+            <TableContainer component={Paper} sx={{height: "64vh"}}>
+              <Table>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>Raw</TableCell>
+                    <TableCell>{myAttack}</TableCell>
+                    <TableCell>Affinity</TableCell>
+                    <TableCell>{myAffinity}%</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Ele</TableCell>
+                    <TableCell>{myEleDmg}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
     </Box>
