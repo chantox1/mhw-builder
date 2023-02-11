@@ -1,4 +1,5 @@
 const toggleData = {
+  // Items
   "PWC": {
     group: 2,
     name: 180,
@@ -73,6 +74,21 @@ const toggleData = {
       width: 32
     }
   },
+
+  // Skills
+  "WEX": {
+    group: 0,
+    name: 150,
+    nick: "WEX",
+    incompatible: "WX+"
+  },
+  "WX+": {
+    group: 0,
+    name: 150,
+      append: "+",
+    nick: "WEX+",
+    incompatible: "WEX" 
+  }
 }
 
 export default toggleData

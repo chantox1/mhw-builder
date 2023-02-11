@@ -81,6 +81,12 @@ export default function ToggleDialog(props) {
     const [key, item] = queryData[index];
 
     switch(item.group) {
+      case 0:
+        var name = data.skillString[item.name];
+        if ('append' in item) {
+          name += item.append;
+        }
+        break;
       case 2:
         var name = data.decoString[item.name];
         break;

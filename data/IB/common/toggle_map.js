@@ -7,6 +7,10 @@ const toggleMap = {
   "MTS": false,
   "MTP": false,
   "DPR": false,
+
+  // Skills
+  "WEX": true,
+  "WX+": false,
 }
 
 export default toggleMap

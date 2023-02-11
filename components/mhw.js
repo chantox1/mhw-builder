@@ -489,6 +489,23 @@ export default function Builder(data) {
                       />
                     )
                   }
+                  if ('nick' in item) {
+                    return (
+                      <Box
+                        sx={{
+                          ml: 0.5,
+                          p: 0.3,
+                          border: 1,
+                          borderRadius: 1,
+                          borderColor: 'text.disabled'
+                        }}
+                      >
+                        <Typography variant='button'>
+                          { item.nick }
+                        </Typography>
+                      </Box>
+                    )
+                  }
                 }
               })}
           </ButtonBase>

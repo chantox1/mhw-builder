@@ -193,6 +193,20 @@ const skillBonus = {
       }
     }
   ],
+  50: [ // Weakness Exploit
+    { tglId: "WEX",
+      effect: {
+        class: 5,
+        param: 1
+      }
+    },
+    { tglId: "WX+",
+      effect: {
+        class: 5,
+        param: 2
+      }
+    }
+  ],
   159: [ // Non-elemental boost
     {
       cond: arg => {return arg == 0},
