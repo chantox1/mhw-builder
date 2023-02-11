@@ -11,6 +11,30 @@ const skillDefault = [
       value: 9
     }
   },
+  { tglId: "DDG",
+    effect: {
+      class: 3,
+      value: 5
+    }
+  },
+  { tglId: "MDD",
+    effect: {
+      class: 3,
+      value: 7
+    }
+  },
+  { tglId: "MTS",
+    effect: {
+      class: 3,
+      value: 10
+    }
+  },
+  { tglId: "MTP",
+    effect: {
+      class: 3,
+      value: 25
+    }
+  },
 ]
 
 export default skillDefault;
