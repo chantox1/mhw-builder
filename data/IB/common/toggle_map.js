@@ -4,6 +4,7 @@ const toggleMap = {
   "DDG": false,
   "MDD": false,
   "MTS": false,
+  "DPR": false,
   "MTP": false,
 }
 

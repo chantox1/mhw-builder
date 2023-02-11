@@ -49,6 +49,16 @@ const toggleData = {
       width: 32
     }
   },
+  "DPR": {
+    group: 2,
+    name: "Demon Powder",
+    sprite: {
+      src: '/icon/buffitems.png',
+      pos: [64*4,0],
+      crop: [64,64],
+      width: 32
+    }
+  },
   "MTP": {
     group: 2,
     name: "Might Pill",
