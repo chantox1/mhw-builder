@@ -66,6 +66,21 @@ function meetsCond(bonus, val) {
   return (!('cond' in bonus) || bonus.cond(val));
 }
 
+function skillSorter(data) {
+  // Returns: 0 or 1
+  function isSet(skill_id) {
+    return data.skillColor[skill_id].Set;
+  }
+
+  // Returns: -1, 0, 1
+  return function(a, b) {
+    const [id_a, lvl_a] = a;
+    const [id_b, lvl_b] = b;
+    const sortBySet = isSet(id_b) - isSet(id_a);
+    return sortBySet ? sortBySet : lvl_b - lvl_a;
+  }
+}
+
 export default function Builder(data) {
   const screenshotRef = React.useRef(null);
   const [image, takeScreenShot] = useScreenshot({scale: 2});
@@ -421,7 +436,7 @@ export default function Builder(data) {
                 let e = JSON.parse(JSON.stringify(mySkills));
                 return (
                   Object.values(e)
-                  .sort((a, b) => (b[1] - a[1]))
+                  .sort(skillSorter(data))
                   .map(s => {
                     const [id, lvl] = s;
                     return (

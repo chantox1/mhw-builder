@@ -44,11 +44,11 @@ function queryDeco(data, deco, queryString) {
   return res;
 }
 
-function sortDeco(data, queryString) {
+function decoSorter(data, queryString) {
   return function(a, b) {
-    let comp = b.Size - a.Size
-    if (comp != 0) return comp;
-    return startsWithFirst(
+    const sortBySize = b.Size - a.Size
+    return sortBySize ? sortBySize :
+    startsWithFirst(
       data.decoString[a.Name],
       data.decoString[b.Name],
       queryString
@@ -56,7 +56,7 @@ function sortDeco(data, queryString) {
   };
 }
 
-function sortWep(data, searchClass, queryString) {
+function weaponSorter(data, searchClass, queryString) {
   return function(a, b) {
     return startsWithFirst(
       data.weaponString[searchClass][a.Name],
@@ -66,7 +66,7 @@ function sortWep(data, searchClass, queryString) {
   };
 }
 
-function sortArmor(data, queryString) {
+function armorSorter(data, queryString) {
   return function(a, b) {
     return startsWithFirst(
       data.armorString[a.Name],
@@ -134,7 +134,7 @@ export default function SearchDialog(props) {
     var queryData = data.decos
     .filter(d => d.Size <= equipItem.Size)
     .filter(d => queryDeco(data, d, queryString))
-    .sort(sortDeco(data, queryString));
+    .sort(decoSorter(data, queryString));
 
     const DecoItem = ({ index }) => {
       var d = queryData[index]
@@ -167,7 +167,7 @@ export default function SearchDialog(props) {
     var searchLabel = "Weapon search";
     var queryData = Object.values(data.weapons[searchClass])
     .filter(w => ( data.weaponString[searchClass][w.Name].toLowerCase().indexOf(queryString.toLowerCase()) > -1))
-    .sort(sortWep(data, searchClass, queryString));
+    .sort(weaponSorter(data, searchClass, queryString));
 
     const WepItem = ({index}) => {
       return (
@@ -217,7 +217,7 @@ export default function SearchDialog(props) {
     .filter(a => ( data.armorString[a.Name].indexOf("Layered") == -1 ))
     .filter(a => ( data.armorString[a.Name].indexOf("HARDUMMY") == -1 ))
     .filter(a => ( data.armorString[a.Name].indexOf("Unavailable") == -1 ))
-    .sort(sortArmor(data, queryString));
+    .sort(armorSorter(data, queryString));
 
     const ArmorItem = ({ index }) => {
       return (
