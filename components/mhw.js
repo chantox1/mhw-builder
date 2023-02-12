@@ -234,11 +234,8 @@ export default function Builder(data) {
     applySkillLvlMax(data, tempSkills);
     setMySkills(tempSkills);
   }, [equip]);
-    
-  const [myAttack, setMyAttack] = React.useState();
-  const [myAffinity, setMyAffinity] = React.useState();
-  const [myEle, setMyEle] = React.useState();
-  const [myEleDmg, setMyEleDmg] = React.useState();
+
+  const [myStats, setMyStats] = React.useState({});
 
   React.useEffect(() => {
     const classNo = 50;  // TODO: Set proper size
@@ -265,6 +262,7 @@ export default function Builder(data) {
     let calcs = {
       "Attack": equip.Weapon.Damage,
       "Affinity": equip.Weapon.Affinity,
+      "CritDmg": 125,
     }
 
     if ('Element' in equip.Weapon) {
@@ -311,7 +309,7 @@ export default function Builder(data) {
       var mult = 1;
       const bonusPackage = bonusBucket[i];
       switch(i) {
-        case 2:
+        case 12:
           bonusPackage.forEach(s => {
             const [id, bonus] = s;
             if (meetsCond(bonus, calcs.EleDmg)) {
@@ -326,7 +324,7 @@ export default function Builder(data) {
           })
           calcs.Attack *= mult;
           break;
-        case 3:
+        case 13:
           bonusPackage.forEach(s => {
             const [id, bonus] = s;
             if ('param' in bonus.effect) {
@@ -342,12 +340,12 @@ export default function Builder(data) {
             calcs.Attack = rawCap;
           }
           break;
-        case 4:
+        case 14:
           // TODO: Post-cap attack mult
           calcs.Attack *= mult;
           calcs.Attack = Math.round(calcs.Attack);
           break;
-        case 5:
+        case 15:
           bonusPackage.forEach(s => {
             const [id, bonus] = s;
             if ('param' in bonus.effect) {
@@ -364,7 +362,13 @@ export default function Builder(data) {
           })
           calcs.Affinity += sum;
           break;
-        case 7:
+        case 16:
+          bonusPackage.forEach(s => {
+            const [id, bonus] = s;
+            const lvl = mySkills[id][1];
+            calcs.CritDmg = data.skills[id].Params[lvl - 1][bonus.effect.param];
+          })
+        case 17:
           bonusPackage.forEach(s => {
             const [id, bonus] = s;
             if (meetsCond(bonus, calcs.Element)) {
@@ -374,7 +378,7 @@ export default function Builder(data) {
           })
           calcs.EleDmg *= mult;
           break;
-        case 8:
+        case 18:
           bonusPackage.forEach(s => {
             const [id, bonus] = s;
             if (meetsCond(bonus, calcs.Element)) {
@@ -393,26 +397,25 @@ export default function Builder(data) {
           })
           calcs.EleDmg += sum;
           break;
-        case 9:
+        case 19:
           // TODO: pre-cap ele mult
           calcs.EleDmg *= mult;
           if (calcs.EleDmg > eleDmgCap) {
             calcs.EleDmg = eleDmgCap;
           }
           break;
-        case 10:
+        case 20:
           // TODO: post-cap ele mult
           calcs.EleDmg *= mult;
           calcs.EleDmg = Math.round(calcs.EleDmg);
           break;
       }
     }
+    calcs.RawAffinity = calcs.Affinity;
+    calcs.Affinity = Math.min(100, calcs.RawAffinity);
+    calcs.EffRaw = calcs.Attack * (1 + (calcs.Affinity/100)*(calcs.CritDmg/100 - 1))
 
-    setMyAttack(calcs.Attack);
-    setMyAffinity(calcs.Affinity);
-    setMyEle(calcs.Element);
-    setMyEleDmg(calcs.EleDmg);
-
+    setMyStats(calcs);
   }, [mySkills, tglMap])
 
   const theme = useTheme();
@@ -581,13 +584,19 @@ export default function Builder(data) {
                 <TableBody>
                   <TableRow>
                     <TableCell>Raw</TableCell>
-                    <TableCell>{myAttack}</TableCell>
+                    <TableCell>{myStats.Attack}</TableCell>
+                    <TableCell>Effective Raw</TableCell>
+                    <TableCell>{Math.round(myStats.EffRaw * 100)/100}</TableCell>
+                  </TableRow>
+                  <TableRow>
                     <TableCell>Affinity</TableCell>
-                    <TableCell>{myAffinity}%</TableCell>
+                    <TableCell>{myStats.Affinity}%</TableCell>
+                    <TableCell>Crit Damage</TableCell>
+                    <TableCell>{myStats.CritDmg / 100}x</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell>Ele</TableCell>
-                    <TableCell>{myEleDmg}</TableCell>
+                    <TableCell>{myStats.EleDmg}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
