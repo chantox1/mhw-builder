@@ -11,6 +11,7 @@ const toggleMap = {
   // Skills
   "WEX": true,
   "WX+": false,
+  "AGI": true,
 }
 
 export default toggleMap

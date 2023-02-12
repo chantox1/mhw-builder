@@ -88,6 +88,11 @@ const toggleData = {
       append: "+",
     nick: "WEX+",
     incompatible: "WEX" 
+  },
+  "AGI": {
+    group: 0,
+    name: 186,
+    nick: "AGI"
   }
 }
 
