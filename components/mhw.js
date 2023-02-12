@@ -590,7 +590,23 @@ export default function Builder(data) {
                   </TableRow>
                   <TableRow>
                     <TableCell>Affinity</TableCell>
-                    <TableCell>{myStats.Affinity}%</TableCell>
+                    {(() => {
+                      if (myStats.RawAffinity <= 100) {
+                        return (
+                          <TableCell>
+                            { myStats.Affinity }%
+                          </TableCell>
+                        )
+                      }
+                      else {
+                        return (
+                          <TableCell>
+                            <span style={{color: 'orange'}}>{ myStats.Affinity }% </span>
+                            <span>({ myStats.RawAffinity }%)</span>
+                          </TableCell>
+                        )
+                      }
+                    })()}
                     <TableCell>Crit Damage</TableCell>
                     <TableCell>{myStats.CritDmg / 100}x</TableCell>
                   </TableRow>
