@@ -13,6 +13,12 @@ const toggleMap = {
   "WX+": false,
   "AGI": true,
   "PPE": true,
+  "HRO": false,
+  "FRT": false,
+  "FT+": false,
+  "RES": false,
+  "OFG": false,
+  "COL": false,
 }
 
 export default toggleMap

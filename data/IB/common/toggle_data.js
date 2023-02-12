@@ -98,6 +98,39 @@ const toggleData = {
     group: 0,
     name: 189,
     nick: "PP"
+  },
+  "HRO": {
+    group: 0,
+    name: 192,
+    nick: "HERO"
+  },
+  "FRT": {
+    group: 0,
+    name: 195,
+    nick: "FORT",
+    incompatible: "FT+"
+  },
+  "FT+": {
+    group: 0,
+    name: 195,
+      append: "+",
+    nick: "FORT+",
+    incompatible: "FRT"
+  },
+  "RES": {
+    group: 0,
+    name: 198,
+    nick: "RES"
+  },
+  "OFG": {
+    group: 0,
+    name: 555,
+    nick: "OFG"
+  },
+  "COL": {
+    group: 0,
+    name: 558,
+    nick: "COAL"
   }
 }
 

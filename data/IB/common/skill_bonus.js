@@ -229,6 +229,36 @@ const skillBonus = {
       }
     }
   ],
+  64: [ // Heroics (TODO: Add defense bonus)
+    { tglId: "HRO",
+      effect: {
+        class: 2,
+        param: 1
+      }
+    }
+  ],
+  65: [ // Fortify (TODO: Add defense mult)
+    { tglId: "FRT",
+      effect: {
+        class: 2,
+        param: 1
+      }
+    },
+    { tglId: "FT+",
+      effect: {
+        class: 2,
+        value: 120
+      }
+    }
+  ],
+  66: [ // Resentment
+    { tglId: "RES",
+      effect: {
+        class: 3,
+        param: 1
+      }
+    }
+  ],
   159: [ // Non-elemental boost
     {
       cond: arg => {return arg == 0},
@@ -237,7 +267,59 @@ const skillBonus = {
         value: 105
       }
     }
-  ]
+  ],
+  177: [ // Namielle Divinity
+    {
+      effect: {
+        class: 8,
+        cusParam: [0,6,6,15,15]
+      }
+    }
+  ],
+  185: [ // Offensive Guard
+    { tglId: "OFG",
+      effect: {
+        class: 2,
+        param: 1
+      }
+    }
+  ],
+  186: [ // Coalescence
+    { tglId: "COL",
+      effect: {
+        class: 3,
+        param: 1
+      }
+    },
+    { tglId: "COL",
+      cond: arg => {return (arg > 0 && arg < 6)},
+      effect: {
+        class: 8,
+        param: 2
+      }
+    },
+    { tglId: "COL",
+      cond: arg => {return arg >= 6},
+      effect: {
+        class: 7,
+        param: 3
+      }
+    },
+  ],
+  211: [ // Safi'jiiva Seal
+    {
+      effect: {
+        class: 5,
+        cusParam: [0,0,20,20,40]
+      }
+    },
+    {
+      effect: {
+        class: 8,
+        cusParam: [0,0,8,8,15]
+      }
+    }
+  ],
 }
 
 export default skillBonus;

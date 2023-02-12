@@ -282,8 +282,29 @@ export default function Builder(data) {
     }
 
     let rawCap = calcs.Attack * data.attackCap;
-    let eleDmgCap = Math.max(calcs.EleDmg * data.elementCap[0],
-                             calcs.EleDmg + data.elementCap[1]);
+    if (211 in mySkills && mySkills[211][1] >= 3) {
+      // TODO: Apply bowgun caps
+      if (calcs.Element >= 6) {
+        if (mySkills[211][1] == 5) {
+          var eleDmgCap = calcs.EleDmg * 2;
+        }
+        else {
+          var eleDmgCap = calcs.EleDmg * 1.7;
+        }
+      }
+      else {
+        if (mySkills[211][1] == 5) {
+          var eleDmgCap = calcs.EleDmg * 2.55;
+        }
+        else {
+          var eleDmgCap = calcs.EleDmg * 2.2;
+        }
+      }
+    }
+    else {
+      var eleDmgCap = Math.max(calcs.EleDmg * data.elementCap[0],
+                               calcs.EleDmg + data.elementCap[1]);
+    }
 
     for (var i=0; i < classNo; i++) {
       var sum = 0;
@@ -329,8 +350,17 @@ export default function Builder(data) {
         case 5:
           bonusPackage.forEach(s => {
             const [id, bonus] = s;
-            const lvl = mySkills[id][1];
-            sum += data.skills[id].Params[lvl - 1][bonus.effect.param];
+            if ('param' in bonus.effect) {
+              const lvl = mySkills[id][1];
+              sum += data.skills[id].Params[lvl - 1][bonus.effect.param];
+            }
+            else if ('cusParam' in bonus.effect) {
+              const lvl = mySkills[id][1];
+              sum += bonus.effect.cusParam[lvl - 1];
+            }
+            else if ('value' in bonus.effect) {
+              sum += bonus.effect.value;
+            }
           })
           calcs.Affinity += sum;
           break;
@@ -351,6 +381,10 @@ export default function Builder(data) {
               if ('param' in bonus.effect) {
                 const lvl = mySkills[id][1];
                 sum += data.skills[id].Params[lvl - 1][bonus.effect.param];
+              }
+              else if ('cusParam' in bonus.effect) {
+                const lvl = mySkills[id][1];
+                sum += bonus.effect.cusParam[lvl - 1];
               }
               else if ('value' in bonus.effect) {
                 sum += bonus.effect.value;
