@@ -221,6 +221,14 @@ const skillBonus = {
       }
     }
   ],
+  63: [ // Peak performance
+    { tglId: "PPE",
+      effect: {
+        class: 3,
+        param: 1
+      }
+    }
+  ],
   159: [ // Non-elemental boost
     {
       cond: arg => {return arg == 0},

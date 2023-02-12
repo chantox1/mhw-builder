@@ -12,6 +12,7 @@ const toggleMap = {
   "WEX": true,
   "WX+": false,
   "AGI": true,
+  "PPE": true,
 }
 
 export default toggleMap

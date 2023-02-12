@@ -93,6 +93,11 @@ const toggleData = {
     group: 0,
     name: 186,
     nick: "AGI"
+  },
+  "PPE": {
+    group: 0,
+    name: 189,
+    nick: "PP"
   }
 }
 
