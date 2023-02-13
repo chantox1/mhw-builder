@@ -16,6 +16,7 @@ import SkillCard from './skill_card';
 import SearchDialog from './search_equip';
 import ToggleDialog from './effect_toggle';
 import { useScreenshot, createFileName } from 'use-react-screenshot';
+import { getSharpness, getSharpnessMod } from '../src/sharpness';
 import Sprite from './sprite';
 
 function pushSkill(skillDict, skill) {
@@ -307,6 +308,10 @@ export default function Builder(data) {
     if (54 in mySkills) {
       calcs.Handicraft = mySkills[54][1];
     }
+    else {
+      calcs.Handicraft = 0;
+    }
+    calcs.SharpMod = getSharpnessMod(getSharpness(data, equip.Weapon, calcs.Handicraft));
 
     for (var i=0; i < classNo; i++) {
       var sum = 0;
@@ -417,7 +422,7 @@ export default function Builder(data) {
     }
     calcs.RawAffinity = calcs.Affinity;
     calcs.Affinity = Math.min(100, calcs.RawAffinity);
-    calcs.EffRaw = calcs.Attack * (1 + (calcs.Affinity/100)*(calcs.CritDmg/100 - 1))
+    calcs.EffRaw = calcs.Attack * (1 + (calcs.Affinity/100)*(calcs.CritDmg/100 - 1)) * calcs.SharpMod[0];
 
     setMyStats(calcs);
   }, [mySkills, tglMap])
@@ -559,7 +564,7 @@ export default function Builder(data) {
                 main
                 data={data}
                 wep={equip.Weapon}
-                handiLvl={'Handicraft' in myStats ? myStats.Handicraft : 0}
+                handiLvl={myStats.Handicraft}
                 onClick={handleClickOpen}
                 sx={{ flexGrow: 1, mb: 0.5, p: 0.3}}
               />

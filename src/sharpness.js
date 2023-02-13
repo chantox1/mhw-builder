@@ -41,6 +41,11 @@ export function getSharpness(data, wep, handiLvl=0) {
   return sharpness;
 }
 
+export function getSharpnessMod(sharpness) {
+  return ('handicraft') in sharpness ? sharpMod[sharpness.handicraft.length - 1] :
+                                       sharpMod[sharpness.natural.length - 1];
+}
+
 export function SharpnessDisplay(props) {
   const { sharpness } = props;
   let { height } = props;
