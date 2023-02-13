@@ -423,6 +423,7 @@ export default function Builder(data) {
     calcs.RawAffinity = calcs.Affinity;
     calcs.Affinity = Math.min(100, calcs.RawAffinity);
     calcs.EffRaw = calcs.Attack * (1 + (calcs.Affinity/100)*(calcs.CritDmg/100 - 1)) * calcs.SharpMod[0];
+    calcs.EffEle = calcs.EleDmg * calcs.SharpMod[1];
 
     setMyStats(calcs);
   }, [mySkills, tglMap])
@@ -605,6 +606,12 @@ export default function Builder(data) {
                     <TableCell>{Math.round(myStats.EffRaw * 100)/100}</TableCell>
                   </TableRow>
                   <TableRow>
+                    <TableCell>Ele</TableCell>
+                    <TableCell>{myStats.EleDmg}</TableCell>
+                    <TableCell>Effective Ele</TableCell>
+                    <TableCell>{Math.round(myStats.EffEle * 100)/100}</TableCell>
+                  </TableRow>
+                  <TableRow>
                     <TableCell>Affinity</TableCell>
                     {(() => {
                       if (myStats.RawAffinity <= 100) {
@@ -625,10 +632,6 @@ export default function Builder(data) {
                     })()}
                     <TableCell>Crit Damage</TableCell>
                     <TableCell>{myStats.CritDmg / 100}x</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Ele</TableCell>
-                    <TableCell>{myStats.EleDmg}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
