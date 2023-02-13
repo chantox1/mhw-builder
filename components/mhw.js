@@ -304,6 +304,10 @@ export default function Builder(data) {
                                calcs.EleDmg + data.elementCap[1]);
     }
 
+    if (54 in mySkills) {
+      calcs.Handicraft = mySkills[54][1];
+    }
+
     for (var i=0; i < classNo; i++) {
       var sum = 0;
       var mult = 1;
@@ -551,7 +555,14 @@ export default function Builder(data) {
         <Grid container spacing={"0.5vh"}>
           <Grid item xs={12} md={8}>
             <Box display="flex" flexDirection="column" sx={equipBlockStyle}>
-              <WepCard main data={data} wep={equip.Weapon} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3}}/>
+              <WepCard
+                main
+                data={data}
+                wep={equip.Weapon}
+                handiLvl={'Handicraft' in myStats ? myStats.Handicraft : 0}
+                onClick={handleClickOpen}
+                sx={{ flexGrow: 1, mb: 0.5, p: 0.3}}
+              />
               <ArmorCard main data={data} armor={equip.Armor[0]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3, height: 1}}/>
               <ArmorCard main data={data} armor={equip.Armor[1]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3, height: 1}}/>
               <ArmorCard main data={data} armor={equip.Armor[2]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3, height: 1}}/>

@@ -5,6 +5,7 @@ import { Typography } from '@mui/material';
 import { ButtonBase } from '@mui/material';
 import SlotDisplay from './slot_display';
 import { Skeleton } from '@mui/material';
+import { getSharpness, SharpnessDisplay } from '../src/sharpness';
 
 function buttonFunction(main, onClick, val) {
   if (main) {
@@ -13,37 +14,6 @@ function buttonFunction(main, onClick, val) {
   else {
     onClick(val)
   }
-}
-
-function getSharpness(data, wep) {
-  var sharpness = [];
-  const delta = parseInt(wep.SharpNo) * 50;  // TODO: redump with int
-  const max = 150 + delta;
-  let len = 0;
-  let i = 0;
-  while (len < max) {
-    let dif = data.sharpness[wep.SharpId].Bar[i] - len;
-    if (len + dif > max) {
-      dif = max - len;
-      sharpness.push((dif / 4).toString() + '%');
-      len = max;
-      break;
-    }
-    sharpness.push((dif / 4).toString() + '%');
-    len = data.sharpness[wep.SharpId].Bar[i]
-    i++;
-  }
-  var extra = new Array(i);
-  while (len < 400) {
-    let dif = data.sharpness[wep.SharpId].Bar[i] - len;
-    if (len + dif > max + 50) {
-      dif = max + 50 - len;
-    }
-    extra.push((dif / 4).toString() + '%');
-    len = data.sharpness[wep.SharpId].Bar[i];
-    i++;
-  }
-  return [sharpness, extra];
 }
 
 function shellString(data, shellId) {
@@ -99,13 +69,8 @@ const WepStatIcon = (props) => (
   />
 )
 
-const sharpColors = ['#be3844', '#d3673d', '#cab232', '#6eaf1e', '#4678e6', '#e2e2e2', '#8755f0']
-
 export default function WepCard(props) {
-  const { data, main=false, wep, loading=false, onClick } = props;
-
-  const [sharpness, extra] = getSharpness(data, wep);
-  let sharpBarHeight = wep.SharpNo == "5" ? 1 : 0.6
+  const { data, main=false, wep, handiLvl=0, loading=false, onClick } = props;
 
   return (
     <Paper sx={props.sx}>
@@ -213,18 +178,7 @@ export default function WepCard(props) {
                       </WepStat>
                     }
                   </Box>
-                  <Box display="flex" width={175} marginTop={1} marginBottom={0.5}>
-                    { sharpness.map((s, i) => {
-                      return (
-                        <Box key={i} width={s} backgroundColor={sharpColors[i]} paddingTop={sharpBarHeight}/>
-                      )
-                    })}
-                    { extra.map((s, i) => {
-                      return (
-                        <Box key={i} width={s} backgroundColor={sharpColors[i]} marginTop={0.65} paddingTop={0.35}/>
-                      )
-                    })}
-                  </Box>
+                  <SharpnessDisplay sharpness={getSharpness(data, wep, handiLvl)} height={1} sx={{width: 175, mt: 1, mb: 0.5}}/>
                   {(() => {
                     if ('Skill' in wep) {
                       return (
