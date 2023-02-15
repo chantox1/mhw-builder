@@ -44,7 +44,7 @@ export function getSharpness(data, wep, handiLvl=0) {
 }
 
 function HandiSharpDisplay(props) {
-  const { handicraft, height } = props;
+  const { handicraft, height, tooltip } = props;
   const totalUnits = handicraft.reduce((a, b) => {
     return a + b;
   }, 0);
@@ -105,7 +105,7 @@ export function SharpnessDisplay(props) {
       })}
 
       { 'handicraft' in sharpness &&
-        <HandiSharpDisplay handicraft={sharpness.handicraft} height={height}/>
+        <HandiSharpDisplay tooltip={tooltip} handicraft={sharpness.handicraft} height={height}/>
       }
 
       { 'extra' in sharpness &&
