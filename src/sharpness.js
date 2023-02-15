@@ -23,7 +23,7 @@ function pushSharpness(sharpness, unitArray, max, unitNo=0, colorIndex=0) {
 export function getSharpness(data, wep, handiLvl=0) {
   var sharpness = { 'natural' : [] };
   let unitArray = data.sharpness[wep.SharpId].Bar;
-  let max = 150 + parseInt(wep.SharpNo) * 50;
+  let max = 150 + wep.SharpNo * 50;
   let [unitNo, colorIndex] = pushSharpness(sharpness.natural, unitArray, max);
   
   const handiUnits = Math.min(400, max + handiLvl * 10) - max;
@@ -48,9 +48,7 @@ function HandiSharpDisplay(props) {
   const totalUnits = handicraft.reduce((a, b) => {
     return a + b;
   }, 0);
-  console.log("total:", totalUnits)
   const norm = 400/totalUnits;
-  console.log("norm", norm)
   return (
     <Box display='flex' width={(totalUnits/4).toString() + '%'} sx={{outline: '2px solid cyan', zIndex: 1}}>
         {
