@@ -1,6 +1,8 @@
 import { Box } from "@mui/material";
+import { Tooltip } from "@mui/material";
 
 const sharpColors = ['#be3844', '#d3673d', '#cab232', '#6eaf1e', '#4678e6', '#e2e2e2', '#8755f0'];
+const sharpNames = ['red', 'orange', 'yellow', 'green', 'blue', 'white', 'purple'];
 const sharpMod = [[0.5, 0.25], [0.75, 0.5], [1.0, 0.75], [1.05, 1.0], [1.2, 1.0625], [1.32, 1.15], [1.39, 1.25]];
 
 function pushSharpness(sharpness, unitArray, max, unitNo=0, colorIndex=0) {
@@ -51,13 +53,20 @@ function HandiSharpDisplay(props) {
   console.log("norm", norm)
   return (
     <Box display='flex' width={(totalUnits/4).toString() + '%'} sx={{outline: '2px solid cyan', zIndex: 1}}>
-      {
-        handicraft.map((s, i) => {
-          return (
-            <Box key={i} width={(norm*s/4).toString() + '%'} backgroundColor={sharpColors[i]} paddingTop={height}/>
-          )
-        })
-      }
+        {
+          handicraft.map((s, i) => {
+            if (tooltip) {
+              return (
+                <Tooltip arrow title={s.toString() + ' units of ' + sharpNames[i]}>
+                  <Box key={i} width={(norm*s/4).toString() + '%'} backgroundColor={sharpColors[i]} paddingTop={height}/>
+                </Tooltip>
+              )
+            }
+            return (
+              <Box key={i} width={(norm*s/4).toString() + '%'} backgroundColor={sharpColors[i]} paddingTop={height}/>
+            )
+          })
+        }
     </Box>
   )
 }
@@ -67,8 +76,13 @@ export function getSharpnessMod(sharpness) {
                                        sharpMod[sharpness.natural.length - 1];
 }
 
+export function getSharpnessColor(sharpness) {
+  return ('handicraft') in sharpness ? sharpColors[sharpness.handicraft.length - 1] :
+                                       sharpColors[sharpness.natural.length - 1];
+}
+
 export function SharpnessDisplay(props) {
-  const { sharpness } = props;
+  const { sharpness, tooltip=false } = props;
   let { height } = props;
   if ('extra' in sharpness) {
     var marginTop = height * 0.65
@@ -78,6 +92,13 @@ export function SharpnessDisplay(props) {
   return (
     <Box display='flex' sx={props.sx}>
       { sharpness.natural.map((s, i) => {
+        if (tooltip) {
+          return (
+            <Tooltip arrow title={s.toString() + ' units of ' + sharpNames[i]}>
+              <Box key={i} width={(s/4).toString() + '%'} backgroundColor={sharpColors[i]} paddingTop={height}/>
+            </Tooltip>
+          )
+        }
         return (
           <Box key={i} width={(s/4).toString() + '%'} backgroundColor={sharpColors[i]} paddingTop={height}/>
         )
@@ -89,11 +110,43 @@ export function SharpnessDisplay(props) {
 
       { 'extra' in sharpness &&
         sharpness.extra.map((s, i) => {
+          if (tooltip) {
+            return (
+              <Tooltip arrow title={s.toString() + ' units of ' + sharpNames[i]}>
+                <Box key={i} width={(s/4).toString() + '%'} backgroundColor={sharpColors[i]} marginTop={marginTop} paddingTop={paddingTop}/>
+              </Tooltip>
+            )
+          }
           return (
             <Box key={i} width={(s/4).toString() + '%'} backgroundColor={sharpColors[i]} marginTop={marginTop} paddingTop={paddingTop}/>
           )
         })
       }
+    </Box>
+  )
+}
+
+export function SharpnessBar(props) {
+  const { sharpness } = props;
+  return (
+    <Box flex={1} display="flex" justifyContent="center">
+      <Box>
+        <Box
+          component="img"
+          src="/icon/sharpness.png"
+        />
+        <SharpnessDisplay
+          tooltip
+          sharpness={sharpness}
+          height={1.5}
+          sx={{
+            width: 200,
+            position: "relative",
+            bottom: 25,
+            left: 32
+          }}
+        />
+      </Box>
     </Box>
   )
 }

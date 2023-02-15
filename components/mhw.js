@@ -16,9 +16,8 @@ import SkillCard from './skill_card';
 import SearchDialog from './search_equip';
 import ToggleDialog from './effect_toggle';
 import { useScreenshot, createFileName } from 'use-react-screenshot';
-import { getSharpness, getSharpnessMod } from '../src/sharpness';
+import { getSharpness, getSharpnessMod, getSharpnessColor, SharpnessBar } from '../src/sharpness';
 import Sprite from './sprite';
-import SharpnessBar from './sharpness_bar';
 
 function pushSkill(skillDict, skill) {
   const [id, lvl] = skill;
@@ -660,9 +659,17 @@ export default function Builder(data) {
                       <TableBody>
                         <TableRow>
                           <TableCell>Raw Mod</TableCell>
-                          <TableCell>{myStats.SharpMod[0]}</TableCell>
+                          <TableCell>
+                            <span style={{color: getSharpnessColor(myStats.Sharpness)}}>
+                              {myStats.SharpMod[0]}
+                            </span>
+                          </TableCell>
                           <TableCell>Ele Mod</TableCell>
-                          <TableCell>{myStats.SharpMod[1]}</TableCell>
+                          <TableCell>
+                            <span style={{color: getSharpnessColor(myStats.Sharpness)}}>
+                              {myStats.SharpMod[1]}
+                            </span>
+                          </TableCell>
                         </TableRow>
                       </TableBody>
                     </Table>
