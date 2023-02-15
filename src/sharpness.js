@@ -41,6 +41,27 @@ export function getSharpness(data, wep, handiLvl=0) {
   return sharpness;
 }
 
+function HandiSharpDisplay(props) {
+  const { handicraft, height } = props;
+  const totalUnits = handicraft.reduce((a, b) => {
+    return a + b;
+  }, 0);
+  console.log("total:", totalUnits)
+  const norm = 400/totalUnits;
+  console.log("norm", norm)
+  return (
+    <Box display='flex' width={(totalUnits/4).toString() + '%'} sx={{outline: '2px solid cyan', zIndex: 1}}>
+      {
+        handicraft.map((s, i) => {
+          return (
+            <Box key={i} width={(norm*s/4).toString() + '%'} backgroundColor={sharpColors[i]} paddingTop={height}/>
+          )
+        })
+      }
+    </Box>
+  )
+}
+
 export function getSharpnessMod(sharpness) {
   return ('handicraft') in sharpness ? sharpMod[sharpness.handicraft.length - 1] :
                                        sharpMod[sharpness.natural.length - 1];
@@ -63,11 +84,7 @@ export function SharpnessDisplay(props) {
       })}
 
       { 'handicraft' in sharpness &&
-        sharpness.handicraft.map((s, i) => {
-          return (
-            <Box key={i} width={(s/4).toString() + '%'} backgroundColor={sharpColors[i]} paddingTop={height}/>
-          )
-        })
+        <HandiSharpDisplay handicraft={sharpness.handicraft} height={height}/>
       }
 
       { 'extra' in sharpness &&

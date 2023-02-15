@@ -18,6 +18,7 @@ import ToggleDialog from './effect_toggle';
 import { useScreenshot, createFileName } from 'use-react-screenshot';
 import { getSharpness, getSharpnessMod } from '../src/sharpness';
 import Sprite from './sprite';
+import SharpnessBar from './sharpness_bar';
 
 function pushSkill(skillDict, skill) {
   const [id, lvl] = skill;
@@ -311,7 +312,8 @@ export default function Builder(data) {
     else {
       calcs.Handicraft = 0;
     }
-    calcs.SharpMod = getSharpnessMod(getSharpness(data, equip.Weapon, calcs.Handicraft));
+    calcs.Sharpness = getSharpness(data, equip.Weapon, calcs.Handicraft);
+    calcs.SharpMod = getSharpnessMod(calcs.Sharpness);
 
     for (var i=0; i < classNo; i++) {
       var sum = 0;
@@ -565,7 +567,6 @@ export default function Builder(data) {
                 main
                 data={data}
                 wep={equip.Weapon}
-                handiLvl={myStats.Handicraft}
                 onClick={handleClickOpen}
                 sx={{ flexGrow: 1, mb: 0.5, p: 0.3}}
               />
@@ -596,46 +597,79 @@ export default function Builder(data) {
             <Paper style={{height: "13vh", marginBottom: "0.5vh"}}>
               {/* Safi/Gun mod zone */}
             </Paper>
-            <TableContainer component={Paper} sx={{height: "64vh"}}>
-              <Table>
-                <TableBody>
-                  <TableRow>
-                    <TableCell>Raw</TableCell>
-                    <TableCell>{myStats.Attack}</TableCell>
-                    <TableCell>Effective Raw</TableCell>
-                    <TableCell>{Math.round(myStats.EffRaw * 100)/100}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Ele</TableCell>
-                    <TableCell>{myStats.EleDmg}</TableCell>
-                    <TableCell>Effective Ele</TableCell>
-                    <TableCell>{Math.round(myStats.EffEle * 100)/100}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Affinity</TableCell>
-                    {(() => {
-                      if (myStats.RawAffinity <= 100) {
-                        return (
-                          <TableCell>
-                            { myStats.Affinity }%
-                          </TableCell>
-                        )
-                      }
-                      else {
-                        return (
-                          <TableCell>
-                            <span style={{color: 'orange'}}>{ myStats.Affinity }% </span>
-                            <span>({ myStats.RawAffinity }%)</span>
-                          </TableCell>
-                        )
-                      }
-                    })()}
-                    <TableCell>Crit Damage</TableCell>
-                    <TableCell>{myStats.CritDmg / 100}x</TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
+            <Paper sx={{height: "64vh"}}>
+              <Paper elevation={0} square
+                sx={{
+                  borderTopLeftRadius: 4,
+                  borderTopRightRadius: 4
+                }}>
+                <Box flex={1} display="flex" justifyContent="center">
+                  <Typography variant="h6">Damage</Typography>
+                </Box>
+              </Paper>
+              <TableContainer component={Paper} sx={{width: "100%"}}>
+                <Table>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell>Raw</TableCell>
+                      <TableCell>{myStats.Attack}</TableCell>
+                      <TableCell>Effective Raw</TableCell>
+                      <TableCell>{Math.round(myStats.EffRaw * 100)/100}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Ele</TableCell>
+                      <TableCell>{myStats.EleDmg}</TableCell>
+                      <TableCell>Effective Ele</TableCell>
+                      <TableCell>{Math.round(myStats.EffEle * 100)/100}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Affinity</TableCell>
+                      {(() => {
+                        if (myStats.RawAffinity <= 100) {
+                          return (
+                            <TableCell>
+                              { myStats.Affinity }%
+                            </TableCell>
+                          )
+                        }
+                        else {
+                          return (
+                            <TableCell>
+                              <span style={{color: 'orange'}}>{ myStats.Affinity }% </span>
+                              <span>({ myStats.RawAffinity }%)</span>
+                            </TableCell>
+                          )
+                        }
+                      })()}
+                      <TableCell>Crit Damage</TableCell>
+                      <TableCell>{myStats.CritDmg / 100}x</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              { 'Sharpness' in myStats && 
+                <Box>
+                  <Paper elevation={0} square sx={{mb: 1}}>
+                    <Box flex={1} display="flex" justifyContent="center">
+                      <Typography variant="h6">Sharpness</Typography>
+                    </Box>
+                  </Paper>
+                  <SharpnessBar sharpness={myStats.Sharpness}/>
+                  <TableContainer>
+                    <Table>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell>Raw Mod</TableCell>
+                          <TableCell>{myStats.SharpMod[0]}</TableCell>
+                          <TableCell>Ele Mod</TableCell>
+                          <TableCell>{myStats.SharpMod[1]}</TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </Box>
+              }
+            </Paper>
           </Grid>
         </Grid>
       </Grid>
