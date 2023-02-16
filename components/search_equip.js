@@ -82,8 +82,8 @@ const WepButton = (props) => (
     sx={{...props.sx, p: 0.2}}
   >
     <Box
-      maxHeight={36}
-      maxWidth={36}
+      height={36}
+      width={36}
       component="img"
       src={'/icon/Wep/' + props.class.toString() + '.png'}
     />

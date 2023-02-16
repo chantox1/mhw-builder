@@ -324,12 +324,13 @@ export default function Builder(data) {
               borderColor: 'text.secondary',
             }}
           >
-              {Object.entries(data.toggleData).map(entry => {
+              {Object.entries(data.toggleData).map((entry, i) => {
                 const [key, item] = entry;
                 if (tglMap[key]) {
                   if ('sprite' in item) {
                     return (
                       <Sprite
+                        key={i}
                         {...item.sprite}
                       />
                     )
@@ -337,6 +338,7 @@ export default function Builder(data) {
                   if ('src' in item) {
                     return (
                       <Box
+                        key={i}
                         component="img"
                         src={item.src}
                       />
@@ -345,6 +347,7 @@ export default function Builder(data) {
                   if ('nick' in item) {
                     return (
                       <Box
+                        key={i}
                         sx={{
                           ml: 0.5,
                           p: 0.3,
@@ -411,46 +414,48 @@ export default function Builder(data) {
                   <Typography variant="h6">Damage</Typography>
                 </Box>
               </Paper>
-              <TableContainer component={Paper} sx={{width: "100%"}}>
-                <Table>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell>Raw</TableCell>
-                      <TableCell>{myStats.Attack}</TableCell>
-                      <TableCell>Effective Raw</TableCell>
-                      <TableCell>{Math.round(myStats.EffRaw * 100)/100}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>Ele</TableCell>
-                      <TableCell>{myStats.EleDmg}</TableCell>
-                      <TableCell>Effective Ele</TableCell>
-                      <TableCell>{Math.round(myStats.EffEle * 100)/100}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>Affinity</TableCell>
-                      {(() => {
-                        if (myStats.RawAffinity <= 100) {
-                          return (
-                            <TableCell>
-                              { myStats.Affinity }%
-                            </TableCell>
-                          )
-                        }
-                        else {
-                          return (
-                            <TableCell>
-                              <span style={{color: 'orange'}}>{ myStats.Affinity }% </span>
-                              <span>({ myStats.RawAffinity }%)</span>
-                            </TableCell>
-                          )
-                        }
-                      })()}
-                      <TableCell>Crit Damage</TableCell>
-                      <TableCell>{myStats.CritDmg / 100}x</TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </TableContainer>
+              { Object.keys(myStats).length != 0 &&
+                <TableContainer component={Paper} sx={{width: "100%"}}>
+                  <Table>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell>Raw</TableCell>
+                        <TableCell>{myStats.Attack}</TableCell>
+                        <TableCell>Effective Raw</TableCell>
+                        <TableCell>{Math.round(myStats.EffRaw * 100)/100}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>Ele</TableCell>
+                        <TableCell>{myStats.EleDmg}</TableCell>
+                        <TableCell>Effective Ele</TableCell>
+                        <TableCell>{Math.round(myStats.EffEle * 100)/100}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>Affinity</TableCell>
+                        {(() => {
+                          if (myStats.RawAffinity <= 100) {
+                            return (
+                              <TableCell>
+                                { myStats.Affinity }%
+                              </TableCell>
+                            )
+                          }
+                          else {
+                            return (
+                              <TableCell>
+                                <span style={{color: 'orange'}}>{ myStats.Affinity }% </span>
+                                <span>({ myStats.RawAffinity }%)</span>
+                              </TableCell>
+                            )
+                          }
+                        })()}
+                        <TableCell>Crit Damage</TableCell>
+                        <TableCell>{myStats.CritDmg / 100}x</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              }
               { 'Sharpness' in myStats && 
                 <Box>
                   <Paper elevation={0} square sx={{mb: 1}}>

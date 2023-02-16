@@ -3,8 +3,8 @@ import { Box } from '@mui/material';
 import { Typography } from '@mui/material';
 import Sprite from './sprite';
 
-function lvlIcon(pos) {
-  const [x,y] = pos;
+function LvlIcon(props) {
+  const [x,y] = props.pos;
   return (
     <Sprite
       src='/icon/Skill/skill-pips.png'
@@ -95,9 +95,11 @@ export default function SkillCard(props) {
               crop={[200,16]}
               sx={{alignSelf: "center"}}
             />
-            {skillsFilled.map(m => {
+            {skillsFilled.map((pos, i) => {
               return (
-                lvlIcon(m)
+                <Box key={i}>
+                  <LvlIcon pos={pos}/>
+                </Box>
               )
             })}
           </Box>

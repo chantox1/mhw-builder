@@ -45,6 +45,7 @@ const GroupIconDisplay = (props) => {
     groups.map((group, index) => {
       return (
         <GroupIcon
+          key={index}
           groupId={index}
           groupName={group}
           activeGroup={activeGroup}

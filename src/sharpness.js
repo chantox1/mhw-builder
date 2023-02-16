@@ -55,8 +55,8 @@ function HandiSharpDisplay(props) {
           handicraft.map((s, i) => {
             if (tooltip) {
               return (
-                <Tooltip arrow title={s.toString() + ' units of ' + sharpNames[i]}>
-                  <Box key={i} width={(norm*s/4).toString() + '%'} backgroundColor={sharpColors[i]} paddingTop={height}/>
+                <Tooltip key={i} arrow title={s.toString() + ' units of ' + sharpNames[i]}>
+                  <Box width={(norm*s/4).toString() + '%'} backgroundColor={sharpColors[i]} paddingTop={height}/>
                 </Tooltip>
               )
             }
@@ -92,8 +92,8 @@ export function SharpnessDisplay(props) {
       { sharpness.natural.map((s, i) => {
         if (tooltip) {
           return (
-            <Tooltip arrow title={s.toString() + ' units of ' + sharpNames[i]}>
-              <Box key={i} width={(s/4).toString() + '%'} backgroundColor={sharpColors[i]} paddingTop={height}/>
+            <Tooltip key={i} arrow title={s.toString() + ' units of ' + sharpNames[i]}>
+              <Box width={(s/4).toString() + '%'} backgroundColor={sharpColors[i]} paddingTop={height}/>
             </Tooltip>
           )
         }
@@ -110,8 +110,8 @@ export function SharpnessDisplay(props) {
         sharpness.extra.map((s, i) => {
           if (tooltip) {
             return (
-              <Tooltip arrow title={s.toString() + ' units of ' + sharpNames[i]}>
-                <Box key={i} width={(s/4).toString() + '%'} backgroundColor={sharpColors[i]} marginTop={marginTop} paddingTop={paddingTop}/>
+              <Tooltip key={i} arrow title={s.toString() + ' units of ' + sharpNames[i]}>
+                <Box width={(s/4).toString() + '%'} backgroundColor={sharpColors[i]} marginTop={marginTop} paddingTop={paddingTop}/>
               </Tooltip>
             )
           }
