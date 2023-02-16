@@ -63,11 +63,26 @@ export function doCalcs(data, mySkills, tglMap, equip) {
     calcs.EleDmg = 0;
   }
 
-  if (174 in mySkills && mySkills[174][1] >= 4) {
-    calcs.EleCritDmg = data.trueCritEleMults[equip.Weapon.Class];
+  if (calcs.Element >= 6) {
+    if (175 in mySkills && mySkills[175][1] >= 4) {
+      calcs.EleCritDmg = data.trueCritStatusMults[equip.Weapon.Class];
+    }
+    else if (166 in mySkills ||
+            (179 in mySkills && mySkills[179][1] >= 2) ||
+            (147 in mySkills && mySkills[147][1] >= 3)) {
+      calcs.EleCritDmg = data.critStatusMults[equip.Weapon.Class];
+    }
   }
-  else if (165 in mySkills) {
-    calcs.EleCritDmg = data.critEleMults[equip.Weapon.Class];
+  else {
+    if (174 in mySkills && mySkills[174][1] >= 4) {
+      calcs.EleCritDmg = data.trueCritEleMults[equip.Weapon.Class];
+    }
+    else if (165 in mySkills ||
+            (135 in mySkills && mySkills[135][1] >= 2) ||
+            (128 in mySkills && mySkills[128][1] >= 3) ||
+            (178 in mySkills && mySkills[178][1] >= 2)) {
+      calcs.EleCritDmg = data.critEleMults[equip.Weapon.Class];
+    }
   }
 
   let rawCap = calcs.Attack * data.attackCap;
