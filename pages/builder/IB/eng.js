@@ -4,6 +4,7 @@ import NavBar from '../../../components/navbar';
 import Builder from '../../../components/mhw';
 
 // Common
+import { constants } from '../../../data/IB/common/constants';
 import weapons from '../../../data/IB/common/wepData.json';
 import phials from '../../../data/IB/common/phials.json';
 import shelling from '../../../data/IB/common/shelling.json';
@@ -30,6 +31,7 @@ import mantleString from '../../../data/IB/eng/mantleStr.json';
 
 export default function IB() {
     const data = {
+        ...constants,
         weapons: weapons,
         weaponString: weaponString,
         phials: phials,
@@ -51,8 +53,6 @@ export default function IB() {
         statusString: statusString,
         mantles: mantles,
         mantleString: mantleString,
-        attackCap: 2,
-        elementCap: [1.6, 15]
     }
 
     React.useEffect(() => {
