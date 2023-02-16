@@ -128,19 +128,20 @@ export function SharpnessBar(props) {
   const { sharpness } = props;
   return (
     <Box flex={1} display="flex" justifyContent="center">
-      <Box>
+      <Box position="relative" height={24}>
         <Box
           component="img"
           src="/icon/sharpness.png"
+          width={250}
+          height={24}
         />
         <SharpnessDisplay
           tooltip
           sharpness={sharpness}
           height={1.5}
           sx={{
-            width: 200,
             position: "relative",
-            bottom: 25,
+            bottom: 24.5,
             left: 32
           }}
         />
