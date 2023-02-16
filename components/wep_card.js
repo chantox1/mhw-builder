@@ -233,7 +233,7 @@ export default function WepCard(props) {
           <Grid item xl={3}>
             <WepStat>
               <WepStatIcon src='/icon/phial.png'/>
-              <Typography m={0.5}>
+              <Typography variant="body2" m={0.5}>
                 { phialString(data, wep.WepVar1) }
               </Typography>
             </WepStat>
@@ -243,7 +243,7 @@ export default function WepCard(props) {
           <Grid item xl={3}>
             <WepStat>
               <WepStatIcon src='/icon/kinsect.png'/>
-              <Typography m={0.5}>
+              <Typography variant="body2" m={0.5}>
                 { kinsectString(data, wep.WepVar1) }
               </Typography>
             </WepStat>

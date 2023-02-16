@@ -122,6 +122,11 @@ const toggleData = {
     name: 198,
     nick: "RES"
   },
+  "MMT": {
+    group: 0,
+    name: 303,
+    nick: "MM"
+  },
   "OFG": {
     group: 0,
     name: 555,

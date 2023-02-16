@@ -140,6 +140,7 @@ export function SharpnessBar(props) {
           sharpness={sharpness}
           height={1.5}
           sx={{
+            width: 200,
             position: "relative",
             bottom: 24.5,
             left: 32

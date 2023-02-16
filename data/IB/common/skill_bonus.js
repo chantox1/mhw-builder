@@ -259,6 +259,14 @@ const skillBonus = {
       }
     }
   ],
+  101: [ // Maximum Might
+    { tglId: "MMT",
+      effect: {
+        class: 15,
+        param: 1
+      }
+    }
+  ],
   159: [ // Non-elemental boost
     {
       cond: arg => {return arg == 0},
