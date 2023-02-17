@@ -243,7 +243,7 @@ export default function Builder(data) {
     }, null) || 'xs'
   ]
   // Hacky fix for flex & minHeight
-  var equipBlockStyle = (breakPoint < theme.breakpoints.values.lg) ? {} : {height: "1px", minHeight: `calc(83vh - 50px)`};
+  var equipBlockStyle = (breakPoint < theme.breakpoints.values.lg) ? {} : {height: "1px", minHeight: `calc(85vh - 50px)`};
   var mantleWrap = (breakPoint > theme.breakpoints.values.lg) ? "nowrap" : "wrap";
 
   return (
@@ -273,7 +273,7 @@ export default function Builder(data) {
         backgroundColor: 'primary.main',
       }}
     >
-      <Toolbar>
+      <Toolbar variant="dense">
         <ModeIcon sx={{ mr: 2 }}/>
         <Typography variant="h5" flex={1}> New Set (placeholder) </Typography>
         <IconButton edge="start" color="inherit" aria-label="menu" onClick={getImage}>
@@ -284,7 +284,7 @@ export default function Builder(data) {
 
     <Grid ref={screenshotRef} backgroundColor="background.default" container wrap="wrap-reverse" spacing={1}>
       <Grid item xs={12} lg={2}>
-          <Paper sx={{height: "83vh", overflow: 'auto', p: 0.3}}>
+          <Paper sx={{height: "85vh", overflow: 'auto', p: 0.3}}>
             {(() => {
                 let e = JSON.parse(JSON.stringify(mySkills));
                 return (
@@ -404,7 +404,7 @@ export default function Builder(data) {
             <Paper style={{height: "13vh", marginBottom: "0.5vh"}}>
               {/* Safi/Gun mod zone */}
             </Paper>
-            <Paper sx={{height: "64vh"}}>
+            <Paper sx={{height: "66vh"}}>
               <Paper elevation={0} square
                 sx={{
                   borderTopLeftRadius: 4,

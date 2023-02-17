@@ -20,17 +20,18 @@ export default function NavBar(props) {
             { msg }
           </Typography>
           {IB &&
-          <Select
-            IconComponent={LanguageIcon}
-            sx={{'.MuiOutlinedInput-notchedOutline': { border: 0 }}}
-          >
-            <MenuItem>
-              <Link href="/../builder/IB/eng" color='text.primary'>English</Link>
-            </MenuItem>
-            <MenuItem>
-              <Link href="/../builder/IB/jp" color='text.primary'>日本語</Link>
-            </MenuItem>
-          </Select>}
+            <Select
+              IconComponent={LanguageIcon}
+              sx={{'.MuiOutlinedInput-notchedOutline': { border: 0 }}}
+            >
+              <MenuItem>
+                <Link href="/../builder/IB/eng" color='text.primary'>English</Link>
+              </MenuItem>
+              <MenuItem>
+                <Link href="/../builder/IB/jp" color='text.primary'>日本語</Link>
+              </MenuItem>
+            </Select>
+          }
         </Toolbar>
       </Container>
     </AppBar>
