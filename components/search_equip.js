@@ -90,17 +90,62 @@ const WepButton = (props) => (
   </ButtonBase>
 )
 
+class SearchField extends React.Component {
+  constructor(props) {
+    super(props);
+    this.setInput = props.setInput;
+    this.label = props.label;
+    this.inputRef = React.createRef();
+  }
+
+  componentDidMount() {
+    this.inputRef.current.focus()
+  }
+
+  render() {
+    return (
+      <TextField inputRef={this.inputRef} onChange={e => this.setInput(e.target.value)} sx={{mb: 1}}
+        color='secondary'
+        label={this.label}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon/>
+            </InputAdornment>
+          )
+        }}
+      />
+    )
+  }
+}
+
+function SearchFild(props) {
+  const { setInput, label } = props;
+  return (
+    <TextField autoFocus onChange={e => setInput(e.target.value)} sx={{mb: 1}}
+      color='secondary'
+      label={label}
+      InputProps={{
+        startAdornment: (
+          <InputAdornment position="start">
+            <SearchIcon/>
+          </InputAdornment>
+        )
+      }}
+    />
+  )
+}
+
+
 export default function SearchDialog(props) {
   const { data, open, equipItem, searchClass, setSearchClass, onClose } = props;
 
-  const [plus, setPlus] = React.useState(true);
-  const togglePlus = (event) => {
-    setPlus(event.target.checked);
-  }
-
-  // Get dialog dimensions
-  const [outerRef, { height: oHeight }] = useMeasure();
-  const [lowerRef, { height: lHeight}] = useMeasure();
+  const inputRef = React.useRef(null);
+  React.useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  })
 
   // Store user input
   const [userInput, setInput] = React.useState("");  // This is set as the user types
@@ -128,6 +173,15 @@ export default function SearchDialog(props) {
   const handleListItemClick = (value) => {
     onClose(value);
   };
+  
+  const [plus, setPlus] = React.useState(true);
+  const togglePlus = (event) => {
+    setPlus(event.target.checked);
+  }
+
+  // Get dialog dimensions
+  const [outerRef, { height: oHeight }] = useMeasure();
+  const [lowerRef, { height: lHeight}] = useMeasure();
 
   if (equipItem.Mode == 1) {
     var searchLabel = "Decoration search";
@@ -260,22 +314,11 @@ export default function SearchDialog(props) {
 
   var actualHeight = oHeight - lHeight;
 
-  {/* TODO: Autofocus textfield */}
   return (
     <Box ref={outerRef} style={{height: "75vh", position: "absolute"}}>
       <Dialog maxWidth='md' onClose={handleClose} open={open}>
         <Box sx={innerStyle}>
-          <TextField onChange={e => setInput(e.target.value)} sx={{mb: 1}}
-            color='secondary'
-            label={searchLabel}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon/>
-                </InputAdornment>
-              )
-            }}
-          />
+          <SearchField label={searchLabel} setInput={setInput} />
           <Virtuoso
             style={{ height: actualHeight }}
             totalCount={queryData.length}
