@@ -119,24 +119,6 @@ class SearchField extends React.Component {
   }
 }
 
-function SearchFild(props) {
-  const { setInput, label } = props;
-  return (
-    <TextField autoFocus onChange={e => setInput(e.target.value)} sx={{mb: 1}}
-      color='secondary'
-      label={label}
-      InputProps={{
-        startAdornment: (
-          <InputAdornment position="start">
-            <SearchIcon/>
-          </InputAdornment>
-        )
-      }}
-    />
-  )
-}
-
-
 export default function SearchDialog(props) {
   const { data, open, equipItem, searchClass, setSearchClass, onClose } = props;
 
