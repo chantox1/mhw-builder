@@ -1,19 +1,15 @@
 import * as React from 'react';
-import { Dialog } from '@mui/material';
-import { Typography } from '@mui/material';
-import { InputAdornment, TextField, Switch, FormControlLabel } from '@mui/material';
-import { Box } from '@mui/material';
-import { ButtonBase } from '@mui/material';
+import { useMeasure } from 'react-use';
+import { Virtuoso } from 'react-virtuoso';
 import { useTheme } from '@mui/material/styles';
+import { Dialog, Typography, Box, ButtonBase } from '@mui/material';
+import { InputAdornment, TextField, Switch, FormControlLabel } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import SearchIcon from '@mui/icons-material/Search';
-import { Virtuoso } from 'react-virtuoso';
-import { useMeasure } from 'react-use';
 import Sprite from './sprite';
 import ArmorCard from './armor_card';
 import WepCard from './wep_card';
 import MantleCard from './mantle_card';
-
 
 function startsWithFirst(a, b, queryString) {
   const aStarts = a.toLowerCase().startsWith(queryString);
@@ -122,18 +118,15 @@ class SearchField extends React.Component {
 export default function SearchDialog(props) {
   const { data, open, equipItem, searchClass, setSearchClass, onClose } = props;
 
-  const inputRef = React.useRef(null);
-  React.useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  })
+  // Get dialog dimensions
+  const [outerRef, { height: oHeight }] = useMeasure();
+  const [lowerRef, { height: lHeight}] = useMeasure();
 
   // Store user input
   const [userInput, setInput] = React.useState("");  // This is set as the user types
   const [queryString, setQryString] = React.useState("");  // This is set some time after the user stops typing
   React.useEffect(() => {
-    const timeOutId = setTimeout(() => setQryString(userInput), 500);
+    const timeOutId = setTimeout(() => setQryString(userInput), 350);
     return () => clearTimeout(timeOutId);
   }, [userInput]);
 
@@ -160,10 +153,6 @@ export default function SearchDialog(props) {
   const togglePlus = (event) => {
     setPlus(event.target.checked);
   }
-
-  // Get dialog dimensions
-  const [outerRef, { height: oHeight }] = useMeasure();
-  const [lowerRef, { height: lHeight}] = useMeasure();
 
   if (equipItem.Mode == 1) {
     var searchLabel = "Decoration search";
@@ -335,23 +324,21 @@ export default function SearchDialog(props) {
           </div>
         }
         {equipItem.Mode == 3 &&
-          <div ref={lowerRef}>
-            <Box
-              ref={lowerRef}
-              sx={{ml: 1}}
-            >
-              <FormControlLabel
-                label="+"
-                control={
-                  <Switch
-                    color="secondary"
-                    checked={plus}
-                    onChange={togglePlus}
-                  />
-                }
-              />
-            </Box>
-          </div>
+          <Box
+            ref={lowerRef}
+            sx={{ml: 1}}
+          >
+            <FormControlLabel
+              label="+"
+              control={
+                <Switch
+                  color="secondary"
+                  checked={plus}
+                  onChange={togglePlus}
+                />
+              }
+            />
+          </Box>
         }
       </Dialog>
     </Box>
