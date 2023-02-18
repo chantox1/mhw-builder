@@ -326,6 +326,7 @@ export default function Builder(data) {
           >
               {Object.entries(data.toggleData).map((entry, i) => {
                 const [key, item] = entry;
+                let textColor = 'text.primary';
                 if (tglMap[key]) {
                   if ('sprite' in item) {
                     return (
@@ -345,6 +346,9 @@ export default function Builder(data) {
                     )
                   }
                   if ('nick' in item) {
+                    if ('skill' in item && !(item.skill in mySkills)) {
+                      textColor = 'text.disabled'
+                    }
                     return (
                       <Box
                         key={i}
@@ -356,7 +360,7 @@ export default function Builder(data) {
                           borderColor: 'text.disabled'
                         }}
                       >
-                        <Typography variant='button'>
+                        <Typography variant='button' color={textColor}>
                           { item.nick }
                         </Typography>
                       </Box>
