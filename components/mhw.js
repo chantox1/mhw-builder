@@ -8,7 +8,6 @@ import { TableContainer, Table, TableBody, TableCell, TableRow } from '@mui/mate
 import useMediaQuery from '@mui/material/useMediaQuery';
 import ModeIcon from '@mui/icons-material/Mode';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
-import update from 'immutability-helper';
 import ArmorCard from './armor_card';
 import WepCard from './wep_card';
 import MantleCard from './mantle_card';
@@ -16,9 +15,11 @@ import SkillCard from './skill_card';
 import SearchDialog from './search_equip';
 import ToggleDialog from './effect_toggle';
 import { useScreenshot, createFileName } from 'use-react-screenshot';
-import { getSharpness, getSharpnessMod, getSharpnessColor, SharpnessBar } from '../src/sharpness';
+import { getSharpnessColor, SharpnessBar } from '../src/sharpness';
 import Sprite from './sprite';
 import { doCalcs } from '../src/calcs';
+import * as Equipment from '../src/equipment';
+import * as Util from '../src/util';
 
 function pushSkill(skillDict, skill) {
   const [id, lvl] = skill;
@@ -123,70 +124,19 @@ export default function Builder(data) {
 
   const handleClose = (value) => {
     setOpenSearch(false);
-
-    // Set slot
-    if (equipItem.Mode == 1) {
-      if (equipItem.Type <= 5) {
-        setEquip(update(equip, {
-          Armor: {
-            [equipItem.Type]: {
-              Slots: {
-                [equipItem.Pos]: {
-                  $set: value
-                }
-              }
-            }
-          }
-        }))
-      }
-      else if (equipItem.Type == 6) {
-        setEquip(update(equip, {
-          Weapon: {
-            Slots: {
-              [equipItem.Pos]: {
-                $set: value
-              }
-            }
-          }
-        }))
-      }
-      else if (equipItem.Type == 7) {
-        setEquip(update(equip, {
-          Mantle: {
-            [equipItem.Pos[0]]: {
-              Slots: {
-                [equipItem.Pos[1]]: {
-                  $set: value
-                }
-              }
-            }
-          }
-        }))
-      }
-    }
-    // Set weapon
-    else if (equipItem.Mode == 2) {
-      setEquip(update(equip, {
-        Weapon: {$set: value}
-      }))
-    }
-    // Set mantle
-    else if (equipItem.Mode == 3) {
-      setEquip(update(equip, {
-        Mantle: {
-          [equipItem.Pos]: {
-            $set: value
-          }
-        }
-      }))
-    }
-    // Set armor
-    else {
-      setEquip(update(equip, {
-        Armor: {
-          [value.Type]: {$set: value}
-        }
-      }))
+    const args = [equip, setEquip, equipItem, value];
+    switch(equipItem.Mode) {
+      case 1:
+        Equipment.setSlot(...args);
+        break;
+      case 2:
+        Equipment.setWeapon(...args);
+        break;
+      case 3:
+        Equipment.setMantle(...args);
+        break;
+      default:
+        Equipment.setArmor(...args);
     }
   };
 
@@ -245,6 +195,44 @@ export default function Builder(data) {
   // Hacky fix for flex & minHeight
   var equipBlockStyle = (breakPoint < theme.breakpoints.values.lg) ? {} : {height: "1px", minHeight: `calc(85vh - 50px)`};
   var mantleWrap = (breakPoint > theme.breakpoints.values.lg) ? "nowrap" : "wrap";
+
+  const MyWeaponDisplay = () => (
+    <WepCard
+      main
+      data={data}
+      wep={equip.Weapon}
+      onClick={handleClickOpen}
+      sx={{ flexGrow: 1, mb: 0.5, p: 0.3}}
+    />
+  )
+
+  const MyArmorDisplay = () => {
+    const MyArmorCard = (props) => (
+      <ArmorCard
+        main data={data}
+        armor={equip.Armor[props.type]}
+        onClick={handleClickOpen}
+        sx={{ flexGrow: 1, mb: 0.5, p: 0.3, height: 1}}
+      />
+    )
+    return (
+      Util.range(0,4).map(i => {
+        return (
+          <MyArmorCard type={i} key={i}/>
+        )
+      })
+    )
+  }
+
+  const MyCharmDisplay = () => (
+    <ArmorCard
+      charm
+      data={data}
+      armor={equip.Armor[5]}
+      onClick={handleClickOpen}
+      sx={{p: 0.3}}
+    />
+  )
 
   return (
     <Box>
@@ -374,21 +362,11 @@ export default function Builder(data) {
         <Grid container spacing={"0.5vh"}>
           <Grid item xs={12} md={8}>
             <Box display="flex" flexDirection="column" sx={equipBlockStyle}>
-              <WepCard
-                main
-                data={data}
-                wep={equip.Weapon}
-                onClick={handleClickOpen}
-                sx={{ flexGrow: 1, mb: 0.5, p: 0.3}}
-              />
-              <ArmorCard main data={data} armor={equip.Armor[0]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3, height: 1}}/>
-              <ArmorCard main data={data} armor={equip.Armor[1]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3, height: 1}}/>
-              <ArmorCard main data={data} armor={equip.Armor[2]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3, height: 1}}/>
-              <ArmorCard main data={data} armor={equip.Armor[3]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3, height: 1}}/>
-              <ArmorCard main data={data} armor={equip.Armor[4]} onClick={handleClickOpen} sx={{ flexGrow: 1, mb: 0.5, p: 0.3, height: 1}}/>
+              <MyWeaponDisplay/>
+              <MyArmorDisplay/>
               <Grid container spacing={0.3}>
                 <Grid item xs={12} xl={4}>
-                  <ArmorCard charm data={data} armor={equip.Armor[5]} onClick={handleClickOpen} sx={{p: 0.3}}/>
+                  <MyCharmDisplay/>
                 </Grid>
                 <Grid item xs>
                   <Grid container wrap={mantleWrap} spacing={0.3} height="100%">
