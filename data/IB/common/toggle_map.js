@@ -9,8 +9,8 @@ const toggleMap = {
   "DPR": false,
 
   // Skills
-  "WEX": true,
-  "WX+": false,
+  "WEX": false,
+  "WX+": true,
   "AGI": true,
   "PPE": true,
   "HRO": false,
