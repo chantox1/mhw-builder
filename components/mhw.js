@@ -20,6 +20,7 @@ import Sprite from './sprite';
 import { doCalcs } from '../src/calcs';
 import * as Equipment from '../src/equipment';
 import * as Util from '../src/util';
+import { usePrevious } from '../src/hooks';
 
 function pushSkill(skillDict, skill) {
   const [id, lvl] = skill;
@@ -140,9 +141,15 @@ export default function Builder(data) {
     }
   };
 
+  const [myCusUpgrades, setMyCusUpgrades] = React.useState([null]);
+
   const [mySkills, setMySkills] = React.useState({});
   const [tglMap, setToggleMap] = React.useState(data.toggleMap);  // TODO: toggleList should contain the default toggle of ALL effects
   const [openTglDialog, setOpenTglDialog] = React.useState(false);
+
+  React.useEffect(() => {
+    setMyCusUpgrades([null]);
+  }, [equip.Weapon.Index])
 
   React.useEffect(() => {
     var tempSkills = {}
@@ -181,8 +188,8 @@ export default function Builder(data) {
 
   const [myStats, setMyStats] = React.useState({});
   React.useEffect(() => {
-    setMyStats(doCalcs(data, mySkills, tglMap, equip));
-  }, [mySkills, tglMap])
+    setMyStats(doCalcs(data, mySkills, tglMap, equip, myCusUpgrades));
+  }, [mySkills, tglMap, myCusUpgrades])
 
   const theme = useTheme();
   const breakPoint = theme.breakpoints.values[
@@ -382,11 +389,23 @@ export default function Builder(data) {
             </Box>
           </Grid>
 
+          {/* original height: 13vh + 0.5vh margin + 66vh */}
           <Grid item xs={12} md={4}>
-            <Paper style={{height: "13vh", marginBottom: "0.5vh"}}>
-              {/* Safi/Gun mod zone */}
-            </Paper>
-            <Paper sx={{height: "66vh"}}>
+            <Box width="50%">
+              <Paper>
+                {Equipment.isCustomUpgradeable(equip.Weapon) &&
+                  <Equipment.CustomUpgradeDisplay
+                    equip={equip}
+                    setEquip={setEquip}
+                    upgrades={myCusUpgrades}
+                    setUpgrades={setMyCusUpgrades}
+                    upgradeLvls={data.cusUpgrades[equip.Weapon.Class]}
+                    sx={{mb: 0.5}}
+                  />
+                }
+              </Paper>
+            </Box>
+            <Paper>
               <Paper elevation={0} square
                 sx={{
                   borderTopLeftRadius: 4,

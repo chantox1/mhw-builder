@@ -21,7 +21,7 @@ function getEffectiveElement(calcs) {
   return calcs.EleDmg * critModifier * calcs.SharpMod[1];
 }
 
-export function doCalcs(data, mySkills, tglMap, equip) {
+export function doCalcs(data, mySkills, tglMap, equip, upgrades) {
   const classNo = 50;  // TODO: Set proper size
   let bonusBucket = Array.from(Array(classNo), () => new Array());
   data.skillDefault.forEach(s => {
@@ -43,6 +43,9 @@ export function doCalcs(data, mySkills, tglMap, equip) {
   }
 
   let calcs = {
+    "BaseAttack": equip.Weapon.Damage,
+    "BaseDefense": equip.Weapon.Defense,
+
     "Attack": equip.Weapon.Damage,
     "Affinity": equip.Weapon.Affinity,
     "CritDmg": 125,
@@ -51,17 +54,43 @@ export function doCalcs(data, mySkills, tglMap, equip) {
 
   if ('Element' in equip.Weapon) {
     calcs.Element = equip.Weapon.Element;
-    calcs.EleDmg = equip.Weapon.ElementDmg;
+    calcs.BaseEleDmg = equip.Weapon.ElementDmg;
   }
   else if ('HiddenEle' in equip.Weapon && 47 in mySkills) {
     calcs.Element = equip.Weapon.Element;
     const [_, lvl] = mySkills[47];
-    calcs.EleDmg = equip.Weapon.HiddenEleDmg * (lvl/3);
+    calcs.BaseEleDmg = equip.Weapon.HiddenEleDmg * (lvl/3);
   }
   else {
     calcs.Element = 0;
-    calcs.EleDmg = 0;
+    calcs.BaseEleDmg = 0;
   }
+
+  let natSharpBonus = 0;
+  upgrades.forEach(entry => {
+    if (entry) {
+      switch (entry[0]) {
+        case "Attack":
+          calcs.BaseAttack += entry[1];
+          break;
+        case "Defense":
+          calcs.BaseDefense += entry[1];
+          break;
+        case "Affinity":
+          calcs.Affinity += entry[1];
+          break;
+        case "Element":
+          if (calcs.Element) {
+            calcs.BaseEleDmg += entry[1];
+          }
+          break;
+        case "Sharp":
+          natSharpBonus += entry[1] * 10;
+      }
+    }
+  })
+  // TODO: These should be set at the proper stage, below
+  calcs.Defense = calcs.BaseDefense;
 
   if (calcs.Element >= 6) {
     if (175 in mySkills && mySkills[175][1] >= 4) {
@@ -116,7 +145,7 @@ export function doCalcs(data, mySkills, tglMap, equip) {
   else {
     calcs.Handicraft = 0;
   }
-  calcs.Sharpness = getSharpness(data, equip.Weapon, calcs.Handicraft);
+  calcs.Sharpness = getSharpness(data, equip.Weapon, calcs.Handicraft, natSharpBonus);
   calcs.SharpMod = getSharpnessMod(calcs.Sharpness);
 
   for (var i=0; i < classNo; i++) {
@@ -127,7 +156,7 @@ export function doCalcs(data, mySkills, tglMap, equip) {
       case 12:
         bonusPackage.forEach(s => {
           const [id, bonus] = s;
-          if (meetsCond(bonus, calcs.EleDmg)) {
+          if (meetsCond(bonus, calcs.BaseEleDmg)) {
             if ('param' in bonus.effect) {
               const lvl = mySkills[id][1];
               mult *= (data.skills[id].Params[lvl - 1][bonus.effect.param]/100);
@@ -137,9 +166,10 @@ export function doCalcs(data, mySkills, tglMap, equip) {
             }
           }
         })
-        calcs.Attack *= mult;
+        calcs.BaseAttack *= mult;
         break;
       case 13:
+        calcs.Attack = calcs.BaseAttack;
         bonusPackage.forEach(s => {
           const [id, bonus] = s;
           if ('param' in bonus.effect) {
@@ -192,9 +222,10 @@ export function doCalcs(data, mySkills, tglMap, equip) {
             mult *= (data.skills[id].Params[lvl - 1][bonus.effect.param]/100);
           }
         })
-        calcs.EleDmg *= mult;
+        calcs.BaseEleDmg *= mult;
         break;
       case 18:
+        calcs.EleDmg = calcs.BaseEleDmg;
         bonusPackage.forEach(s => {
           const [id, bonus] = s;
           if (meetsCond(bonus, calcs.Element)) {

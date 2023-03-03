@@ -20,10 +20,10 @@ function pushSharpness(sharpness, unitArray, max, unitNo=0, colorIndex=0) {
   return [unitNo, colorIndex];
 }
 
-export function getSharpness(data, wep, handiLvl=0) {
+export function getSharpness(data, wep, handiLvl=0, natBonus=0) {
   var sharpness = { 'natural' : [] };
   let unitArray = data.sharpness[wep.SharpId].Bar;
-  let max = 150 + wep.SharpNo * 50;
+  let max = Math.min(400, 150 + wep.SharpNo * 50 + natBonus);
   let [unitNo, colorIndex] = pushSharpness(sharpness.natural, unitArray, max);
   
   const handiUnits = Math.min(400, max + handiLvl * 10) - max;

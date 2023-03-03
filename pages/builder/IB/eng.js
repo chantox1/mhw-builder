@@ -6,6 +6,7 @@ import Builder from '../../../components/mhw';
 // Common
 import { constants } from '../../../data/IB/common/constants';
 import weapons from '../../../data/IB/common/wepData.json';
+import cusUpgrades from '../../../data/IB/common/cusUpgrades.json';
 import phials from '../../../data/IB/common/phials.json';
 import shelling from '../../../data/IB/common/shelling.json';
 import notes from '../../../data/IB/common/notes.json';
@@ -34,6 +35,7 @@ export default function IB() {
         ...constants,
         weapons: weapons,
         weaponString: weaponString,
+        cusUpgrades: cusUpgrades,
         phials: phials,
         shelling: shelling,
         notes: notes,
