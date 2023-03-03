@@ -38,6 +38,11 @@ const theme = createTheme({
   },
   shadows: shadows.map(() => 'none'),
   components: {
+    MuiSelect: {
+      defaultProps: {
+        color: 'secondary'
+      }
+    },
     MuiCardContent: {
       variants: [
         {
