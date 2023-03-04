@@ -1,6 +1,13 @@
 /*
 Classes:
-  0-10: Reserved
+  0: Reserved
+
+  1: Single ele res bonus
+  2: All ele res bonus
+  3: All ele res mult
+  4: Alatreon bonus (base ele bonus)
+
+  3-10: Reserved
 
   11: Base attack bonus
   12: Base attack mult
@@ -32,6 +39,65 @@ const skillBonus = {
         param: 2
       }
     }
+  ],
+  20: [ // Defense boost
+    {
+      effect: {
+        class: 2,
+        param: 2
+      }
+    }
+    // TODO: Defense (non-ele) boost
+  ],
+  24: [ // Fire resistance
+    {
+      effect: {
+        key: 0,
+        class: 1,
+        param: 1
+      }
+    }
+    // TODO: Defense boost @ lvl 3
+  ],
+  25: [ // Water resistance
+    {
+      effect: {
+        key: 1,
+        class: 1,
+        param: 1
+      }
+    }
+    // TODO: Defense boost @ lvl 3
+  ],
+  26: [ // Ice resistance
+    {
+      effect: {
+        key: 2,
+        class: 1,
+        param: 1
+      }
+    }
+    // TODO: Defense boost @ lvl 3
+  ],
+  27: [ // Thunder resistance
+    {
+      effect: {
+        key: 3,
+        class: 1,
+        param: 1
+      }
+    }
+    // TODO: Defense boost @ lvl 3
+  ],
+  28: [ // Dragon resistance
+    {
+      effect: {
+        key: 4,
+        class: 1,
+        param: 1
+      }
+    }
+    // TODO: Defense boost @ lvl 3
   ],
   30: [ // Fire attack
     {
@@ -328,6 +394,21 @@ const skillBonus = {
       }
     }
   ],
+  221: [ // Alatreon Divinity
+    {
+      effect: {
+        class: 3,
+        param: 3,
+        lvlRange: [2,3]
+      }
+    },
+    { // TODO: bowguns use param 2 instead
+      effect: {
+        class: 4,
+        param: 1,
+      }
+    }
+  ]
 }
 
 export default skillBonus;

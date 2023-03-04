@@ -1,4 +1,4 @@
-export function range(a,b){
+export function range(a,b) {
     var arr = [],
     c = b - a + 1;
     while ( c-- ) {

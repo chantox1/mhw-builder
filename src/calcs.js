@@ -8,6 +8,21 @@ function meetsCond(bonus, val) {
   return (!('cond' in bonus) || bonus.cond(val));
 }
 
+
+function findMinFit(lvl, params) {
+  let fit = -1;  // Lvls are always > 0
+  for (let i=0; i < params.length; i++) {
+      let paramLvl = params[i][0];
+      if (lvl == paramLvl) {
+        return i;
+      }
+      if (lvl > paramLvl) {
+        fit = i;
+      }
+  }
+  return fit;
+}
+
 function getEffectiveRaw(calcs) {
   let critMod = 1 + (calcs.Affinity/100)*(calcs.CritDmg/100 - 1)
   return calcs.Attack * critMod * calcs.SharpMod[0];
@@ -89,6 +104,7 @@ export function doCalcs(data, mySkills, tglMap, equip, upgrades) {
   calcs.BaseAttack = calcs.DisplayAttack;
   calcs.BaseDefense = calcs.DisplayDefense;
   calcs.Affinity = calcs.DisplayAffinity;
+
   if ('HiddenEle' in equip.Weapon) {
     if (47 in mySkills) {
       calcs.Element = equip.Weapon.HiddenEle;
@@ -126,7 +142,7 @@ export function doCalcs(data, mySkills, tglMap, equip, upgrades) {
     }
   }
 
-  let rawCap = calcs.Attack * data.attackCap;
+  let rawCap = calcs.BaseAttack * data.attackCap;
   if (211 in mySkills && mySkills[211][1] >= 3) {  // Safi caps
     // TODO: Apply bowgun caps
     if (calcs.Element >= 6) {
@@ -151,6 +167,18 @@ export function doCalcs(data, mySkills, tglMap, equip, upgrades) {
                              calcs.EleDmg + data.elementCap[1]);
   }
 
+  // Element res
+  calcs.EleRes = [0,0,0,0,0]
+  for (let i=0; i<6; i++) {
+    const armor = equip.Armor[i];
+    if (armor) {
+      for (let j=1; j<6; j++) {
+        calcs.EleRes[j-1] += armor.Stats[j];
+      }
+    }
+  }
+
+  // Sharpness
   if (54 in mySkills) {
     calcs.Handicraft = mySkills[54][1];
   }
@@ -165,6 +193,50 @@ export function doCalcs(data, mySkills, tglMap, equip, upgrades) {
     var mult = 1;
     const bonusPackage = bonusBucket[i];
     switch(i) {
+      case 1:
+        bonusPackage.forEach(s => {
+          const [id, bonus] = s;
+          if ('key' in bonus.effect) {
+            const lvl = mySkills[id][1];
+            calcs.EleRes[bonus.effect.key] += data.skills[id].Params[lvl - 1][bonus.effect.param];
+          }
+          else {
+            // TODO: Throw error
+          }
+        })
+        break;
+      case 2:
+        bonusPackage.forEach(s => {
+          const [id, bonus] = s;
+          const lvl = mySkills[id][1];
+          sum += data.skills[id].Params[lvl - 1][bonus.effect.param];
+        })
+        calcs.EleRes = calcs.EleRes.map(res => (res + sum));
+        break;
+      case 3:
+        bonusPackage.forEach(s => {
+          const [id, bonus] = s;
+          const index = findMinFit(mySkills[id][1], data.skills[id].Params);
+          if (index != -1) {
+            mult *= (1 + data.skills[id].Params[index][bonus.effect.param]/100);
+          } 
+        })
+        calcs.EleRes = calcs.EleRes.map(res => Math.round(res * mult));
+        break;
+      case 4:
+        if (calcs.Element) {
+          bonusPackage.forEach(s => {
+            const [id, bonus] = s;
+            const index = findMinFit(mySkills[id][1], data.skills[id].Params);
+            if (index != -1) {
+              sum += data.skills[id].Params[index][bonus.effect.param];
+            }
+          })
+          let sumEleRes = calcs.EleRes.reduce((a, b) => a + b, 0);
+          console.log("Sum ele res: ", sumEleRes);
+          calcs.BaseEleDmg += sumEleRes * (sum/100);
+        }
+        break;
       case 12:
         bonusPackage.forEach(s => {
           const [id, bonus] = s;

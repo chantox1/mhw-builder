@@ -426,47 +426,8 @@ export default function Builder(data) {
               </Paper>
             </Box>
             <Paper>
-              <Paper elevation={0} square
-                sx={{
-                  borderTopLeftRadius: 4,
-                  borderTopRightRadius: 4
-                }}>
-                <Box flex={1} display="flex" justifyContent="center">
-                  <Typography variant="h6">Damage</Typography>
-                </Box>
-              </Paper>
               { Object.keys(myStats).length != 0 &&
                 <Calcs stats={myStats}/>
-              }
-              { 'Sharpness' in myStats && 
-                <Box>
-                  <Paper elevation={0} square sx={{mb: 1}}>
-                    <Box flex={1} display="flex" justifyContent="center">
-                      <Typography variant="h6">Sharpness</Typography>
-                    </Box>
-                  </Paper>
-                  <SharpnessBar sharpness={myStats.Sharpness}/>
-                  <TableContainer>
-                    <Table>
-                      <TableBody>
-                        <TableRow>
-                          <TableCell>Raw Mod</TableCell>
-                          <TableCell>
-                            <span style={{color: getSharpnessColor(myStats.Sharpness)}}>
-                              {myStats.SharpMod[0]}
-                            </span>
-                          </TableCell>
-                          <TableCell>Ele Mod</TableCell>
-                          <TableCell>
-                            <span style={{color: getSharpnessColor(myStats.Sharpness)}}>
-                              {myStats.SharpMod[1]}
-                            </span>
-                          </TableCell>
-                        </TableRow>
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                </Box>
               }
             </Paper>
           </Grid>
