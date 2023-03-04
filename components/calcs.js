@@ -4,8 +4,8 @@ import Sprite from "./sprite";
 
 const ElementIcon = (props) => (
   <Box alignSelf="center"
-    maxHeight={25}
-    maxWidth={25}
+    maxHeight={20}
+    maxWidth={20}
     component="img"
     src={props.src}
     sx={{...props.sx, p: 0.2}}
