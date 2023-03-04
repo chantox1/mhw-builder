@@ -33,7 +33,7 @@ export default function SkillCard(props) {
       skillsFilled.push([0,0]);
     }
     if (max){
-      lvlTextStyle.color = (max == 1) ? 'Orange' : 'FireBrick';
+      lvlTextStyle.color = (max == 1) ? 'Orange' : 'Crimson';
       for (i; i < lvl - 1; i++) {
         skillsFilled.push([1,1]);
       }
