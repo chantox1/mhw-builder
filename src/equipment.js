@@ -79,7 +79,6 @@ function CusUpgradeSelection(props) {
           return '';
         }
         const entry = entries[i];
-        console.log("entry: ", entry);
         if (entry === undefined) {
           return ';'
         }

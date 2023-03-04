@@ -233,7 +233,6 @@ export function doCalcs(data, mySkills, tglMap, equip, upgrades) {
             }
           })
           let sumEleRes = calcs.EleRes.reduce((a, b) => a + b, 0);
-          console.log("Sum ele res: ", sumEleRes);
           calcs.BaseEleDmg += sumEleRes * (sum/100);
         }
         break;
