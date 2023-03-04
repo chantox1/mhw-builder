@@ -20,6 +20,7 @@ export default function SkillCard(props) {
   const { data, skill } = props;
   const [id, lvl, secret, max] = skill;
   const s = data.skills[id];
+  const isSet = data.skillColor[id].Set;
 
   const skillsFilled = [];
   var lvlTextStyle = {mr: 0.3}
@@ -33,7 +34,12 @@ export default function SkillCard(props) {
       skillsFilled.push([0,0]);
     }
     if (max){
-      lvlTextStyle.color = (max == 1) ? 'Orange' : 'Crimson';
+      if (max == 2 && !isSet) {
+        lvlTextStyle.color = 'Crimson';
+      }
+      else {
+        lvlTextStyle.color = 'Orange'
+      }
       for (i; i < lvl - 1; i++) {
         skillsFilled.push([1,1]);
       }
@@ -50,7 +56,12 @@ export default function SkillCard(props) {
   }
   else {
     if (max) {
-      lvlTextStyle.color = (max == 1) ? 'Orange' : 'Crimson';
+      if (max == 2 && !isSet) {
+        lvlTextStyle.color = 'Crimson';
+      }
+      else {
+        lvlTextStyle.color = 'Orange'
+      }
       for(i; i < lvl - 1; i++) {
         skillsFilled.push([1,0])
       }
@@ -77,7 +88,7 @@ export default function SkillCard(props) {
     >
       <Sprite
         src='/icon/gems.png'
-        pos={[256 + 64*data.skillColor[id].Set, 64*data.skillColor[id].Color]}
+        pos={[256 + 64*isSet, 64*data.skillColor[id].Color]}
         width={32}
         crop={[64,64]}
         sx={{alignSelf: "center", mr: 0.5}}
