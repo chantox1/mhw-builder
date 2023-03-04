@@ -32,8 +32,8 @@ export default function SkillCard(props) {
     for (i; i < s.Max; i++) {
       skillsFilled.push([0,0]);
     }
-    if (lvl == s.MaxSecret){
-      lvlTextStyle.color = "orange";
+    if (max){
+      lvlTextStyle.color = (max == 1) ? 'Orange' : 'FireBrick';
       for (i; i < lvl - 1; i++) {
         skillsFilled.push([1,1]);
       }
@@ -49,8 +49,8 @@ export default function SkillCard(props) {
     }
   }
   else {
-    if (lvl == s.Max) {
-      lvlTextStyle.color = "orange";
+    if (max) {
+      lvlTextStyle.color = (max == 1) ? 'Orange' : 'Crimson';
       for(i; i < lvl - 1; i++) {
         skillsFilled.push([1,0])
       }

@@ -21,6 +21,7 @@ import { doCalcs } from '../src/calcs';
 import * as Equipment from '../src/equipment';
 import * as Util from '../src/util';
 import { usePrevious } from '../src/hooks';
+import { Calcs } from './calcs';
 
 function pushSkill(skillDict, skill) {
   const [id, lvl] = skill;
@@ -56,8 +57,14 @@ function applySkillLvlMax(data, skillDict) {
       skillDict[key][1] = max;
       skillDict[key][3] = true;
     }
+    if (lvl > max) {
+      skillDict[key][3] = 2;
+    }
+    else if (lvl == max) {
+      skillDict[key][3] = 1;
+    }
     else {
-      skillDict[key][3] = false;
+      skillDict[key][3] = 0;
     }
   }
 }
@@ -416,46 +423,7 @@ export default function Builder(data) {
                 </Box>
               </Paper>
               { Object.keys(myStats).length != 0 &&
-                <TableContainer component={Paper} sx={{width: "100%"}}>
-                  <Table>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell>Raw</TableCell>
-                        <TableCell>{myStats.Attack}</TableCell>
-                        <TableCell>Effective Raw</TableCell>
-                        <TableCell>{Math.round(myStats.EffRaw * 100)/100}</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>Ele</TableCell>
-                        <TableCell>{myStats.EleDmg}</TableCell>
-                        <TableCell>Effective Ele</TableCell>
-                        <TableCell>{Math.round(myStats.EffEle * 100)/100}</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>Affinity</TableCell>
-                        {(() => {
-                          if (myStats.RawAffinity <= 100) {
-                            return (
-                              <TableCell>
-                                { myStats.Affinity }%
-                              </TableCell>
-                            )
-                          }
-                          else {
-                            return (
-                              <TableCell>
-                                <span style={{color: 'orange'}}>{ myStats.Affinity }% </span>
-                                <span>({ myStats.RawAffinity }%)</span>
-                              </TableCell>
-                            )
-                          }
-                        })()}
-                        <TableCell>Crit Damage</TableCell>
-                        <TableCell>{myStats.CritDmg / 100}x</TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
+                <Calcs stats={myStats}/>
               }
               { 'Sharpness' in myStats && 
                 <Box>
