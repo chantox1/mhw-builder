@@ -210,15 +210,28 @@ export default function Builder(data) {
   var equipBlockStyle = (breakPoint < theme.breakpoints.values.lg) ? {} : {height: "1px", minHeight: `calc(85vh - 50px)`};
   var mantleWrap = (breakPoint > theme.breakpoints.values.lg) ? "nowrap" : "wrap";
 
-  const MyWeaponDisplay = () => (
-    <WepCard
-      main
-      data={data}
-      wep={equip.Weapon}
-      onClick={handleClickOpen}
-      sx={{ flexGrow: 1, mb: 0.5, p: 0.3}}
-    />
-  )
+  function MyWeaponDisplay(props) {
+    let cardProps = {
+      "main": true,
+      "data": data,
+      "wep": equip.Weapon,
+      "onClick": handleClickOpen,
+      "overrides": {
+        "Damage": myStats.DisplayAttack,
+        "Affinity": myStats.DisplayAffinity,
+        "Defense": myStats.DisplayDefense,
+        "EleDmg": myStats.DisplayEleDmg,
+        "NatSharpBonus": myStats.NatSharpBonus
+      },
+      "sx": { flexGrow: 1, mb: 0.5, p: 0.3}
+    }
+
+    return(
+      <WepCard
+        {...cardProps}
+      />
+    )
+  }
 
   const MyArmorDisplay = () => {
     const MyArmorCard = (props) => (

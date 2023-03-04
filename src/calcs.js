@@ -43,54 +43,66 @@ export function doCalcs(data, mySkills, tglMap, equip, upgrades) {
   }
 
   let calcs = {
-    "BaseAttack": equip.Weapon.Damage,
-    "BaseDefense": equip.Weapon.Defense,
-
-    "Attack": equip.Weapon.Damage,
-    "Affinity": equip.Weapon.Affinity,
+    "DisplayAttack": equip.Weapon.Damage,
+    "DisplayDefense": equip.Weapon.Defense,
+    "DisplayAffinity": equip.Weapon.Affinity,
     "CritDmg": 125,
     "EleCritDmg": 100,
+    "NatSharpBonus": 0
   }
 
   if ('Element' in equip.Weapon) {
     calcs.Element = equip.Weapon.Element;
-    calcs.BaseEleDmg = equip.Weapon.ElementDmg;
+    calcs.DisplayEleDmg = equip.Weapon.ElementDmg;
   }
-  else if ('HiddenEle' in equip.Weapon && 47 in mySkills) {
-    calcs.Element = equip.Weapon.Element;
-    const [_, lvl] = mySkills[47];
-    calcs.BaseEleDmg = equip.Weapon.HiddenEleDmg * (lvl/3);
+  else if ('HiddenEle' in equip.Weapon) {
+    calcs.Element = equip.Weapon.HiddenEle;
+    calcs.DisplayEleDmg = equip.Weapon.HiddenEleDmg;
   }
   else {
     calcs.Element = 0;
-    calcs.BaseEleDmg = 0;
+    calcs.DisplayEleDmg = 0;
   }
 
-  let natSharpBonus = 0;
   upgrades.forEach(entry => {
     if (entry) {
       switch (entry[0]) {
         case "Attack":
-          calcs.BaseAttack += entry[1];
+          calcs.DisplayAttack += entry[1];
           break;
         case "Defense":
-          calcs.BaseDefense += entry[1];
+          calcs.DisplayDefense += entry[1];
           break;
         case "Affinity":
-          calcs.Affinity += entry[1];
+          calcs.DisplayAffinity += entry[1];
           break;
         case "Element":
           if (calcs.Element) {
-            calcs.BaseEleDmg += entry[1];
+            calcs.DisplayEleDmg += entry[1];
           }
           break;
         case "Sharp":
-          natSharpBonus += entry[1] * 10;
+          calcs.NatSharpBonus += entry[1] * 10;
       }
     }
   })
-  // TODO: These should be set at the proper stage, below
-  calcs.Defense = calcs.BaseDefense;
+  calcs.BaseAttack = calcs.DisplayAttack;
+  calcs.BaseDefense = calcs.DisplayDefense;
+  calcs.Affinity = calcs.DisplayAffinity;
+  if ('HiddenEle' in equip.Weapon) {
+    if (47 in mySkills) {
+      calcs.Element = equip.Weapon.HiddenEle;
+      const [_, lvl] = mySkills[47];
+      calcs.BaseEleDmg = calcs.DisplayEleDmg * (lvl/3);
+    }
+    else {
+      calcs.Element = 0;
+      calcs.BaseEleDmg = 0;
+    }
+  }
+  else {
+    calcs.BaseEleDmg = calcs.DisplayEleDmg;
+  }
 
   if (calcs.Element >= 6) {
     if (175 in mySkills && mySkills[175][1] >= 4) {
@@ -145,7 +157,7 @@ export function doCalcs(data, mySkills, tglMap, equip, upgrades) {
   else {
     calcs.Handicraft = 0;
   }
-  calcs.Sharpness = getSharpness(data, equip.Weapon, calcs.Handicraft, natSharpBonus);
+  calcs.Sharpness = getSharpness(data, equip.Weapon, calcs.Handicraft, calcs.NatSharpBonus);
   calcs.SharpMod = getSharpnessMod(calcs.Sharpness);
 
   for (var i=0; i < classNo; i++) {

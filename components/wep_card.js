@@ -6,6 +6,7 @@ import { ButtonBase } from '@mui/material';
 import SlotDisplay from './slot_display';
 import { Skeleton } from '@mui/material';
 import { getSharpness, SharpnessDisplay } from '../src/sharpness';
+import update from 'immutability-helper';
 
 function buttonFunction(main, onClick, val) {
   if (main) {
@@ -70,8 +71,8 @@ const WepStatIcon = (props) => (
 )
 
 export default function WepCard(props) {
-  const { data, main=false, wep, handiLvl=0, loading=false, onClick } = props;
-
+  const { data, wep, onClick, main=false, handiLvl=0, loading=false, overrides=undefined } = props;
+  let sharpBonus = overrides ? overrides.NatSharpBonus : 0;
   return (
     <Paper sx={props.sx}>
       <Grid container columnSpacing={1} height="100%">
@@ -103,7 +104,7 @@ export default function WepCard(props) {
                         src="/icon/dmg.png"
                       />
                       <Typography mr={0.5}>
-                        { wep.Damage }
+                        { overrides ? overrides.Damage : wep.Damage }
                       </Typography>
                     </WepStat>
 
@@ -112,7 +113,7 @@ export default function WepCard(props) {
                         src="/icon/aff.png"
                       />
                       <Typography mr={0.5}>
-                        { wep.Affinity }%
+                        { overrides ? overrides.Affinity : wep.Affinity }%
                       </Typography>
                     </WepStat>
 
@@ -143,7 +144,7 @@ export default function WepCard(props) {
                               src={"/icon/Element/" + wep.Element + ".png" }
                             />
                             <Typography mr={0.5}>
-                              { wep.ElementDmg }
+                              { overrides ? overrides.EleDmg : wep.ElementDmg }
                             </Typography>
                           </WepStat>
                         )
@@ -155,7 +156,7 @@ export default function WepCard(props) {
                               src={"/icon/Element/" + wep.HiddenEle + ".png" }
                             />
                             <Typography color='text.disabled' mr={0.5}>
-                              ({ wep.HiddenEleDmg })
+                              ({ overrides ? overrides.EleDmg : wep.HiddenEleDmg })
                             </Typography>
                           </WepStat>
                         )
@@ -178,7 +179,7 @@ export default function WepCard(props) {
                       </WepStat>
                     }
                   </Box>
-                  <SharpnessDisplay sharpness={getSharpness(data, wep, handiLvl)} height={1} sx={{width: 175, mt: 1, mb: 0.5}}/>
+                  <SharpnessDisplay sharpness={getSharpness(data, wep, handiLvl, sharpBonus)} height={1} sx={{width: 175, mt: 1, mb: 0.5}}/>
                   {(() => {
                     if ('Skill' in wep) {
                       return (
