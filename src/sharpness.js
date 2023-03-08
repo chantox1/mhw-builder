@@ -20,9 +20,12 @@ function pushSharpness(sharpness, unitArray, max, unitNo=0, colorIndex=0) {
   return [unitNo, colorIndex];
 }
 
-export function getSharpness(data, wep, handiLvl=0, natBonus=0) {
+export function getSharpness(data, wep, handiLvl=0, natBonus=0, safiBonus=0) {
   var sharpness = { 'natural' : [] };
   let unitArray = data.sharpness[wep.SharpId].Bar;
+  if (safiBonus) {
+    unitArray = getSafiSharp(unitArray, safiBonus);
+  }
   let max = Math.min(400, 150 + wep.SharpNo * 50 + natBonus);
   let [unitNo, colorIndex] = pushSharpness(sharpness.natural, unitArray, max);
   
@@ -41,6 +44,47 @@ export function getSharpness(data, wep, handiLvl=0, natBonus=0) {
   }
 
   return sharpness;
+}
+
+export function getSafiSharp(unitArray, safiBonus) {
+  console.log("Safi units:", unitArray);
+  let units = [...unitArray];
+  units[6] = units[5];
+  let availableWhite = 120 - (units[5] - units[4]);
+  let availableUnits = units[0] - 10;
+
+  let top = 5;
+  let bottom = 0;
+  while (availableWhite && safiBonus) {
+    let dif = Math.min(availableUnits, availableWhite, safiBonus);
+    for (let i=bottom; i < top; i++) {
+      units[i] -= dif;
+    }
+
+    availableUnits -= dif;
+    if (!availableUnits) {
+      bottom++;
+      availableUnits = (units[bottom] - units[bottom - 1]) - 10;
+    }
+    availableWhite -= dif;
+    safiBonus -= dif;
+  }
+
+  top++;
+  while (safiBonus) {
+    let dif = Math.min(availableUnits, safiBonus);
+    for (let i=bottom; i < top; i++) {
+      units[i] -= dif;
+    }
+
+    availableUnits -= dif;
+    if (!availableUnits) {
+      bottom++;
+      availableUnits = (units[bottom] - units[bottom - 1]) - 10;
+    }
+    safiBonus -= dif;
+  }
+  return units;
 }
 
 function HandiSharpDisplay(props) {

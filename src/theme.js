@@ -56,6 +56,18 @@ const theme = createTheme({
         }
       ]
     },
+    MuiTable: {
+      variants: [
+        {
+          props: { variant: 'grid'},
+          style: {
+            "& .MuiTableCell-root": {
+              border: "1px solid lightgray",
+            }
+          }
+        }
+      ]
+    },
     MuiCssBaseline: {
       styleOverrides: {
         body: {

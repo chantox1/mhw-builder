@@ -8,19 +8,18 @@ function meetsCond(bonus, val) {
   return (!('cond' in bonus) || bonus.cond(val));
 }
 
-
-function findMinFit(lvl, params) {
-  let fit = -1;  // Lvls are always > 0
+function findParamIndex(lvl, params) {
+  let index = -1;  // Lvls are always > 0
   for (let i=0; i < params.length; i++) {
       let paramLvl = params[i][0];
       if (lvl == paramLvl) {
         return i;
       }
       if (lvl > paramLvl) {
-        fit = i;
+        index = i;
       }
   }
-  return fit;
+  return index;
 }
 
 function getEffectiveRaw(calcs) {
@@ -36,7 +35,7 @@ function getEffectiveElement(calcs) {
   return calcs.EleDmg * critModifier * calcs.SharpMod[1];
 }
 
-export function doCalcs(data, mySkills, tglMap, equip, upgrades) {
+export function doCalcs(data, mySkills, tglMap, equip, upgrades, awakens) {
   const classNo = 50;  // TODO: Set proper size
   let bonusBucket = Array.from(Array(classNo), () => new Array());
   data.skillDefault.forEach(s => {
@@ -63,7 +62,8 @@ export function doCalcs(data, mySkills, tglMap, equip, upgrades) {
     "DisplayAffinity": equip.Weapon.Affinity,
     "CritDmg": 125,
     "EleCritDmg": 100,
-    "NatSharpBonus": 0
+    "NatSharpBonus": 0,
+    "SafiSharpBonus": 0
   }
 
   if ('Element' in equip.Weapon) {
@@ -101,6 +101,36 @@ export function doCalcs(data, mySkills, tglMap, equip, upgrades) {
       }
     }
   })
+
+  awakens.forEach(entry => {
+    if (entry) {
+      switch(entry.type) {
+        case "Attack":
+          calcs.DisplayAttack += entry.value;
+          break;
+        case "Defense":
+          calcs.DisplayDefense += entry.value;
+          break;
+        case "Affinity":
+          calcs.DisplayAffinity += entry.value;
+          break;
+        case "Element":
+          if (calcs.Element && calcs.Element < 6) {
+            calcs.DisplayEleDmg += entry.value;
+          }
+          break;
+        case "Status":
+          if (calcs.Element && calcs.Element > 5) {
+            calcs.DisplayEleDmg += entry.value;
+          }
+          break;
+        case "Sharp":
+          calcs.SafiSharpBonus += entry.value;
+          break;
+      }
+    }
+  })
+
   calcs.BaseAttack = calcs.DisplayAttack;
   calcs.BaseDefense = calcs.DisplayDefense;
   calcs.Affinity = calcs.DisplayAffinity;
@@ -185,7 +215,7 @@ export function doCalcs(data, mySkills, tglMap, equip, upgrades) {
   else {
     calcs.Handicraft = 0;
   }
-  calcs.Sharpness = getSharpness(data, equip.Weapon, calcs.Handicraft, calcs.NatSharpBonus);
+  calcs.Sharpness = getSharpness(data, equip.Weapon, calcs.Handicraft, calcs.NatSharpBonus, calcs.SafiSharpBonus);
   calcs.SharpMod = getSharpnessMod(calcs.Sharpness);
 
   for (var i=0; i < classNo; i++) {
@@ -216,7 +246,7 @@ export function doCalcs(data, mySkills, tglMap, equip, upgrades) {
       case 3:
         bonusPackage.forEach(s => {
           const [id, bonus] = s;
-          const index = findMinFit(mySkills[id][1], data.skills[id].Params);
+          const index = findParamIndex(mySkills[id][1], data.skills[id].Params);
           if (index != -1) {
             mult *= (1 + data.skills[id].Params[index][bonus.effect.param]/100);
           } 
@@ -227,7 +257,7 @@ export function doCalcs(data, mySkills, tglMap, equip, upgrades) {
         if (calcs.Element) {
           bonusPackage.forEach(s => {
             const [id, bonus] = s;
-            const index = findMinFit(mySkills[id][1], data.skills[id].Params);
+            const index = findParamIndex(mySkills[id][1], data.skills[id].Params);
             if (index != -1) {
               sum += data.skills[id].Params[index][bonus.effect.param];
             }

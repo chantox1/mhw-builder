@@ -22,6 +22,7 @@ import * as Equipment from '../src/equipment';
 import * as Util from '../src/util';
 import { usePrevious } from '../src/hooks';
 import { Calcs } from './calcs';
+import { AwakenedAbilities } from './safi';
 
 function pushSkill(skillDict, skill) {
   const [id, lvl] = skill;
@@ -149,6 +150,7 @@ export default function Builder(data) {
   };
 
   const [myCusUpgrades, setMyCusUpgrades] = React.useState([null]);
+  const [myAwakens, setMyAwakens] = React.useState([null,null,null,null,null]);
 
   const [mySkills, setMySkills] = React.useState({});
   const [tglMap, setToggleMap] = React.useState(data.toggleMap);  // TODO: toggleList should contain the default toggle of ALL effects
@@ -156,6 +158,7 @@ export default function Builder(data) {
 
   React.useEffect(() => {
     setMyCusUpgrades([null]);
+    setMyAwakens([null,null,null,null,null]);
   }, [equip.Weapon.Index])
 
   React.useEffect(() => {
@@ -195,8 +198,8 @@ export default function Builder(data) {
 
   const [myStats, setMyStats] = React.useState({});
   React.useEffect(() => {
-    setMyStats(doCalcs(data, mySkills, tglMap, equip, myCusUpgrades));
-  }, [mySkills, tglMap, myCusUpgrades])
+    setMyStats(doCalcs(data, mySkills, tglMap, equip, myCusUpgrades, myAwakens));
+  }, [mySkills, tglMap, myCusUpgrades, myAwakens])
 
   const theme = useTheme();
   const breakPoint = theme.breakpoints.values[
@@ -221,7 +224,8 @@ export default function Builder(data) {
         "Affinity": myStats.DisplayAffinity,
         "Defense": myStats.DisplayDefense,
         "EleDmg": myStats.DisplayEleDmg,
-        "NatSharpBonus": myStats.NatSharpBonus
+        "NatSharpBonus": myStats.NatSharpBonus,
+        "SafiSharpBonus": myStats.SafiSharpBonus
       },
       "sx": { flexGrow: 1, mb: 0.5, p: 0.3}
     }
@@ -420,6 +424,15 @@ export default function Builder(data) {
                     upgrades={myCusUpgrades}
                     setUpgrades={setMyCusUpgrades}
                     upgradeLvls={data.cusUpgrades[equip.Weapon.Class]}
+                    sx={{mb: 0.5}}
+                  />
+                }
+                {equip.Weapon.Safi && 
+                  <AwakenedAbilities
+                    abilities={data.awakenedAbilities}
+                    wepClass={equip.Weapon.Class}
+                    awakens={myAwakens}
+                    setAwakens={setMyAwakens}
                     sx={{mb: 0.5}}
                   />
                 }

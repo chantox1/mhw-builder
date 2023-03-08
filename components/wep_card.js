@@ -73,6 +73,8 @@ const WepStatIcon = (props) => (
 export default function WepCard(props) {
   const { data, wep, onClick, main=false, handiLvl=0, loading=false, overrides=undefined } = props;
   let sharpBonus = overrides ? overrides.NatSharpBonus : 0;
+  let safiBonus = overrides ? overrides.SafiSharpBonus : 0;
+  const sharpness = getSharpness(data, wep, handiLvl, sharpBonus, safiBonus);
   return (
     <Paper sx={props.sx}>
       <Grid container columnSpacing={1} height="100%">
@@ -179,7 +181,7 @@ export default function WepCard(props) {
                       </WepStat>
                     }
                   </Box>
-                  <SharpnessDisplay sharpness={getSharpness(data, wep, handiLvl, sharpBonus)} height={1} sx={{width: 175, mt: 1, mb: 0.5}}/>
+                  <SharpnessDisplay sharpness={sharpness} height={1} sx={{width: 175, mt: 1, mb: 0.5}}/>
                   {(() => {
                     if ('Skill' in wep) {
                       return (

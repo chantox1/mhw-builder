@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, ButtonBase, FormControl, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import { Box, MenuItem, Paper, Select, Typography } from '@mui/material';
 import update from 'immutability-helper';
 import { useTheme } from '@mui/material/styles';
 
@@ -10,7 +10,7 @@ export function isCustomUpgradeable(wep) {
 }
 
 function CusUpgradeSelection(props) {
-  const { pos, equip, setEquip, baseStats, upgrades, setUpgrades, upgradeLvls } = props;
+  const { pos, upgrades, setUpgrades, upgradeLvls } = props;
   const availableUpgrades = upgradeLvls[pos];
   const theme = useTheme();
 
