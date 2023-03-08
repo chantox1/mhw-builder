@@ -27,10 +27,16 @@ const roman = {
   '6': 'VI'
 };
 
-const unique = [
-  'Defense',
-  'Slot'
-];
+const unique = {
+  'Defense': ['Defense'],
+  'Slot': ['Slot'],
+  'Normal': ['Normal','Long', 'Wide'],
+  'Long': ['Normal','Long', 'Wide'],
+  'Wide': ['Normal','Long', 'Wide'],
+  'Elemental Phial': ['Elemental Phial', 'Exhaust Phial'],
+  'Exhaust Phial': ['Elemental Phial', 'Exhaust Phial'],
+  'Impact Phial': ['Impact Phial']
+};
 
 // TODO: Translate types here and in safi.json
 const color = {
@@ -59,7 +65,11 @@ class Awakening {
   }
 
   isUnique() {
-    return unique.includes(this.type);
+    return this.type in unique;
+  }
+
+  isIncompatible(awakening) {
+    return unique[this.type].includes(awakening.type);
   }
 
   getColor() {
@@ -128,7 +138,7 @@ function AwakeningSelectDialog(props) {
     for (let i=0; i < 6; i++) {
       let cellProps = {'key': i};
       const value = myAbilities[key][i];
-      if (value) {
+      if (value != null) {
         cellProps.entry = new Awakening(key, i+1, value);
       }
       cells.push(
@@ -170,28 +180,29 @@ export function AwakenedAbilities(props) {
     setIndex(index);
   }
 
-  const onClose = (value, pos) => {
+  const onClose = (entry, pos) => {
     setOpen(false);
-    if (!value) {
+    if (!entry) {
       return
     }
+
     let spliceArgs = [];
-    if (value.lvl == 6) {
+    if (entry.lvl == 6) {
       awakens.forEach((awakening, index) => {
         if (index != pos && awakening && awakening.lvl == 6) {
           spliceArgs.push([index, 1, null]);
         }
       })
     }
-    if (value.isUnique()) {
+    if (entry.isUnique()) {
       awakens.forEach((awakening, index) => {
-        if (index != pos && awakening && awakening.type == value.type) {
+        if (index != pos && awakening && entry.isIncompatible(awakening)) {
           spliceArgs.push([index, 1, null]);
         }
       })
     }
     setAwakens(update(awakens, {
-      [pos]: {$set: value},
+      [pos]: {$set: entry},
       $splice: spliceArgs
     }))
   }

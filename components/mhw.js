@@ -229,6 +229,9 @@ export default function Builder(data) {
       },
       "sx": { flexGrow: 1, mb: 0.5, p: 0.3}
     }
+    if (myStats.WepVar1 || myStats.WepVar1 == 0) {
+      cardProps.overrides.WepVar1 = myStats.WepVar1;
+    }
 
     return(
       <WepCard

@@ -127,6 +127,15 @@ export function doCalcs(data, mySkills, tglMap, equip, upgrades, awakens) {
         case "Sharp":
           calcs.SafiSharpBonus += entry.value;
           break;
+        case "Normal":
+        case "Long":
+        case "Wide":
+        case "Elemental Phial":
+        case "Exhaust Phial":
+        case "Impact Phial":
+          calcs.WepVar1 = entry.value;
+          console.log("calced new var: ", entry.value)
+          break;
       }
     }
   })

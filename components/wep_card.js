@@ -30,12 +30,18 @@ function shellString(data, shellId) {
   );
 }
 
-function phialString(data, phialId) {
+function phialStringSA(data, phialId) {
   const [id, dmg] = data.phials[phialId];
   const dmgStr = dmg == 0 ? "" : " " + dmg.toString();
   return (
     data.statusString[140 + id] + dmgStr
   );
+}
+
+function phialStringCB(data, phialId) {
+  const [id, _] = data.phials[phialId];
+  const strId = id ? 141 : 146;
+  return data.statusString[strId];
 }
 
 function kinsectString(data, bonusId) {
@@ -72,8 +78,17 @@ const WepStatIcon = (props) => (
 
 export default function WepCard(props) {
   const { data, wep, onClick, main=false, handiLvl=0, loading=false, overrides=undefined } = props;
-  let sharpBonus = overrides ? overrides.NatSharpBonus : 0;
-  let safiBonus = overrides ? overrides.SafiSharpBonus : 0;
+  let sharpBonus = 0;
+  let safiBonus = 0;
+  let wepVar1 = null;
+  if (overrides) {
+    sharpBonus = overrides.NatSharpBonus;
+    safiBonus = overrides.SafiSharpBonus;
+
+    if (overrides.WepVar1 || overrides.WepVar1 == 0) {
+      wepVar1 = overrides.WepVar1;
+    }
+  }
   const sharpness = getSharpness(data, wep, handiLvl, sharpBonus, safiBonus);
   return (
     <Paper sx={props.sx}>
@@ -176,7 +191,7 @@ export default function WepCard(props) {
                       <WepStat sx={{ml: 0.5}}>
                         <WepStatIcon src='/icon/shell.png'/>
                         <Typography sx={{mr: 0.5}}>
-                          { shellString(data, wep.WepVar1) }
+                          { shellString(data, wepVar1 ? wepVar1 : wep.WepVar1) }
                         </Typography>
                       </WepStat>
                     }
@@ -232,12 +247,22 @@ export default function WepCard(props) {
             })}
           </Box>
         </Grid>
-        { (wep.Class == 8 || wep.Class == 9) &&
+        { (wep.Class == 8) &&
           <Grid item xl={3}>
             <WepStat>
               <WepStatIcon src='/icon/phial.png'/>
               <Typography variant="body2" m={0.5}>
-                { phialString(data, wep.WepVar1) }
+                { phialStringSA(data, wepVar1 ? wepVar1 : wep.WepVar1) }
+              </Typography>
+            </WepStat>
+          </Grid>
+        }
+        { (wep.Class == 9) &&
+          <Grid item xl={3}>
+            <WepStat>
+              <WepStatIcon src='/icon/phial.png'/>
+              <Typography variant="body2" m={0.5}>
+                { phialStringCB(data, (wepVar1 != null) ? wepVar1 : wep.WepVar1) }
               </Typography>
             </WepStat>
           </Grid>
