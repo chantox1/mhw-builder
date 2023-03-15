@@ -187,10 +187,15 @@ export function AwakenedAbilities(props) {
     }
 
     let spliceArgs = [];
+    let lvl6Pos = -1;
+    let lvl6Entry = null;
     if (entry.lvl == 6) {
       awakens.forEach((awakening, index) => {
         if (index != pos && awakening && awakening.lvl == 6) {
-          spliceArgs.push([index, 1, null]);
+          lvl6Pos = index;
+          lvl6Entry = awakening;
+          lvl6Entry.lvl -= 1;
+          // spliceArgs.push([index, 1, null]);
         }
       })
     }
@@ -201,10 +206,19 @@ export function AwakenedAbilities(props) {
         }
       })
     }
-    setAwakens(update(awakens, {
-      [pos]: {$set: entry},
-      $splice: spliceArgs
-    }))
+    if (lvl6Pos == -1) {
+      setAwakens(update(awakens, {
+        [pos]: {$set: entry},
+        $splice: spliceArgs
+      }))
+    }
+    else {
+      setAwakens(update(awakens, {
+        [pos]: {$set: entry},
+        [lvl6Pos]: {$set: lvl6Entry},
+        $splice: spliceArgs
+      }))
+    }
   }
 
   let awakeningDisplay = [];
