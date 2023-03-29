@@ -23,6 +23,7 @@ const toggleMap = {
   "FT+": false,
   "RES": false,
   "MMT": true,
+  "AFS": false,
   "OFG": false,
   "COL": false,
 }

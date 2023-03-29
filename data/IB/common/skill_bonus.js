@@ -333,6 +333,14 @@ const skillBonus = {
       }
     }
   ],
+  122: [ // Affinity Sliding
+    { tglId: "AFS",
+      effect: {
+        class: 15,
+        value: 30
+      }
+    }
+  ],
   159: [ // Non-elemental boost
     {
       cond: arg => {return arg == 0},

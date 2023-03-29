@@ -50,6 +50,7 @@ const skillDefault = [
       value: 15
     }
   },
+  // TODO: Defense food buff
   { tglId: "EUL",
     effect: {
       class: 2,

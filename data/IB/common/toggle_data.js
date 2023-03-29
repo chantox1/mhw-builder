@@ -168,6 +168,12 @@ const toggleData = {
     name: 303,
     nick: "MM"
   },
+  "AFS": {
+    group: 0,
+    skill: 122,
+    name: 366,
+    nick: "AFS"
+  },
   "OFG": {
     group: 0,
     skill: 185,
