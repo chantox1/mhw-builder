@@ -195,7 +195,6 @@ export function AwakenedAbilities(props) {
           lvl6Pos = index;
           lvl6Entry = awakening;
           lvl6Entry.lvl -= 1;
-          // spliceArgs.push([index, 1, null]);
         }
       })
     }

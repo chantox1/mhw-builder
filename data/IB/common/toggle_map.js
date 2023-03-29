@@ -8,6 +8,11 @@ const toggleMap = {
   "MTP": false,
   "DPR": false,
 
+  // Food
+  "AUL": true,
+  "DUL": false,
+  "EUL": false,
+
   // Skills
   "WEX": false,
   "WX+": true,

@@ -75,6 +75,38 @@ const toggleData = {
     }
   },
 
+  // Food
+  "AUL": {
+    group: 1,
+    name: 104,
+    sprite: {
+      src: '/icon/foodbuff.png',
+      pos: [0,0],
+      crop: [64,64],
+      width: 32
+    }
+  },
+  "DUL": {
+    group: 1,
+    name: 107,
+    sprite: {
+      src: '/icon/foodbuff.png',
+      pos: [64,0],
+      crop: [64,64],
+      width: 32
+    }
+  },
+  "EUL": {
+    group: 1,
+    name: 110,
+    sprite: {
+      src: '/icon/foodbuff.png',
+      pos: [64*2,0],
+      crop: [64,64],
+      width: 32
+    }
+  },
+
   // Skills
   "WEX": {
     group: 0,

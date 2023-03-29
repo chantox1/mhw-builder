@@ -29,6 +29,7 @@ import armorString from '../../../data/IB/eng/armorStr.json';
 import decoString from '../../../data/IB/eng/decoStr.json';
 import skillString from '../../../data/IB/eng/skillStr.json';
 import statusString from '../../../data/IB/eng/statusStr.json';
+import facilityString from '../../../data/IB/eng/facilityStr.json';
 import mantleString from '../../../data/IB/eng/mantleStr.json';
 
 export default function IB() {
@@ -55,6 +56,7 @@ export default function IB() {
         toggleData: toggleData,
         toggleMap: toggleMap,
         statusString: statusString,
+        facilityString: facilityString,
         mantles: mantles,
         mantleString: mantleString,
     }

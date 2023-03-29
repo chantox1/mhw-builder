@@ -88,6 +88,9 @@ export default function ToggleDialog(props) {
           name += item.append;
         }
         break;
+      case 1:
+        var name = data.facilityString[item.name];
+        break;
       case 2:
         var name = data.decoString[item.name];
         break;

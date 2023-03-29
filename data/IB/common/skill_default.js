@@ -1,4 +1,5 @@
 const skillDefault = [
+  // Items
   { tglId: "PWC",
     effect: {
       class: 13,
@@ -41,6 +42,20 @@ const skillDefault = [
       value: 10
     }
   },
+
+  // Food
+  { tglId: "AUL",
+    effect: {
+      class: 13,
+      value: 15
+    }
+  },
+  { tglId: "EUL",
+    effect: {
+      class: 2,
+      value: 15
+    }
+  }
 ]
 
 export default skillDefault;

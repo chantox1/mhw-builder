@@ -247,8 +247,13 @@ export function doCalcs(data, mySkills, tglMap, equip, upgrades, awakens) {
       case 2:
         bonusPackage.forEach(s => {
           const [id, bonus] = s;
-          const lvl = mySkills[id][1];
-          sum += data.skills[id].Params[lvl - 1][bonus.effect.param];
+          if ('param' in bonus.effect) {
+            const lvl = mySkills[id][1];
+            sum += data.skills[id].Params[lvl - 1][bonus.effect.param];
+          }
+          else if ('value' in bonus.effect) {
+            sum += bonus.effect.value;
+          }
         })
         calcs.EleRes = calcs.EleRes.map(res => (res + sum));
         break;
