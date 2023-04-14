@@ -169,7 +169,7 @@ const ButtonHoverOutlined = styled(ButtonBase)(({theme}) => ({
   },
 }))
 
-export function AwakenedAbilities(props) {
+export default function AwakenedAbilities(props) {
   const { wepClass, abilities, awakens, setAwakens } = props;
 
   const [open, setOpen] = React.useState(false);
@@ -183,7 +183,7 @@ export function AwakenedAbilities(props) {
   const onClose = (entry, pos) => {
     setOpen(false);
     if (!entry) {
-      return
+      return;
     }
 
     let spliceArgs = [];

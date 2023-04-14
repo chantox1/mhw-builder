@@ -35,7 +35,7 @@ function getEffectiveElement(calcs) {
   return calcs.EleDmg * critModifier * calcs.SharpMod[1];
 }
 
-export function doCalcs(data, mySkills, tglMap, equip, upgrades, awakens) {
+export function doCalcs(data, mySkills, tglMap, equip, upgrades, augments, awakens) {
   const classNo = 50;  // TODO: Set proper size
   let bonusBucket = Array.from(Array(classNo), () => new Array());
   data.skillDefault.forEach(s => {
@@ -102,6 +102,39 @@ export function doCalcs(data, mySkills, tglMap, equip, upgrades, awakens) {
     }
   })
 
+  if (equip.Weapon.Rarity < 9) {
+    let augmentMap = {
+      Attack: -1,
+      Defense: -1,
+      Affinity: -1,
+      Slot: -1,
+      Health: -1
+    }
+    augments.forEach(entry => {
+      if (entry) {
+        augmentMap[entry] += 1;
+      }
+    })
+    Object.entries(augmentMap).forEach(entry => {
+      let [type, lvl] = entry;
+      console.log("entry: ", type, lvl)
+      if (lvl > -1) {
+        let value = data.augments['HR'][type][lvl];
+        switch(type) {
+          case "Attack":
+            calcs.DisplayAttack += value;
+            break;
+          case "Defense":
+            calcs.DisplayDefense += value;
+            break;
+          case "Affinity":
+            calcs.DisplayAffinity += value;
+            break;
+        }
+      }
+    })
+  }
+
   awakens.forEach(entry => {
     if (entry) {
       switch(entry.type) {
@@ -134,7 +167,6 @@ export function doCalcs(data, mySkills, tglMap, equip, upgrades, awakens) {
         case "Exhaust Phial":
         case "Impact Phial":
           calcs.WepVar1 = entry.value;
-          console.log("calced new var: ", entry.value)
           break;
       }
     }

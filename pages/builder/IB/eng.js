@@ -7,6 +7,7 @@ import Builder from '../../../components/mhw';
 import { constants } from '../../../data/IB/common/constants';
 import weapons from '../../../data/IB/common/wepData.json';
 import cusUpgrades from '../../../data/IB/common/cusUpgrades.json';
+import augments from '../../../data/IB/common/augments.json';
 import awakenedAbilities from '../../../data/IB/common/safi.json';
 import phials from '../../../data/IB/common/phials.json';
 import shelling from '../../../data/IB/common/shelling.json';
@@ -38,6 +39,7 @@ export default function IB() {
         weapons: weapons,
         weaponString: weaponString,
         cusUpgrades: cusUpgrades,
+        augments: augments,
         awakenedAbilities: awakenedAbilities,
         phials: phials,
         shelling: shelling,

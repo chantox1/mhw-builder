@@ -1,15 +1,11 @@
 import * as React from 'react';
 import { Dialog, Paper } from '@mui/material';
 import { Typography } from '@mui/material';
-import { InputAdornment, TextField, Switch, FormControlLabel } from '@mui/material';
+import { Switch } from '@mui/material';
 import { Box } from '@mui/material';
 import { ButtonBase } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import SearchIcon from '@mui/icons-material/Search';
 import { Virtuoso } from 'react-virtuoso';
 import { useMeasure } from 'react-use';
-import update from 'immutability-helper';
 import Sprite from './sprite';
 
 const GroupIcon = (props) => {

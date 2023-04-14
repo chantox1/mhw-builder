@@ -1,7 +1,13 @@
 import * as React from 'react';
-import { Box, MenuItem, Paper, Select, Typography } from '@mui/material';
+import { Box, MenuItem, Paper, Select, Typography, Grid } from '@mui/material';
 import update from 'immutability-helper';
 import { useTheme } from '@mui/material/styles';
+import Augments from '../components/augments';
+import AwakenedAbilities from '../components/safi';
+
+export function isAugmentable(wep) {
+  return ('Final' in wep && wep.Final)
+}
 
 export function isCustomUpgradeable(wep) {
   if ('Final' in wep && wep.Final) {
@@ -80,7 +86,7 @@ function CusUpgradeSelection(props) {
         }
         const entry = entries[i];
         if (entry === undefined) {
-          return ';'
+          return '';
         }
         return (
           entry[0] + " +" + entry[1].toString()
@@ -98,30 +104,12 @@ function CusUpgradeSelection(props) {
 export function CustomUpgradeDisplay(props) {
   const { equip, setEquip, upgrades, setUpgrades, upgradeLvls } = props;
   const upgradeSelectionList = [];
-  let baseStats = {
-      "Attack": equip.Weapon.Damage,
-      "Defense": equip.Weapon.Defense,
-      "Affinity": equip.Weapon.Affinity,
-      "Element": 0,
-    }
-  if ('Element' in equip.Weapon) {
-    baseStats.Element = equip.Weapon.ElementDmg;
-  }
-  else if ('HiddenEle' in equip.Weapon) {
-    baseStats.Element = equip.Weapon.HiddenEleDmg;
-  }
 
   for (let i=0; i<upgrades.length; i++) {
+    let selectProps = {...props, key: i, pos: i};
     upgradeSelectionList.push(
       <CusUpgradeSelection
-        key={i}
-        pos={i}
-        equip={equip}
-        setEquip={setEquip}
-        baseStats={baseStats}
-        upgrades={upgrades}
-        setUpgrades={setUpgrades}
-        upgradeLvls={upgradeLvls}
+        {...selectProps}
       />
     )
   }
@@ -181,6 +169,74 @@ export function setSlot(equip, setEquip, equipItem, value) {
         }
       }
     }))
+  }
+}
+
+export function WepUpgradeDisplay(props) {
+  const {
+    data,
+    equip, setEquip,
+    upgrades, setUpgrades,
+    awakens, setAwakens,
+    augments, setAugments
+  } = props;
+  if (isAugmentable(equip.Weapon)) {
+    let augmentProps = {wep: equip.Weapon, augments: data.augments, myAugments: augments, setMyAugments: setAugments};
+
+    if (isCustomUpgradeable(equip.Weapon)) {
+      return (
+        <Grid container spacing={0.5}>
+          <Grid item xs={6}>
+            <Paper>
+              <CustomUpgradeDisplay
+                equip={equip}
+                setEquip={setEquip}
+                upgrades={upgrades}
+                setUpgrades={setUpgrades}
+                upgradeLvls={data.cusUpgrades[equip.Weapon.Class]}
+                sx={{mb: 0.5}}
+              />
+            </Paper>
+          </Grid>
+          <Grid item xs={6}>
+            <Paper>
+              <Augments {...augmentProps}/>
+            </Paper>
+          </Grid>
+        </Grid>
+      )
+    }
+    else if (equip.Weapon.Safi) {
+      return (
+        <Grid container spacing={0.5}>
+          <Grid item xs={6}>
+            <Paper>
+              <AwakenedAbilities
+                abilities={data.awakenedAbilities}
+                wepClass={equip.Weapon.Class}
+                awakens={awakens}
+                setAwakens={setAwakens}
+                sx={{mb: 0.5}}
+              />
+            </Paper>
+          </Grid>
+          <Grid item xs={6}>
+            <Paper>
+              <Augments {...augmentProps}/>
+            </Paper>
+          </Grid>
+        </Grid>
+      )
+    }
+    else {
+      return (
+        <Box width="50%">
+          <Paper>
+            <Augments {...augmentProps}/>
+          </Paper>
+        </Box>
+      )
+    }
   }
 }
 

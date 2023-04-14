@@ -23,6 +23,7 @@ import * as Util from '../src/util';
 import { usePrevious } from '../src/hooks';
 import { Calcs } from './calcs';
 import { AwakenedAbilities } from './safi';
+import Augments from './augments';
 
 function pushSkill(skillDict, skill) {
   const [id, lvl] = skill;
@@ -150,6 +151,7 @@ export default function Builder(data) {
   };
 
   const [myCusUpgrades, setMyCusUpgrades] = React.useState([null]);
+  const [myAugments, setMyAugments] = React.useState([null]);
   const [myAwakens, setMyAwakens] = React.useState([null,null,null,null,null]);
 
   const [mySkills, setMySkills] = React.useState({});
@@ -158,6 +160,13 @@ export default function Builder(data) {
 
   React.useEffect(() => {
     setMyCusUpgrades([null]);
+    
+    if (equip.Weapon.Rarity < 9) {
+      setMyAugments(new Array(9 - equip.Weapon.Rarity).fill(null));
+    }
+    else {
+      setMyAugments([null]);
+    }
     setMyAwakens([null,null,null,null,null]);
   }, [equip.Weapon.Index])
 
@@ -198,8 +207,8 @@ export default function Builder(data) {
 
   const [myStats, setMyStats] = React.useState({});
   React.useEffect(() => {
-    setMyStats(doCalcs(data, mySkills, tglMap, equip, myCusUpgrades, myAwakens));
-  }, [mySkills, tglMap, myCusUpgrades, myAwakens])
+    setMyStats(doCalcs(data, mySkills, tglMap, equip, myCusUpgrades, myAugments, myAwakens));
+  }, [mySkills, tglMap, myCusUpgrades, myAugments, myAwakens])
 
   const theme = useTheme();
   const breakPoint = theme.breakpoints.values[
@@ -418,29 +427,17 @@ export default function Builder(data) {
 
           {/* original height: 13vh + 0.5vh margin + 66vh */}
           <Grid item xs={12} md={4}>
-            <Box width="50%">
-              <Paper>
-                {Equipment.isCustomUpgradeable(equip.Weapon) &&
-                  <Equipment.CustomUpgradeDisplay
-                    equip={equip}
-                    setEquip={setEquip}
-                    upgrades={myCusUpgrades}
-                    setUpgrades={setMyCusUpgrades}
-                    upgradeLvls={data.cusUpgrades[equip.Weapon.Class]}
-                    sx={{mb: 0.5}}
-                  />
-                }
-                {equip.Weapon.Safi && 
-                  <AwakenedAbilities
-                    abilities={data.awakenedAbilities}
-                    wepClass={equip.Weapon.Class}
-                    awakens={myAwakens}
-                    setAwakens={setMyAwakens}
-                    sx={{mb: 0.5}}
-                  />
-                }
-              </Paper>
-            </Box>
+            <Equipment.WepUpgradeDisplay
+              data={data}
+              equip={equip}
+              setEquip={setEquip}
+              upgrades={myCusUpgrades}
+              setUpgrades={setMyCusUpgrades}
+              awakens={myAwakens}
+              setAwakens={setMyAwakens}
+              augments={myAugments}
+              setAugments={setMyAugments}
+            />
             <Paper>
               { Object.keys(myStats).length != 0 &&
                 <Calcs stats={myStats}/>
