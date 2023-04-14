@@ -200,7 +200,7 @@ export function doCalcs(data, mySkills, tglMap, equip, wepSlots, setWepSlots, up
     for (let i=0; i<calcs.Slots.length; i++) {
       if (calcs.Slots[i] != wepSlotSizes[i]) {
         go = true;
-        continue
+        continue;
       }
     }
   }
@@ -211,7 +211,7 @@ export function doCalcs(data, mySkills, tglMap, equip, wepSlots, setWepSlots, up
     for (let i=0; i<wepSlotDecos.length; i++) {
       if (calcs.Slots[i]) {
         let entry = wepSlotDecos[i];
-        if (entry.Size <= calcs.Slots[i]) {
+        if (entry.Deco.Size <= calcs.Slots[i]) {
           entry.Size = calcs.Slots[i];
           calcs.Slots[i] = entry;
         }
