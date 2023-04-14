@@ -78,6 +78,8 @@ const WepStatIcon = (props) => (
 
 export default function WepCard(props) {
   const { data, wep, onClick, main=false, handiLvl=0, loading=false, overrides=undefined } = props;
+  const wepSlots = props.wepSlots ? props.wepSlots : wep.Slots;
+
   let sharpBonus = 0;
   let safiBonus = 0;
   let wepVar1 = null;
@@ -225,7 +227,7 @@ export default function WepCard(props) {
         </Grid>
         <Grid item xs flexGrow={1}>
           <Box display="flex" flexDirection="column" height="100%">
-            { wep.Slots.map((s, i, arr) => {
+            { wepSlots.map((s, i, arr) => {
               let len = arr.length;
               let divHeight = (100 / len).toString() + "%";
               let divStyle = {height: {divHeight}, justifyContent: "left", textAlign: "left", display: "flex", width: "100%", borderRadius: 1, border: 1, borderColor: 'text.disabled', p: 0.2}

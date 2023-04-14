@@ -35,7 +35,7 @@ function getEffectiveElement(calcs) {
   return calcs.EleDmg * critModifier * calcs.SharpMod[1];
 }
 
-export function doCalcs(data, mySkills, tglMap, equip, upgrades, augments, awakens) {
+export function doCalcs(data, mySkills, tglMap, equip, wepSlots, setWepSlots, upgrades, augments, awakens) {
   const classNo = 50;  // TODO: Set proper size
   let bonusBucket = Array.from(Array(classNo), () => new Array());
   data.skillDefault.forEach(s => {
@@ -60,6 +60,7 @@ export function doCalcs(data, mySkills, tglMap, equip, upgrades, augments, awake
     "DisplayAttack": equip.Weapon.Damage,
     "DisplayDefense": equip.Weapon.Defense,
     "DisplayAffinity": equip.Weapon.Affinity,
+    "Slots": [...equip.Weapon.Slots],
     "CritDmg": 125,
     "EleCritDmg": 100,
     "NatSharpBonus": 0,
@@ -117,7 +118,6 @@ export function doCalcs(data, mySkills, tglMap, equip, upgrades, augments, awake
     })
     Object.entries(augmentMap).forEach(entry => {
       let [type, lvl] = entry;
-      console.log("entry: ", type, lvl)
       if (lvl > -1) {
         let value = data.augments['HR'][type][lvl];
         switch(type) {
@@ -129,6 +129,9 @@ export function doCalcs(data, mySkills, tglMap, equip, upgrades, augments, awake
             break;
           case "Affinity":
             calcs.DisplayAffinity += value;
+            break;
+          case "Slot":
+            calcs.Slots.push(value);
             break;
         }
       }
@@ -157,6 +160,9 @@ export function doCalcs(data, mySkills, tglMap, equip, upgrades, augments, awake
             calcs.DisplayEleDmg += entry.value;
           }
           break;
+        case "Slot":
+          calcs.Slots.push(entry.value);
+          break;
         case "Sharp":
           calcs.SafiSharpBonus += entry.value;
           break;
@@ -175,6 +181,45 @@ export function doCalcs(data, mySkills, tglMap, equip, upgrades, augments, awake
   calcs.BaseAttack = calcs.DisplayAttack;
   calcs.BaseDefense = calcs.DisplayDefense;
   calcs.Affinity = calcs.DisplayAffinity;
+
+  let wepSlotDecos = [];
+  let wepSlotSizes = [];
+  [...wepSlots].forEach(s => {
+    if (typeof(s) != 'number') {
+      wepSlotDecos.push(s);
+      wepSlotSizes.push(s.Size);
+    }
+    else {
+      wepSlotSizes.push(s);
+    }
+  })
+
+
+  let go = false;
+  if (wepSlotSizes.length == calcs.Slots.length) {
+    for (let i=0; i<calcs.Slots.length; i++) {
+      if (calcs.Slots[i] != wepSlotSizes[i]) {
+        go = true;
+        continue
+      }
+    }
+  }
+  else {
+    go = true;
+  }
+  if (go) {
+    for (let i=0; i<wepSlotDecos.length; i++) {
+      if (calcs.Slots[i]) {
+        let entry = wepSlotDecos[i];
+        if (entry.Size <= calcs.Slots[i]) {
+          entry.Size = calcs.Slots[i];
+          calcs.Slots[i] = entry;
+        }
+      }
+    }
+    setWepSlots(calcs.Slots);
+  }
+
 
   if ('HiddenEle' in equip.Weapon) {
     if (47 in mySkills) {

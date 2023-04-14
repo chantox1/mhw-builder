@@ -47,7 +47,6 @@ export function getSharpness(data, wep, handiLvl=0, natBonus=0, safiBonus=0) {
 }
 
 export function getSafiSharp(unitArray, safiBonus) {
-  console.log("Safi units:", unitArray);
   let units = [...unitArray];
   units[6] = units[5];
   let availableWhite = 120 - (units[5] - units[4]);

@@ -132,7 +132,7 @@ export function CustomUpgradeDisplay(props) {
   )
 }
 
-export function setSlot(equip, setEquip, equipItem, value) {
+export function setSlot(equip, setEquip, equipItem, value, wepSlots, setWepSlots) {
   if (equipItem.Type <= 5) {
     setEquip(update(equip, {
       Armor: {
@@ -147,13 +147,9 @@ export function setSlot(equip, setEquip, equipItem, value) {
     }))
   }
   else if (equipItem.Type == 6) {
-    setEquip(update(equip, {
-      Weapon: {
-        Slots: {
-          [equipItem.Pos]: {
-            $set: value
-          }
-        }
+    setWepSlots(update(wepSlots, {
+      [equipItem.Pos]: {
+        $set: value
       }
     }))
   }

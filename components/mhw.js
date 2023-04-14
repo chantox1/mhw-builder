@@ -132,12 +132,16 @@ export default function Builder(data) {
     }
   });
 
+  // Due to slot-modifying upgrades (augments and safi), we have to handle
+  // weapon slots separately to ensure persistence.
+  const [myWepSlots, setMyWepSlots] = React.useState([...equip.Weapon.Slots]);
+
   const handleClose = (value) => {
     setOpenSearch(false);
     const args = [equip, setEquip, equipItem, value];
     switch(equipItem.Mode) {
       case 1:
-        Equipment.setSlot(...args);
+        Equipment.setSlot(...args, myWepSlots, setMyWepSlots);
         break;
       case 2:
         Equipment.setWeapon(...args);
@@ -159,6 +163,7 @@ export default function Builder(data) {
   const [openTglDialog, setOpenTglDialog] = React.useState(false);
 
   React.useEffect(() => {
+    setMyWepSlots([...equip.Weapon.Slots]);
     setMyCusUpgrades([null]);
     
     if (equip.Weapon.Rarity < 9) {
@@ -195,7 +200,7 @@ export default function Builder(data) {
       const s = [w.Skill, 1];
       pushSkill(tempSkills, s);
     }
-    w.Slots.forEach(sl => {
+    myWepSlots.forEach(sl => {
       if (typeof(sl) != "number") {
         sl.Deco.Skills.forEach(s => pushSkill(tempSkills, s));
       }
@@ -203,11 +208,11 @@ export default function Builder(data) {
 
     applySkillLvlMax(data, tempSkills);
     setMySkills(tempSkills);
-  }, [equip]);
+  }, [equip, myWepSlots]);
 
   const [myStats, setMyStats] = React.useState({});
   React.useEffect(() => {
-    setMyStats(doCalcs(data, mySkills, tglMap, equip, myCusUpgrades, myAugments, myAwakens));
+    setMyStats(doCalcs(data, mySkills, tglMap, equip, myWepSlots, setMyWepSlots, myCusUpgrades, myAugments, myAwakens));
   }, [mySkills, tglMap, myCusUpgrades, myAugments, myAwakens])
 
   const theme = useTheme();
@@ -227,6 +232,7 @@ export default function Builder(data) {
       "main": true,
       "data": data,
       "wep": equip.Weapon,
+      "wepSlots": myWepSlots,
       "onClick": handleClickOpen,
       "overrides": {
         "Damage": myStats.DisplayAttack,
