@@ -4,6 +4,7 @@ const color = {
   'Affinity': '#734a7c',
   'Element': '#7d7d34',
   'Status': '#7d7d34',
+  'Health': '#4a734a',
   'Slot': '#4a737c',
   'Sharp': '#977e41',
   'Normal': '#a37570',
