@@ -57,16 +57,19 @@ function AugmentSelectionHR(props) {
   if (myAugments[pos]) {
     switch (myAugments[pos]) {
       case "Attack":
-        inputStyle.backgroundColor = 'Maroon';
+        inputStyle.backgroundColor = '#7d4a4a';
         break;
       case  "Defense":
-        inputStyle.backgroundColor = 'Sienna';
+        inputStyle.backgroundColor = '#735034';
         break;
       case "Affinity":
-        inputStyle.backgroundColor = 'Purple';
+        inputStyle.backgroundColor = '#734a7c';
+        break;
+      case "Slot":
+        inputStyle.backgroundColor = '#4a737c';
         break;
       case "Health":
-        inputStyle.backgroundColor = 'DarkGreen';
+        inputStyle.backgroundColor = '#4a7c4a';
         break;
     }
   }

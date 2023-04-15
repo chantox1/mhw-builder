@@ -37,19 +37,19 @@ function CusUpgradeSelection(props) {
   if (upgrades[pos]) {
     switch (upgrades[pos][0]) {
       case "Attack":
-        inputStyle.backgroundColor = 'Maroon';
+        inputStyle.backgroundColor = '#7d4a4a';
         break;
       case  "Defense":
-        inputStyle.backgroundColor = 'Sienna';
+        inputStyle.backgroundColor = '#735034';
         break;
       case "Affinity":
-        inputStyle.backgroundColor = 'Purple';
+        inputStyle.backgroundColor = '#734a7c';
         break;
       case "Element":
-        inputStyle.backgroundColor = 'DarkGoldenRod';
+        inputStyle.backgroundColor = '#7d7d34';
         break;
       case "Sharp":
-        inputStyle.backgroundColor = 'DimGray';
+        inputStyle.backgroundColor = '#977e41';
     }
   }
   // Clear the select text when upgrade is cleared
