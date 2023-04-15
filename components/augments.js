@@ -3,6 +3,7 @@ import { Box, ButtonBase, Dialog, Divider, Paper, styled, Table, TableBody, Tabl
 import { useTheme } from '@mui/material/styles';
 import { range } from '../src/util';
 import update from 'immutability-helper';
+import color from '../src/color';
 
 class AugmentMR {
   constructor (type, lvl, value) {
@@ -55,23 +56,7 @@ function AugmentSelectionHR(props) {
   const [selectValue, setSelectValue] = React.useState('');
   let inputStyle = {...theme.typography.body2, py: 0, borderRadius: 0}
   if (myAugments[pos]) {
-    switch (myAugments[pos]) {
-      case "Attack":
-        inputStyle.backgroundColor = '#7d4a4a';
-        break;
-      case  "Defense":
-        inputStyle.backgroundColor = '#735034';
-        break;
-      case "Affinity":
-        inputStyle.backgroundColor = '#734a7c';
-        break;
-      case "Slot":
-        inputStyle.backgroundColor = '#4a737c';
-        break;
-      case "Health":
-        inputStyle.backgroundColor = '#4a7c4a';
-        break;
-    }
+    inputStyle.backgroundColor = color[myAugments[pos]];
   }
   // Clear the select text when upgrade is cleared
   React.useEffect(() => {
