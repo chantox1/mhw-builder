@@ -190,10 +190,10 @@ export function doCalcs(data, mySkills, tglMap, equip, wepSlots, setWepSlots, up
       wepSlotSizes.push(s.Size);
     }
     else {
+      wepSlotDecos.push(undefined);
       wepSlotSizes.push(s);
     }
   })
-
 
   let go = false;
   if (wepSlotSizes.length == calcs.Slots.length) {
@@ -209,7 +209,7 @@ export function doCalcs(data, mySkills, tglMap, equip, wepSlots, setWepSlots, up
   }
   if (go) {
     for (let i=0; i<wepSlotDecos.length; i++) {
-      if (calcs.Slots[i]) {
+      if (wepSlotDecos[i] && calcs.Slots[i]) {
         let entry = wepSlotDecos[i];
         if (entry.Deco.Size <= calcs.Slots[i]) {
           entry.Size = calcs.Slots[i];

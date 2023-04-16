@@ -200,7 +200,9 @@ export default function Builder(data) {
       const s = [w.Skill, 1];
       pushSkill(tempSkills, s);
     }
-    myWepSlots.forEach(sl => {
+
+    let tempWepSlots = JSON.parse(JSON.stringify(myWepSlots));
+    tempWepSlots.forEach(sl => {
       if (typeof(sl) != "number") {
         sl.Deco.Skills.forEach(s => pushSkill(tempSkills, s));
       }
