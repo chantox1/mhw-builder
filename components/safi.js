@@ -1,23 +1,9 @@
 import * as React from 'react';
-import { Box, ButtonBase, Dialog, Paper, styled, Table, TableBody, TableCell, TableContainer, TableRow, Typography, useTheme } from "@mui/material";
+import { Box, Dialog, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Typography, useTheme } from "@mui/material";
 import update from 'immutability-helper';
 import { WeaponAugmentMR, color } from '../src/equipment';
 import Header from './header';
-
-const TableCellAlignCenter = React.forwardRef((props, ref) => 
-    <TableCell align='center' {...props} ref={ref}>
-      { props.children }
-    </TableCell>)
-
-const ButtonCell = (props) => (
-  <ButtonBase
-    {...props}
-    component={TableCellAlignCenter}
-    sx={{display: "table-cell", px: 1.5, py: 1}}
-  >
-    { props.children }
-  </ButtonBase>
-)
+import { ButtonCell, ButtonHoverOutlined } from './buttons';
 
 function AwakeningSelectDialog(props) {
   const { open, onClose, wepClass, abilities, awakens, pos } = props;
@@ -91,13 +77,6 @@ function AwakeningSelectDialog(props) {
     </Dialog>
   )
 }
-
-const ButtonHoverOutlined = styled(ButtonBase)(({theme}) => ({
-  '&:hover, &.Mui-focusVisible': {
-    zIndex: 1,
-    outline: '1px solid'
-  },
-}))
 
 export default function AwakenedAbilities(props) {
   const { wepClass, abilities, awakens, setAwakens } = props;
