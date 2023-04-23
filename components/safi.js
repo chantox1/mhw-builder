@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { Box, ButtonBase, Dialog, Divider, Paper, styled, Table, TableBody, TableCell, TableContainer, TableRow, Typography, useTheme } from "@mui/material";
-import { range } from '../src/util';
+import { Box, ButtonBase, Dialog, Paper, styled, Table, TableBody, TableCell, TableContainer, TableRow, Typography, useTheme } from "@mui/material";
 import update from 'immutability-helper';
+import { WeaponAugmentMR, color } from '../src/equipment';
+import Header from './header';
 
 const TableCellAlignCenter = React.forwardRef((props, ref) => 
     <TableCell align='center' {...props} ref={ref}>
@@ -17,87 +18,6 @@ const ButtonCell = (props) => (
     { props.children }
   </ButtonBase>
 )
-
-const roman = {
-  '1': 'I',
-  '2': 'II',
-  '3': 'III',
-  '4': 'IV',
-  '5': 'V',
-  '6': 'VI'
-};
-
-const unique = {
-  'Defense': ['Defense'],
-  'Slot': ['Slot'],
-  'Normal': ['Normal','Long', 'Wide'],
-  'Long': ['Normal','Long', 'Wide'],
-  'Wide': ['Normal','Long', 'Wide'],
-  'Elemental Phial': ['Elemental Phial', 'Exhaust Phial'],
-  'Exhaust Phial': ['Elemental Phial', 'Exhaust Phial'],
-  'Impact Phial': ['Impact Phial']
-};
-
-// TODO: Translate types here and in safi.json
-const color = {
-  'Attack': '#7d4a4a',
-  'Defense': '#735034',
-  'Affinity': '#734a7c',
-  'Element': '#7d7d34',
-  'Status': '#7d7d34',
-  'Slot': '#4a737c',
-  'Sharp': '#977e41',
-  'Normal': '#a37570',
-  'Long': '#a37570',
-  'Wide': '#a37570',
-  'Elemental Phial': '#a37570',
-  'Exhaust Phial': '#a37570',
-  'Impact Phial': '#a37570',
-}
-
-class Awakening {
-  constructor(type, lvl, value) {
-    this.type = type;
-    this.lvl = lvl;
-    this.value = value;
-  }
-
-  lvlString() {
-    return roman[this.lvl];
-  }
-
-  toString() {
-    return `${this.type} ${this.lvlString()}`;
-  }
-
-  isUnique() {
-    return this.type in unique;
-  }
-
-  isIncompatible(awakening) {
-    return unique[this.type].includes(awakening.type);
-  }
-
-  getColor() {
-    return color[this.type];
-  }
-}
-
-function Header(props) {
-  const { title, rounded=false, variant="h6" } = props;
-  let style = {...props.sx};
-  if (rounded) {
-    style.borderTopLeftRadius = 4;
-    style.borderTopRightRadius = 4;
-  }
-  return (
-    <Paper elevation={0} square sx={style}>
-      <Box flex={1} display="flex" justifyContent="center">
-        <Typography variant={variant}>{ title }</Typography>
-      </Box>
-    </Paper>
-  )
-}
 
 function AwakeningSelectDialog(props) {
   const { open, onClose, wepClass, abilities, awakens, pos } = props;
@@ -140,12 +60,16 @@ function AwakeningSelectDialog(props) {
 
   let tableRows = [];
   Object.keys(myAbilities).forEach(key => {
-    let cells = [<TableCell key={6} sx={{backgroundColor: color[key]}}><Typography>{ key }</Typography></TableCell>];
+    let cells = [
+      <TableCell key={6} sx={{backgroundColor: color[key]}}>
+        <Typography>{ key }</Typography>
+      </TableCell>
+    ];
     for (let i=0; i < 6; i++) {
       let cellProps = {'key': i};
       const value = myAbilities[key][i];
       if (value != null) {
-        cellProps.entry = new Awakening(key, i+1, value);
+        cellProps.entry = new WeaponAugmentMR(key, i+1, value);
       }
       cells.push(
         <AbilityCell {...cellProps}/>

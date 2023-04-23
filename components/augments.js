@@ -3,35 +3,8 @@ import { Box, ButtonBase, Dialog, Divider, Paper, styled, Table, TableBody, Tabl
 import { useTheme } from '@mui/material/styles';
 import { range } from '../src/util';
 import update from 'immutability-helper';
-import color from '../src/color';
-
-class AugmentMR {
-  constructor (type, lvl, value) {
-    this.type = type;
-    this.lvl = lvl;
-    this.value = value;
-  }
-
-  toString() {
-    return this.name;
-  }
-}
-
-function Header(props) {
-  const { title, rounded=false, variant="h6" } = props;
-  let style = {...props.sx};
-  if (rounded) {
-    style.borderTopLeftRadius = 4;
-    style.borderTopRightRadius = 4;
-  }
-  return (
-    <Paper elevation={0} square sx={style}>
-      <Box flex={1} display="flex" justifyContent="center">
-        <Typography variant={variant}>{ title }</Typography>
-      </Box>
-    </Paper>
-  )
-}
+import { WeaponAugmentMR, color } from '../src/equipment';
+import Header from './header';
 
 const ButtonHoverOutlined = styled(ButtonBase)(({theme}) => ({
   '&:hover, &.Mui-focusVisible': {
