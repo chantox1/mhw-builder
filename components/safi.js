@@ -59,9 +59,9 @@ function AwakeningSelectDialog(props) {
       }
       cells.push(
         <AbilityCell {...cellProps}/>
-      )
+      );
     }
-    tableRows.push(<TableRow hover key={key}>{ cells }</TableRow>)
+    tableRows.push(<TableRow hover key={key}>{ cells }</TableRow>);
   })
 
   return (

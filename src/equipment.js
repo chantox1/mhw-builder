@@ -44,10 +44,11 @@ export const unique = {
 };
 
 export class WeaponAugmentMR {
-  constructor(type, lvl, value) {
+  constructor(type, lvl, value, size=0) {
     this.type = type;
     this.lvl = lvl;
     this.value = value;
+    this.size = size;
   }
 
   lvlString() {
@@ -120,7 +121,7 @@ export function WepUpgradeDisplay(props) {
     augments, setAugments
   } = props;
   if (isAugmentable(equip.Weapon)) {
-    let augmentProps = {wep: equip.Weapon, augments: data.augments, myAugments: augments, setMyAugments: setAugments};
+    let augmentProps = {wep: equip.Weapon, augments: data.augments, myAugments: augments, setMyAugments: setAugments, sx: {mb: 0.5}};
 
     if (isCustomUpgradeable(equip.Weapon)) {
       return (
@@ -171,7 +172,9 @@ export function WepUpgradeDisplay(props) {
       return (
         <Box width="50%">
           <Paper>
-            <Augments {...augmentProps}/>
+            <Augments {...augmentProps}
+
+            />
           </Paper>
         </Box>
       )

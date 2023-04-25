@@ -103,6 +103,7 @@ export function doCalcs(data, mySkills, tglMap, equip, wepSlots, setWepSlots, up
     }
   })
 
+  // Augments
   if (equip.Weapon.Rarity < 9) {
     let augmentMap = {
       Attack: -1,
@@ -132,6 +133,32 @@ export function doCalcs(data, mySkills, tglMap, equip, wepSlots, setWepSlots, up
             break;
           case "Slot":
             calcs.Slots.push(value);
+            break;
+        }
+      }
+    })
+  }
+  else {
+    augments.forEach(entry => {
+      if (entry) {
+        switch (entry.type) {
+          case "Attack":
+            calcs.DisplayAttack += entry.value;
+            break;
+          case "Defense":
+            calcs.DisplayDefense += entry.value;
+            break;
+          case "Affinity":
+            calcs.DisplayAffinity += entry.value;
+            break;
+          case "Slot":
+            calcs.Slots.push(entry.value);
+            break;
+          case "Element":
+            // TODO: Bowguns do this differently
+            if (calcs.Element) {
+              calcs.DisplayEleDmg += entry.value;
+            }
             break;
         }
       }

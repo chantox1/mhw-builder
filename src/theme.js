@@ -21,7 +21,8 @@ const theme = createTheme({
       main: '#4678e6'
     },
     background: {
-      default: '#37474f'
+      default: '#37474f',
+      disabled: '#232323'
     }
   },
   typography: {
