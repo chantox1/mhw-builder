@@ -20,7 +20,6 @@ import Sprite from './sprite';
 import { doCalcs } from '../src/calcs';
 import * as Equipment from '../src/equipment';
 import * as Util from '../src/util';
-import { usePrevious } from '../src/hooks';
 import { Calcs } from './calcs';
 import { AwakenedAbilities } from './safi';
 import Augments from './augments';
