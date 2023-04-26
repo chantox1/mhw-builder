@@ -11,6 +11,23 @@ import ArmorCard from './armor_card';
 import WepCard from './wep_card';
 import MantleCard from './mantle_card';
 
+const latinLanguages = [
+  'eng',
+  'fre',
+  'ger',
+  'ita',
+  'pol',
+  'ptB',
+  'spa'
+];
+
+function toLowerCaseNoDiacritics(languageCode, string) {
+  if (latinLanguages.includes(languageCode)) {
+    return string.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "");
+  }
+  return string.toLowerCase();
+}
+
 function startsWithFirst(a, b, queryString) {
   const aStarts = a.toLowerCase().startsWith(queryString);
   const bStarts = b.toLowerCase().startsWith(queryString);
@@ -50,6 +67,12 @@ function decoSorter(data, queryString) {
       queryString
     );
   };
+}
+
+function queryWeapon(data, wep, searchClass, queryString) {
+  let name = toLowerCaseNoDiacritics(data.lang,
+                                     data.weaponString[searchClass][wep.Name]);
+  return name.indexOf(toLowerCaseNoDiacritics(data.lang, queryString)) > -1;
 }
 
 function weaponSorter(data, searchClass, queryString) {
@@ -210,7 +233,7 @@ export default function SearchDialog(props) {
   else if (equipItem.Mode == 2) {
     var searchLabel = "Weapon search";
     var queryData = Object.values(data.weapons[searchClass])
-    .filter(w => ( data.weaponString[searchClass][w.Name].toLowerCase().indexOf(queryString.toLowerCase()) > -1))
+    .filter(w => queryWeapon(data, w, searchClass, queryString))
     .sort(weaponSorter(data, searchClass, queryString));
 
     const WepItem = ({index}) => {

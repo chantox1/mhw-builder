@@ -36,6 +36,7 @@ import mantleString from '../../../data/IB/eng/mantleStr.json';
 export default function IB() {
     const data = {
         ...constants,
+        lang: 'eng',
         weapons: weapons,
         weaponString: weaponString,
         cusUpgrades: cusUpgrades,
