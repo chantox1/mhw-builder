@@ -130,11 +130,6 @@ function AugmentSelectionMR(props) {
           tempAugs.push(entry);
         }
       })
-      // Object.values(augmentObj).forEach((augment) => {
-      //   if (augment && augment.lvl) {
-      //     tempAugs.push(augment);
-      //   }
-      // });
       setMyAugments(tempAugs);
     }
     else {
@@ -282,11 +277,12 @@ function AugmentSelectionDialog(props) {
         key: i,
         entry: entry
       };
+
       if (entry.lvl < selection[key]) {}
       else if (entry.lvl == selection[key]) {
         cellProps.selected = true;
       }
-      else if (entry.size > capacity) {
+      else if (entry.size > capacity + sizes[selection[key] - 1]) {
         cellProps.disabled = true;
         cellProps.textStyle = {color: 'text.disabled'}
       }
