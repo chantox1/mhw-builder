@@ -163,7 +163,7 @@ export default function WepCard(props) {
                               src={"/icon/Element/" + wep.Element + ".png" }
                             />
                             <Typography mr={0.5}>
-                              { overrides ? overrides.EleDmg : wep.ElementDmg }
+                              { overrides ? Math.round(overrides.EleDmg) : wep.ElementDmg }
                             </Typography>
                           </WepStat>
                         )
@@ -175,7 +175,7 @@ export default function WepCard(props) {
                               src={"/icon/Element/" + wep.HiddenEle + ".png" }
                             />
                             <Typography color='text.disabled' mr={0.5}>
-                              ({ overrides ? overrides.EleDmg : wep.HiddenEleDmg })
+                              ({ overrides ? Math.round(overrides.EleDmg) : wep.HiddenEleDmg })
                             </Typography>
                           </WepStat>
                         )
