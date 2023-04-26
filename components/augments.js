@@ -278,11 +278,16 @@ function AugmentSelectionDialog(props) {
         entry: entry
       };
 
-      if (entry.lvl < selection[key]) {}
-      else if (entry.lvl == selection[key]) {
-        cellProps.selected = true;
+      if (selection[key]) {
+        if (entry.lvl == selection[key]) {
+          cellProps.selected = true;
+        }
+        else if (entry.size > capacity + sizes[selection[key] - 1]) {
+          cellProps.disabled = true;
+          cellProps.textStyle = {color: 'text.disabled'}
+        }
       }
-      else if (entry.size > capacity + sizes[selection[key] - 1]) {
+      else if (entry.size > capacity) {
         cellProps.disabled = true;
         cellProps.textStyle = {color: 'text.disabled'}
       }
