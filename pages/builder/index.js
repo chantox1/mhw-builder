@@ -3,6 +3,10 @@ import { Box, Container } from '@mui/material';
 import { Card, CardActionArea, CardMedia } from '@mui/material';
 
 export default function Builder() {
+  React.useEffect(() => {
+    window.location.href="/builder/IB/eng"
+  })
+
   return (
     <Container maxWidth="sm" sx={{height: "80vh"}}>
       <Box sx={{display: "flex", flexDirection: "column", height: "100%", justifyContent: "space-around"}}>
