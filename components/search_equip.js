@@ -35,7 +35,7 @@ function queryDeco(data, deco, queryString) {
       return res;
     }
     res ||= data.skillString[data.skills[s[0]].Name]
-            .toLowerCase().indexOf(queryString.toLowerCase()) > -1
+            .toLowerCase().indexOf(queryString.toLowerCase()) > -1;
   });
   return res;
 }
@@ -60,6 +60,25 @@ function weaponSorter(data, searchClass, queryString) {
       queryString
     );
   };
+}
+
+function queryArmor(data, armor, queryString) {
+  let name = data.armorString[armor.Name];
+  let res = name.toLowerCase().indexOf(queryString.toLowerCase()) > -1
+         && name.indexOf("Layered") == -1
+         && name.indexOf("HARDUMMY") == -1
+         && name.indexOf("Unavailable") == -1;
+  if (res) {
+    return res;
+  }
+  armor.Skills.forEach(s => {
+    res = data.skillString[data.skills[s[0]].Name]
+          .toLowerCase().indexOf(queryString.toLowerCase()) > -1;
+    if (res) {
+      return res;
+    }
+  })
+  return res;
 }
 
 function armorSorter(data, queryString) {
@@ -238,10 +257,7 @@ export default function SearchDialog(props) {
     var searchLabel = "Equipment search";
     var queryData = Object.values(data.armor)
     .filter(a => a.Type == equipItem.Type)
-    .filter(a => ( data.armorString[a.Name].toLowerCase().indexOf(queryString.toLowerCase()) > -1 ))
-    .filter(a => ( data.armorString[a.Name].indexOf("Layered") == -1 ))
-    .filter(a => ( data.armorString[a.Name].indexOf("HARDUMMY") == -1 ))
-    .filter(a => ( data.armorString[a.Name].indexOf("Unavailable") == -1 ))
+    .filter(a => queryArmor(data, a, queryString))
     .sort(armorSorter(data, queryString));
 
     const ArmorItem = ({ index }) => {
