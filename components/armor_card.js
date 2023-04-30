@@ -5,9 +5,9 @@ import SlotDisplay from './slot_display';
 import { Skeleton } from '@mui/material';
 
 export default function ArmorCard(props) {
-  const { data, main=false, charm=false, armor, loading=false, onClick } = props
-  const type = ["Head", "Chest", "Arms", "Waist", "Legs", "Charm"]
-  const augDef = [66, 58, 52, 44, 38, 32, 26, 20, 58, 52, 44, 38]
+  const { data, main=false, charm=false, armor, loading=false, onClick } = props;
+  const type = ["Head", "Chest", "Arms", "Waist", "Legs", "Charm"];
+  const augDef = [66, 58, 52, 44, 38, 32, 26, 20, 58, 52, 44, 38];
 
   return (
     <Paper sx={props.sx}>

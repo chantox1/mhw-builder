@@ -1,5 +1,7 @@
 import { getSharpness, getSharpnessMod } from "./sharpness";
 
+const augDef = [66, 58, 52, 44, 38, 32, 26, 20, 58, 52, 44, 38];
+
 function isToggled(bonus, tglMap){
   return (!('tglId' in bonus) || tglMap[bonus.tglId]);
 }
@@ -20,6 +22,15 @@ function findParamIndex(lvl, params) {
       }
   }
   return index;
+}
+
+function getEffectiveHealth(calcs) {
+  let myDefense = [calcs.Defense, calcs.AugDefense];
+  let reduction = myDefense.map(def => def / (def + 80));
+  console.log("Bless %: ", calcs.BlessingPercent);
+  console.log("Blessing: ", calcs.Blessing);
+  let myBlessing = 1 + calcs.BlessingPercent*(1/calcs.Blessing - 1);
+  return reduction.map(r => calcs.Health*myBlessing / (1 - r));
 }
 
 function getEffectiveRaw(calcs) {
@@ -57,6 +68,7 @@ export function doCalcs(data, mySkills, tglMap, equip, wepSlots, setWepSlots, up
   }
 
   let calcs = {
+    "Health": 150,
     "DisplayAttack": equip.Weapon.Damage,
     "DisplayDefense": equip.Weapon.Defense,
     "DisplayAffinity": equip.Weapon.Affinity,
@@ -310,11 +322,14 @@ export function doCalcs(data, mySkills, tglMap, equip, wepSlots, setWepSlots, up
                              calcs.EleDmg + data.elementCap[1]);
   }
 
-  // Element res
-  calcs.EleRes = [0,0,0,0,0]
-  for (let i=0; i<6; i++) {
+  // Defense & Element res
+  calcs.EleRes = [0,0,0,0,0];
+  calcs.BaseAugDefense = calcs.BaseDefense;
+  for (let i=0; i<5; i++) {
     const armor = equip.Armor[i];
     if (armor) {
+      calcs.BaseDefense += armor.Stats[0];
+      calcs.BaseAugDefense += armor.Stats[0] + augDef[armor.Rarity - 1];
       for (let j=1; j<6; j++) {
         calcs.EleRes[j-1] += armor.Stats[j];
       }
@@ -383,6 +398,74 @@ export function doCalcs(data, mySkills, tglMap, equip, wepSlots, setWepSlots, up
           let sumEleRes = calcs.EleRes.reduce((a, b) => a + b, 0);
           calcs.BaseEleDmg += sumEleRes * (sum/100);
         }
+        break;
+      case 5:
+        bonusPackage.forEach(s => {
+          const [id, bonus] = s;
+          if ('param' in bonus.effect) {
+            const lvl = mySkills[id][1];
+            mult *= data.skills[id].Params[lvl - 1][bonus.effect.param]/100;
+          }
+          else if ('cusParam' in bonus.effect) {
+            const lvl = mySkills[id][1];
+            mult *= bonus.effect.cusParam[lvl - 1]/100;
+          }
+          else if ('value' in bonus.effect) {
+            mult *= bonus.effect.value/100;
+          }
+        });
+        calcs.BaseDefense *= mult;
+        calcs.BaseAugDefense *= mult;
+        calcs.Defense = calcs.BaseDefense;
+        calcs.AugDefense = calcs.BaseAugDefense;
+        break;
+      case 6:
+        bonusPackage.forEach(s => {
+          const [id, bonus] = s;
+          if ('param' in bonus.effect) {
+            const lvl = mySkills[id][1];
+            sum += data.skills[id].Params[lvl - 1][bonus.effect.param];
+          }
+          else if ('value' in bonus.effect) {
+            sum += bonus.effect.value;
+          }
+        });
+        calcs.Defense += sum;
+        calcs.AugDefense += sum;
+        break;
+      case 7:
+        bonusPackage.forEach(s => {
+          const [id, bonus] = s;
+          if ('value' in bonus.effect) {
+            mult *= (bonus.effect.value/100);
+          }
+        })
+        calcs.Defense *= mult;
+        calcs.AugDefense *= mult;
+        break;
+      case 8:
+        bonusPackage.forEach(s => {
+          const [id, bonus] = s;
+          if ('param' in bonus.effect) {
+            const lvl = mySkills[id][1];
+            sum += data.skills[id].Params[lvl - 1][bonus.effect.param];
+          }
+          else if ('value' in bonus.effect) {
+            sum += bonus.effect.value;
+          }
+        });
+        calcs.Defense += sum;
+        calcs.AugDefense += sum;
+        break;
+      case 9:
+        calcs.Defense *= mult;
+        calcs.AugDefense *= mult;
+        if (equip.Weapon.Class > 10) {
+          calcs.Defense *= 0.7;
+          calcs.AugDefense *= 0.7;
+        }
+        calcs.Defense = Math.round(calcs.Defense);
+        calcs.AugDefense = Math.round(calcs.AugDefense);
         break;
       case 12:
         bonusPackage.forEach(s => {
@@ -487,10 +570,50 @@ export function doCalcs(data, mySkills, tglMap, equip, wepSlots, setWepSlots, up
         calcs.EleDmg *= mult;
         calcs.EleDmg = Math.round(calcs.EleDmg);
         break;
+      case 30:
+        bonusPackage.forEach(s => {
+          const [id, bonus] = s;
+          if ('param' in bonus.effect) {
+            const lvl = mySkills[id][1];
+            sum += data.skills[id].Params[lvl - 1][bonus.effect.param];
+          }
+          else if ('value' in bonus.effect) {
+            sum += bonus.effect.value;
+          }
+        })
+        calcs.Health = Math.min(200, calcs.Health + sum);
+        break;
+      case 31:
+        bonusPackage.forEach(s => {
+          const [id, bonus] = s;
+          if ('param' in bonus.effect) {
+            const lvl = mySkills[id][1];
+            sum += (data.skills[id].Params[lvl - 1][bonus.effect.param]/100);
+          }
+          else if ('value' in bonus.effect) {
+            sum += (bonus.effect.value/100);
+          }
+        })
+        calcs.BlessingPercent = sum;
+        break;
+      case 32:
+        bonusPackage.forEach(s => {
+          const [id, bonus] = s;
+          if ('param' in bonus.effect) {
+            const lvl = mySkills[id][1];
+            mult *= (data.skills[id].Params[lvl - 1][bonus.effect.param]/100);
+          }
+          else if ('value' in bonus.effect) {
+            mult *= (bonus.effect.value/100);
+          }
+        })
+        calcs.Blessing = mult;
+        break;
     }
   }
   calcs.RawAffinity = calcs.Affinity;
   calcs.Affinity = Math.min(100, calcs.RawAffinity);
+  calcs.EffHealth = getEffectiveHealth(calcs);
   calcs.EffRaw = getEffectiveRaw(calcs);
   calcs.EffEle = getEffectiveElement(calcs);
 

@@ -1,5 +1,6 @@
 const toggleData = {
   // Items
+  // - Attack boosters
   "PWC": {
     group: 2,
     name: 180,
@@ -23,7 +24,7 @@ const toggleData = {
   "DDG": {
     group: 2,
     name: 42,
-    incompatible: "MDD",
+    incompatible: "MDDG",
     sprite: {
       src: '/icon/buffitems.png',
       pos: [64*1,0],
@@ -31,7 +32,7 @@ const toggleData = {
       width: 32
     }
   },
-  "MDD": {
+  "MDDG": {
     group: 2,
     name: 44,
     incompatible: "DDG",
@@ -70,6 +71,82 @@ const toggleData = {
     sprite: {
       src: '/icon/buffitems.png',
       pos: [64*4,0],
+      crop: [64,64],
+      width: 32
+    }
+  },
+
+  // - Defense boosters
+  "ARC": {
+    group: 2,
+    name: 184,
+    sprite: {
+      src: '/icon/buffitems.png',
+      pos: [64*4,64],
+      crop: [64,64],
+      width: 32
+    }
+  },
+  "ART": {
+    group: 2,
+    name: 186,
+    sprite: {
+      src: '/icon/buffitems.png',
+      pos: [64*5,64],
+      crop: [64,64],
+      width: 32
+    }
+  },
+  "ARS": {
+    group: 2,
+    name: 50,
+    incompatible: "MARS",
+    sprite: {
+      src: '/icon/buffitems.png',
+      pos: [64*1,64],
+      crop: [64,64],
+      width: 32
+    }
+  },
+  "MARS": {
+    group: 2,
+    name: 52,
+    incompatible: "ARS",
+    sprite: {
+      src: '/icon/buffitems.png',
+      pos: [64*2,64],
+      crop: [64,64],
+      width: 32
+    }
+  },
+  "ADS": {
+    group: 2,
+    name: 48,
+    incompatible: "ADP",
+    sprite: {
+      src: '/icon/buffitems.png',
+      pos: [0,64],
+      crop: [64,64],
+      width: 32
+    }
+  },
+  "ADP": {
+    group: 2,
+    name: 54,
+    incompatible: "ADS",
+    sprite: {
+      src: '/icon/buffitems.png',
+      pos: [64*3,64],
+      crop: [64,64],
+      width: 32
+    }
+  },
+  "HDPR": {
+    group: 2,
+    name: 62,
+    sprite: {
+      src: '/icon/buffitems.png',
+      pos: [64*4,64],
       crop: [64,64],
       width: 32
     }

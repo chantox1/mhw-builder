@@ -7,7 +7,13 @@ Classes:
   3: All ele res mult
   4: Alatreon bonus (base ele bonus)
 
-  3-10: Reserved
+  5: Base defense mult
+  6: Defense bonus (pre adamant pill)
+  7: Adamant pill
+  8: Defense bonus (post adamant pill)
+  9: Total defense mult
+
+  10: Reserved
 
   11: Base attack bonus
   12: Base attack mult
@@ -23,6 +29,12 @@ Classes:
   20: Post-cap ele mult
 
   21: Set ele crit dmg
+
+  22-29: Reserved
+
+  30: Add health
+  31: Add divine blessing %
+  32: Divine blessing mult
 */
 
 const skillBonus = {
@@ -31,7 +43,7 @@ const skillBonus = {
       effect: {
         class: 13, 
         param: 1
-      },
+      }
     },
     {
       effect: {
@@ -46,8 +58,27 @@ const skillBonus = {
         class: 2,
         param: 2
       }
+    },
+    {
+      effect: {
+        class: 5,
+        cusParam: [100,100,105,105,108,108,110]
+      }
+    },
+    {
+      effect: {
+        class: 8,
+        param: 1
+      }
     }
-    // TODO: Defense (non-ele) boost
+  ],
+  21: [ // Health boost
+    {
+      effect: {
+        class: 30,
+        param: 1
+      }
+    }
   ],
   24: [ // Fire resistance
     {
@@ -56,8 +87,13 @@ const skillBonus = {
         class: 1,
         param: 1
       }
+    },
+    {
+      effect: {
+        class: 8,
+        param: 2
+      }
     }
-    // TODO: Defense boost @ lvl 3
   ],
   25: [ // Water resistance
     {
@@ -66,8 +102,13 @@ const skillBonus = {
         class: 1,
         param: 1
       }
+    },
+    {
+      effect: {
+        class: 8,
+        param: 2
+      }
     }
-    // TODO: Defense boost @ lvl 3
   ],
   26: [ // Ice resistance
     {
@@ -76,8 +117,13 @@ const skillBonus = {
         class: 1,
         param: 1
       }
+    },
+    {
+      effect: {
+        class: 8,
+        param: 2
+      }
     }
-    // TODO: Defense boost @ lvl 3
   ],
   27: [ // Thunder resistance
     {
@@ -86,8 +132,13 @@ const skillBonus = {
         class: 1,
         param: 1
       }
+    },
+    {
+      effect: {
+        class: 8,
+        param: 2
+      }
     }
-    // TODO: Defense boost @ lvl 3
   ],
   28: [ // Dragon resistance
     {
@@ -96,8 +147,13 @@ const skillBonus = {
         class: 1,
         param: 1
       }
+    },
+    {
+      effect: {
+        class: 8,
+        param: 2
+      }
     }
-    // TODO: Defense boost @ lvl 3
   ],
   30: [ // Fire attack
     {
@@ -295,25 +351,43 @@ const skillBonus = {
       }
     }
   ],
-  64: [ // Heroics (TODO: Add defense bonus)
+  64: [ // Heroics
     { tglId: "HRO",
       effect: {
         class: 12,
         param: 1
       }
+    },
+    { tglId: "HRO",
+      effect: {
+        class: 8,
+        param: 2
+      }
     }
   ],
-  65: [ // Fortify (TODO: Add defense mult)
+  65: [ // Fortify
     { tglId: "FRT",
       effect: {
         class: 12,
         param: 1
       }
     },
+    { tglId: "FRT",
+      effect: {
+        class: 5,
+        param: 2
+      }
+    },
     { tglId: "FT+",
       effect: {
         class: 12,
         value: 120
+      }
+    },
+    { tglId: "FT+",
+      effect: {
+        class: 5,
+        value: 130
       }
     }
   ],
@@ -322,6 +396,20 @@ const skillBonus = {
       effect: {
         class: 13,
         param: 1
+      }
+    }
+  ],
+  97: [ // Divine Blessing
+    {
+      effect: {
+        class: 31,
+        param: 1
+      }
+    },
+    {
+      effect: {
+        class: 32,
+        param: 2
       }
     }
   ],

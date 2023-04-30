@@ -22,6 +22,7 @@ const Sprite = (props) => {
           backgroundImage: `url(${src})`,
           backgroundPosition: `${pos[0]*-1}px ${pos[1]*-1}px`,
           backgroundRepeat: 'no-repeat',
+          willChange: 'transform',
           transform: `scale(${norm})`,
           transformOrigin: '0 0',
         }}

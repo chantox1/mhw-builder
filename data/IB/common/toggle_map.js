@@ -1,12 +1,22 @@
 const toggleMap = {
   // Items
+  // - Attack boosters
   "PWC": true,
   "PWT": true,
   "DDG": false,
-  "MDD": false,
+  "MDDG": false,
   "MTS": false,
   "MTP": false,
   "DPR": false,
+
+  // - Defense boosters
+  "ARC": true,
+  "ART": true,
+  "ARS": false,
+  "MARS": false,
+  "ADS": false,
+  "ADP": false,
+  "HDPR": false,
 
   // Food
   "AUL": true,

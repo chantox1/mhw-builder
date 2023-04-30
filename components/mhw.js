@@ -447,7 +447,7 @@ export default function Builder(data) {
             />
             <Paper>
               { Object.keys(myStats).length != 0 &&
-                <Calcs stats={myStats}/>
+                <Calcs data={data} stats={myStats}/>
               }
             </Paper>
           </Grid>

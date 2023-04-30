@@ -1,5 +1,6 @@
 const skillDefault = [
   // Items
+  // - Attack boosters
   { tglId: "PWC",
     effect: {
       class: 13,
@@ -18,7 +19,7 @@ const skillDefault = [
       value: 5
     }
   },
-  { tglId: "MDD",
+  { tglId: "MDDG",
     effect: {
       class: 13,
       value: 7
@@ -42,6 +43,49 @@ const skillDefault = [
       value: 10
     }
   },
+  // - Defense boosters
+  { tglId: "ARC",
+    effect: {
+      class: 6,
+      value: 12
+    }
+  },
+  { tglId: "ART",
+    effect: {
+      class: 6,
+      value: 18
+    }
+  },
+  { tglId: "ARS",
+    effect: {
+      class: 6,
+      value: 15
+    }
+  },
+  { tglId: "MARS",
+    effect: {
+      class: 6,
+      value: 25
+    }
+  },
+  { tglId: "ADS",
+    effect: {
+      class: 8,
+      value: 20
+    }
+  },
+  { tglId: "ADP",
+    effect: {
+      class: 7,
+      value: 130
+    }
+  },
+  { tglId: "HDPR",
+    effect: {
+      class: 8,
+      value: 20
+    }
+  },
 
   // Food
   { tglId: "AUL",
@@ -50,7 +94,12 @@ const skillDefault = [
       value: 15
     }
   },
-  // TODO: Defense food buff
+  { tglId: "DUL",
+    effect: {
+      class: 6,
+      value: 15
+    }
+  },
   { tglId: "EUL",
     effect: {
       class: 2,

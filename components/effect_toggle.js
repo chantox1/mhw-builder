@@ -16,21 +16,23 @@ const GroupIcon = (props) => {
     borderRadius: 1,
     borderColor: 'text.secondary',
     mr: 0.5,
-    p: 0.5
   }
+  let surfaceStyle = {
+    p: 0.5
+  };
   if (groupId == activeGroup) {
-    buttonStyle.backgroundColor = 'secondary.main';
+    surfaceStyle.backgroundColor = 'secondary.main';
   }
   return (
     <ButtonBase
       onClick={() => onClick(groupId)}
       sx={buttonStyle}
-      display='flex'
     >
-
-      <Typography variant='button'>
-        { groupName }
-      </Typography>
+      <Paper sx={surfaceStyle}>
+        <Typography variant='button'>
+          { groupName }
+        </Typography>
+      </Paper>
     </ButtonBase>
   )
 }
