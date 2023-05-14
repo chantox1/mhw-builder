@@ -298,22 +298,23 @@ export function doCalcs(data, mySkills, tglMap, equip, wepSlots, setWepSlots, up
   }
 
   let rawCap = calcs.BaseAttack * data.attackCap;
+
   if (211 in mySkills && mySkills[211][1] >= 3) {  // Safi caps
     // TODO: Apply bowgun caps
-    if (calcs.Element >= 6) {
+    if (calcs.Element >= 6) {  // Status
       if (mySkills[211][1] == 5) {
-        var eleDmgCap = calcs.EleDmg * 2;
+        var eleDmgCap = calcs.EleDmg * data.safiStatusCap[1];
       }
       else {
-        var eleDmgCap = calcs.EleDmg * 1.7;
+        var eleDmgCap = calcs.EleDmg * data.safiStatusCap[0];
       }
     }
     else {
-      if (mySkills[211][1] == 5) {
-        var eleDmgCap = calcs.EleDmg * 2.55;
+      if (mySkills[211][1] == 5) {  // Element
+        var eleDmgCap = calcs.EleDmg * data.safiEleCap[1];
       }
       else {
-        var eleDmgCap = calcs.EleDmg * 2.2;
+        var eleDmgCap = calcs.EleDmg * data.safiEleCap[0];
       }
     }
   }
