@@ -102,8 +102,8 @@ export default function AwakenedAbilities(props) {
       awakens.forEach((awakening, index) => {
         if (index != pos && awakening && awakening.lvl == 6) {
           lvl6Pos = index;
-          lvl6Entry = awakening;
-          lvl6Entry.lvl -= 1;
+          let value = abilities.Weapon[wepClass][awakening.type][4]
+          lvl6Entry = new WeaponAugmentMR(awakening.type, 5, value)
         }
       })
     }
