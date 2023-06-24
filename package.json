@@ -17,6 +17,7 @@
     "@mui/icons-material": "latest",
     "@mui/material": "latest",
     "@next/font": "latest",
+    "html2canvas": "^1.4.1",
     "immutability-helper": "^3.1.1",
     "next": "latest",
     "prop-types": "latest",
@@ -24,8 +25,7 @@
     "react-dom": "latest",
     "react-jsx-parser": "^1.29.0",
     "react-use": "^17.4.0",
-    "react-virtuoso": "^4.1.0",
-    "use-react-screenshot": "https://github.com/chantox1/use-react-screenshot/tarball/master"
+    "react-virtuoso": "^4.1.0"
   },
   "devDependencies": {
     "eslint": "latest",

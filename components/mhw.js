@@ -14,7 +14,6 @@ import MantleCard from './mantle_card';
 import SkillCard from './skill_card';
 import SearchDialog from './search_equip';
 import ToggleDialog from './effect_toggle';
-import { useScreenshot, createFileName } from 'use-react-screenshot';
 import { getSharpnessColor, SharpnessBar } from '../src/sharpness';
 import Sprite from './sprite';
 import { doCalcs } from '../src/calcs';
@@ -23,6 +22,7 @@ import * as Util from '../src/util';
 import { Calcs } from './calcs';
 import { AwakenedAbilities } from './safi';
 import Augments from './augments';
+import html2canvas from 'html2canvas';
 
 function pushSkill(skillDict, skill) {
   const [id, lvl] = skill;
@@ -87,18 +87,21 @@ function skillSorter(data) {
 
 export default function Builder(data) {
   const screenshotRef = React.useRef(null);
-  const [image, takeScreenShot] = useScreenshot({scale: 2});
 
-  const download = (image, { name = "img", extension = "png" } = {}) => {
-    const a = document.createElement("a");
-    a.href = image;
-    a.download = createFileName(extension, name);
-    a.click();
-  };
-
-  const getImage = () => {
-    takeScreenShot(screenshotRef.current)
-    .then((img) => download(img, {name: "New set"}))
+  const takeScreenShot = () => {
+    html2canvas(screenshotRef.current, {
+      windowWidth: 1920,
+      windowHeight: 1080,
+      width: 1488,
+      height: 927,
+      scale: 1
+    })
+      .then(canvas => {
+        let a = document.createElement('a');
+        a.href = canvas.toDataURL("image/png");
+        a.download = 'myfile.png';
+        a.click();
+      })
   };
 
   const [openSearch, setOpenSearch] = React.useState(false);
@@ -314,13 +317,14 @@ export default function Builder(data) {
       <Toolbar variant="dense">
         <ModeIcon sx={{ mr: 2 }}/>
         <Typography variant="h5" flex={1}> New Set (placeholder) </Typography>
-        <IconButton edge="start" color="inherit" aria-label="menu" onClick={getImage}>
+        <IconButton edge="start" color="inherit" aria-label="menu" onClick={takeScreenShot}>
           <PhotoCameraIcon />
         </IconButton>
       </Toolbar>
     </Box>
 
-    <Grid ref={screenshotRef} backgroundColor="background.default" container wrap="wrap-reverse" spacing={1}>
+    <Box ref={screenshotRef}>
+    <Grid backgroundColor="background.default" container wrap="wrap-reverse" spacing={1}>
       <Grid item xs={12} lg={2}>
           <Paper sx={{height: "85vh", overflow: 'auto', p: 0.3}}>
             {(() => {
@@ -454,6 +458,7 @@ export default function Builder(data) {
         </Grid>
       </Grid>
     </Grid>
+    </Box>
     </Box>
   );
 }
