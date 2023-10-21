@@ -4,7 +4,6 @@ import { Paper, Toolbar } from '@mui/material';
 import { IconButton } from '@mui/material';
 import { Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { TableContainer, Table, TableBody, TableCell, TableRow } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import ModeIcon from '@mui/icons-material/Mode';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
@@ -14,14 +13,11 @@ import MantleCard from './mantle_card';
 import SkillCard from './skill_card';
 import SearchDialog from './search_equip';
 import ToggleDialog from './effect_toggle';
-import { getSharpnessColor, SharpnessBar } from '../src/sharpness';
 import Sprite from './sprite';
 import { doCalcs } from '../src/calcs';
 import * as Equipment from '../src/equipment';
 import * as Util from '../src/util';
 import { Calcs } from './calcs';
-import { AwakenedAbilities } from './safi';
-import Augments from './augments';
 import html2canvas from 'html2canvas';
 
 function pushSkill(skillDict, skill) {
