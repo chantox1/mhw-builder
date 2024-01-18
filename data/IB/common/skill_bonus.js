@@ -240,7 +240,7 @@ const skillBonus = {
       cond: arg => {return arg == 6},
       effect: {
         class: 18, 
-        value: 10,
+        value: 1,
       }
     },
     {
@@ -256,7 +256,7 @@ const skillBonus = {
       cond: arg => {return arg == 7},
       effect: {
         class: 18, 
-        value: 10,
+        value: 1,
       }
     },
     {
@@ -272,7 +272,7 @@ const skillBonus = {
       cond: arg => {return arg == 8},
       effect: {
         class: 18, 
-        value: 10,
+        value: 1,
       }
     },
     {
@@ -288,7 +288,7 @@ const skillBonus = {
       cond: arg => {return arg == 9},
       effect: {
         class: 18, 
-        value: 10,
+        value: 1,
       }
     },
     {
