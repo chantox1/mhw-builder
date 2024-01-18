@@ -43,7 +43,8 @@ function getEffectiveElement(calcs) {
   if (calcs.Affinity > 0) {
     critModifier = (1 + (calcs.Affinity/100)*(calcs.EleCritDmg/100 - 1));
   }
-  return calcs.EleDmg * critModifier * calcs.SharpMod[1];
+  let sharpMod = calcs.Element <= 5 ? calcs.SharpMod[1] : 1.00;
+  return calcs.EleDmg * critModifier * sharpMod;
 }
 
 export function doCalcs(data, mySkills, tglMap, equip, wepSlots, setWepSlots, upgrades, augments, awakens) {
